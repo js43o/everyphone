@@ -4,9 +4,11 @@ const GlobalStyles = () => {
   return (
     <Global
       styles={css`
+        * {
+          box-sizing: border-box;
+        }
         html {
           font-family: 'Noto Sans KR', sans-serif;
-          font-weight: bold;
           height: 100%;
           overflow: hidden;
         }
@@ -15,6 +17,14 @@ const GlobalStyles = () => {
         }
         #__next {
           height: 100%;
+        }
+        a,
+        a:hover,
+        a:active {
+          text-decoration: none;
+          color: inherit;
+          text-decoration: none;
+          color: inherit;
         }
       `}
     />
