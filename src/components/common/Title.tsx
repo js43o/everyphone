@@ -8,7 +8,7 @@ const TitleBlock = styled.span<{ fontSize?: number }>`
 
 export default function Title(props: {
   children: React.ReactNode;
-  fontSize: number;
+  fontSize?: number;
 }) {
   return <TitleBlock fontSize={props.fontSize}>{props.children}</TitleBlock>;
 }

@@ -1,34 +1,40 @@
 import Image from 'next/image';
 import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
 import Title from 'components/common/Title';
+import SectionBlock from './SectionBlock';
 
-const BannerBlock = styled.section`
-  display: flex;
-  width: 100%;
-  max-width: 768px;
+const BannerBlock = styled(SectionBlock)`
+  gap: 0.5rem;
+  justify-content: space-between;
   height: 15rem;
-  padding: 1rem;
-  border-radius: 0.5rem;
   color: white;
-  background: #191919;
-  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
+  background: linear-gradient(
+    0deg,
+    rgba(9, 9, 13, 1) 0%,
+    rgba(58, 58, 62, 1) 100%
+  );
   overflow: hidden;
-  .banner_image {
-    position: relative;
-    left: 2rem;
-  }
-  @media (max-width: 768px) {
-    width: 100%;
+  @media (max-width: 480px) {
     height: inherit;
-    .banner_letter {
-      .explanation {
-        display: none;
-      }
-    }
     .banner_image {
       display: none;
     }
   }
+`;
+
+const fadeIn = keyframes`
+from {
+  transform: translateX(1rem);
+  opacity: 0;
+}
+to {
+  opacity: 1;
+}
+`;
+
+const FadeInWrapper = styled.div`
+  animation: ${fadeIn} 1s ease;
 `;
 
 export default function Banner() {
@@ -45,13 +51,15 @@ export default function Banner() {
           얻을 수 있습니다.
         </div>
       </div>
-      <Image
-        src="/images/s22p_white_and_s22_pink.png"
-        alt="s22p_white_and_s22_pink.png"
-        width="400"
-        height="400"
-        className="banner_image"
-      />
+      <FadeInWrapper>
+        <Image
+          src="/images/s22p_white_halfside.png"
+          alt="s22p_white_and_s22_pink.png"
+          width="200"
+          height="400"
+          className="banner_image"
+        />
+      </FadeInWrapper>
     </BannerBlock>
   );
 }
