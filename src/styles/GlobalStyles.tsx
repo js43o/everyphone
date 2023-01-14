@@ -9,13 +9,15 @@ const GlobalStyles = () => {
         }
         html {
           font-family: 'Noto Sans KR', sans-serif;
+          width: 100%;
           height: 100%;
-          overflow: hidden;
         }
         body {
+          width: 100%;
           height: 100%;
         }
         #__next {
+          width: 100%;
           height: 100%;
         }
         a,
@@ -25,6 +27,25 @@ const GlobalStyles = () => {
           color: inherit;
           text-decoration: none;
           color: inherit;
+        }
+        h1,
+        h2,
+        h3,
+        h4 {
+          font-weight: bold;
+          margin: 1rem 0;
+        }
+        h1 {
+          font-size: 1.75rem;
+        }
+        h2 {
+          font-size: 1.5rem;
+        }
+        h3 {
+          font-size: 1.25rem;
+        }
+        h4 {
+          font-size: 1rem;
         }
       `}
     />

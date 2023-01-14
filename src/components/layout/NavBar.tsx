@@ -11,9 +11,8 @@ const NavBarBlock = styled.nav`
 
 const LinkBlock = styled(Link)<{ selected: boolean }>`
   padding: 0.5rem 1rem;
-  font-weight: bold;
-  font-size: 1.175rem;
-  border-radius: 0.5rem;
+  font-weight: 500;
+  border-radius: 10rem;
   &:hover {
     background: #efefef;
   }

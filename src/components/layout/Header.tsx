@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import NavBar from './NavBar';
+import Title from 'components/common/Title';
 
 const HeaderBlock = styled.header`
   display: flex;
@@ -13,15 +14,12 @@ const HeaderBlock = styled.header`
   box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
 `;
 
-const TitleBlock = styled(Link)`
-  font-family: 'Bakbak One', cursive;
-  font-size: 2rem;
-`;
-
 export default function Header() {
   return (
     <HeaderBlock>
-      <TitleBlock href="/">Everyphone</TitleBlock>
+      <Title>
+        <Link href="/">Everyphone</Link>
+      </Title>
       <NavBar />
     </HeaderBlock>
   );

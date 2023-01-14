@@ -1,7 +1,7 @@
+import styled from '@emotion/styled';
+import Header from './Header';
 import Contents from './Contents';
 import Footer from './Footer';
-import Header from './Header';
-import styled from '@emotion/styled';
 
 const Wrapper = styled.div`
   display: flex;
