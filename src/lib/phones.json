@@ -1,0 +1,941 @@
+{
+  "phones": [
+    {
+      "name": "iPhone 14",
+      "url": "apple-iphone-14",
+      "manufacturer": "Apple",
+      "released": "2022-09-16",
+      "price": {
+        "128GB": "1250000",
+        "256GB": "1400000",
+        "512GB": "1700000"
+      },
+      "display": {
+        "size": "6.1",
+        "resolution": {
+          "pixel": "2532 * 1170",
+          "ratio": "19.5:9",
+          "ppi": "457"
+        },
+        "technology": "OLED",
+        "refreshRate": "60"
+      },
+      "hardware": {
+        "processor": "Apple 15 Bionic",
+        "gpu": "Apple gpu 5-core",
+        "ram": "6",
+        "storage": ["128", "256", "512"],
+        "os": "ios",
+        "battery": "3279"
+      },
+      "camera": {
+        "rear": "듀얼 카메라",
+        "main": "12",
+        "second": "12",
+        "front": "12"
+      },
+      "design": {
+        "demension": ["146.7", "71.5", "7.8"],
+        "weight": "172"
+      }
+    },
+    {
+      "name": "iPhone 14 Plus",
+      "url": "apple-iphone-14-plus",
+      "manufacturer": "Apple",
+      "released": "2022-10-07",
+      "price": {
+        "128GB": "1350000",
+        "256GB": "1500000",
+        "512GB": "1800000"
+      },
+      "display": {
+        "size": "6.7",
+        "resolution": {
+          "pixel": "2778 * 1284",
+          "ratio": "19.5:9",
+          "ppi": "458"
+        },
+        "technology": "OLED",
+        "refreshRate": "60"
+      },
+      "hardware": {
+        "processor": "Apple 15 Bionic",
+        "gpu": "Apple gpu 5-core",
+        "ram": "6",
+        "storage": ["128", "256", "512"],
+        "os": "ios",
+        "battery": "4325"
+      },
+      "camera": {
+        "rear": "듀얼 카메라",
+        "main": "12",
+        "second": "12",
+        "front": "12"
+      },
+      "design": {
+        "demension": ["160.8", "78.1", "7.8"],
+        "weight": "203"
+      }
+    },
+    {
+      "name": "iPhone 14 Pro",
+      "url": "apple-iphone-14-pro",
+      "manufacturer": "Apple",
+      "released": "2022-09-16",
+      "price": {
+        "128GB": "1550000",
+        "256GB": "1700000",
+        "512GB": "2000000",
+        "1TB": "2300000"
+      },
+      "display": {
+        "size": "6.1",
+        "resolution": {
+          "pixel": "2556 * 1179",
+          "ratio": "19.5:9",
+          "ppi": "461"
+        },
+        "technology": "OLED",
+        "refreshRate": "120"
+      },
+      "hardware": {
+        "processor": "Apple 16 Bionic",
+        "gpu": "Apple gpu 5-core",
+        "ram": "6",
+        "storage": ["128", "256", "512", "1024"],
+        "os": "ios",
+        "battery": "3200"
+      },
+      "camera": {
+        "rear": "트리플 카메라",
+        "main": "48",
+        "second": "12",
+        "third": "12",
+        "front": "12"
+      },
+      "design": {
+        "demension": ["147.5", "71.5", "7.85"],
+        "weight": "206"
+      }
+    },
+    {
+      "name": "iPhone 14 Pro Max",
+      "url": "apple-iphone-14-pro-max",
+      "manufacturer": "Apple",
+      "released": "2022-09-16",
+      "price": {
+        "128GB": "1750000",
+        "256GB": "1900000",
+        "512GB": "2200000",
+        "1TB": "2500000"
+      },
+      "display": {
+        "size": "6.7",
+        "resolution": {
+          "pixel": "2796 * 1290",
+          "ratio": "19.5:9",
+          "ppi": "460"
+        },
+        "technology": "OLED",
+        "refreshRate": "120"
+      },
+      "hardware": {
+        "processor": "Apple 16 Bionic",
+        "gpu": "Apple gpu 5-core",
+        "ram": "6",
+        "storage": ["128", "256", "512", "1024"],
+        "os": "ios",
+        "battery": "4323"
+      },
+      "camera": {
+        "rear": "트리플 카메라",
+        "main": "48",
+        "second": "12",
+        "third": "12",
+        "front": "12"
+      },
+      "design": {
+        "demension": ["160.7", "77.6", "7.85"],
+        "weight": "240"
+      }
+    },
+    {
+      "name": "iPhone 13",
+      "url": "apple-iphone-13",
+      "manufacturer": "Apple",
+      "released": "2021-09-24",
+      "price": {
+        "128GB": "1090000",
+        "256GB": "1230000",
+        "512GB": "1500000"
+      },
+      "display": {
+        "size": "6.1",
+        "resolution": {
+          "pixel": "2532 * 1170",
+          "ratio": "19.5:9",
+          "ppi": "460"
+        },
+        "technology": "OLED",
+        "refreshRate": "60"
+      },
+      "hardware": {
+        "processor": "Apple 15 Bionic",
+        "gpu": "Apple gpu 5-core",
+        "ram": "4",
+        "storage": ["128", "256", "512"],
+        "os": "ios",
+        "battery": "3227"
+      },
+      "camera": {
+        "rear": "듀얼 카메라",
+        "main": "12",
+        "second": "12",
+        "front": "12"
+      },
+      "design": {
+        "demension": ["146.7", "71.5", "7.65"],
+        "weight": "173"
+      }
+    },
+    {
+      "name": "iPhone 13 mini",
+      "url": "apple-iphone-13-mini",
+      "manufacturer": "Apple",
+      "released": "2021-09-24",
+      "price": {
+        "128GB": "950000",
+        "256GB": "1090000",
+        "512GB": "1360000"
+      },
+      "display": {
+        "size": "5.4",
+        "resolution": {
+          "pixel": "2340 * 1080",
+          "ratio": "19.5:9",
+          "ppi": "476"
+        },
+        "technology": "OLED",
+        "refreshRate": "60"
+      },
+      "hardware": {
+        "processor": "Apple 15 Bionic",
+        "gpu": "Apple gpu",
+        "ram": "4",
+        "storage": ["128", "256", "512"],
+        "os": "ios",
+        "battery": "2406"
+      },
+      "camera": {
+        "rear": "듀얼 카메라",
+        "main": "12",
+        "second": "12",
+        "front": "12"
+      },
+      "design": {
+        "demension": ["131.5", "64.2", "7.65"],
+        "weight": "141"
+      }
+    },
+    {
+      "name": "iPhone 12",
+      "url": "apple-iphone-12",
+      "manufacturer": "Apple",
+      "released": "2020-10-23",
+      "price": {
+        "128GB": "1090000",
+        "256GB": "1160000",
+        "512GB": "1300000"
+      },
+      "display": {
+        "size": "6.1",
+        "resolution": {
+          "pixel": "2532 * 1170",
+          "ratio": "19.5:9",
+          "ppi": "460"
+        },
+        "technology": "OLED",
+        "refreshRate": "60"
+      },
+      "hardware": {
+        "processor": "Apple 14 Bionic",
+        "gpu": "Apple gpu",
+        "ram": "4",
+        "storage": ["128", "256", "512"],
+        "os": "ios",
+        "battery": "2815"
+      },
+      "camera": {
+        "rear": "듀얼 카메라",
+        "main": "12",
+        "second": "12",
+        "front": "12"
+      },
+      "design": {
+        "demension": ["146.7", "71.5", "7.4"],
+        "weight": "164"
+      }
+    },
+    {
+      "name": "iPhone SE",
+      "url": "apple-iphone-se",
+      "manufacturer": "Apple",
+      "released": "2022-03-18",
+      "price": {
+        "64GB": "590000",
+        "128GB": "660000",
+        "256GB": "800000"
+      },
+      "display": {
+        "size": "4.7",
+        "resolution": {
+          "pixel": "1334 * 750",
+          "ratio": "16:9",
+          "ppi": "326"
+        },
+        "technology": "IPS LCD",
+        "refreshRate": "60"
+      },
+      "hardware": {
+        "processor": "Apple 15 Bionic",
+        "gpu": "Apple 4-core",
+        "ram": "4",
+        "storage": ["64", "128", "256"],
+        "os": "ios",
+        "battery": "2018"
+      },
+      "camera": {
+        "rear": "싱글 카메라",
+        "main": "12",
+        "front": "7"
+      },
+      "design": {
+        "demension": ["138.4", "67.3", "7.3"],
+        "weight": "144"
+      }
+    },
+    {
+      "name": "Galaxy S22",
+      "url": "samsung-galaxy-s22",
+      "manufacturer": "Samsung",
+      "released": "2022-02-25",
+      "price": {
+        "256GB": "999900"
+      },
+      "display": {
+        "size": "6.1",
+        "resolution": {
+          "pixel": "2340 * 1080",
+          "ratio": "19.5:9",
+          "ppi": "425"
+        },
+        "technology": "Dynamic AMOLED",
+        "refreshRate": "120"
+      },
+      "hardware": {
+        "processor": "Qualcomm Snapdragon 8 Gen 1",
+        "gpu": "Adreno 730",
+        "ram": "8",
+        "storage": "256",
+        "os": "Android",
+        "battery": "3700"
+      },
+      "camera": {
+        "rear": "트리플 카메라",
+        "main": "50",
+        "second": "10",
+        "third": "12",
+        "front": "10"
+      },
+      "design": {
+        "demension": ["146", "70.6", "7.6"],
+        "weight": "168"
+      }
+    },
+    {
+      "name": "Galaxy S22+",
+      "url": "samsung-galaxy-s22+",
+      "manufacturer": "Samsung",
+      "released": "2022-02-25",
+      "price": {
+        "256GB": "1199900"
+      },
+      "display": {
+        "size": "6.6",
+        "resolution": {
+          "pixel": "2340 * 1080",
+          "ratio": "19.5:9",
+          "ppi": "390"
+        },
+        "technology": "Dynamic AMOLED",
+        "refreshRate": "120"
+      },
+      "hardware": {
+        "processor": "Qualcomm Snapdragon 8 Gen 1",
+        "gpu": "Adreno 730",
+        "ram": "8",
+        "storage": "256",
+        "os": "Android",
+        "battery": "4500"
+      },
+      "camera": {
+        "rear": "트리플 카메라",
+        "main": "50",
+        "second": "10",
+        "third": "12",
+        "front": "10"
+      },
+      "design": {
+        "demension": ["157.4", "75.8", "7.6"],
+        "weight": "196"
+      }
+    },
+    {
+      "name": "Galaxy S22 Ultra",
+      "url": "samsung-galaxy-s22-ultra",
+      "manufacturer": "Samsung",
+      "released": "2022-02-25",
+      "price": {
+        "256GB": "1452000",
+        "512GB": "1551000",
+        "1TB": "1749000"
+      },
+      "display": {
+        "size": "6.8",
+        "resolution": {
+          "pixel": "3088 * 1440",
+          "ratio": "19.3:9",
+          "ppi": "501"
+        },
+        "technology": "Dynamic AMOLED",
+        "refreshRate": "120"
+      },
+      "hardware": {
+        "processor": "Qualcomm Snapdragon 8 Gen 1",
+        "gpu": "Adreno 730",
+        "ram": "12",
+        "storage": ["256", "512", "1024"],
+        "os": "Android",
+        "battery": "5000"
+      },
+      "camera": {
+        "rear": "쿼드 카메라",
+        "main": "108",
+        "second": "10",
+        "third": "10",
+        "fourth": "12",
+        "front": "40"
+      },
+      "design": {
+        "demension": ["163.3", "77.9", "8.9"],
+        "weight": "229"
+      }
+    },
+    {
+      "name": "Galaxy S21",
+      "url": "samsung-galaxy-s21",
+      "manufacturer": "Samsung",
+      "released": "2021-01-29",
+      "price": {
+        "256GB": "999900"
+      },
+      "display": {
+        "size": "6.2",
+        "resolution": {
+          "pixel": "2400 * 1080",
+          "ratio": "20:9",
+          "ppi": "424"
+        },
+        "technology": "Dynamic AMOLED",
+        "refreshRate": "120"
+      },
+      "hardware": {
+        "processor": "Qualcomm Snapdragon 888",
+        "gpu": "Adreno 660",
+        "ram": "8",
+        "storage": "256",
+        "os": "Android",
+        "battery": "3700"
+      },
+      "camera": {
+        "rear": "트리플 카메라",
+        "main": "12",
+        "second": "64",
+        "third": "12",
+        "front": "10"
+      },
+      "design": {
+        "demension": ["151.7", "71.2", "7.9"],
+        "weight": "169"
+      }
+    },
+    {
+      "name": "Galaxy S21+",
+      "url": "samsung-galaxy-s21+",
+      "manufacturer": "Samsung",
+      "released": "2021-01-29",
+      "price": {
+        "256GB": "1199000"
+      },
+      "display": {
+        "size": "6.7",
+        "resolution": {
+          "pixel": "2400 * 1080",
+          "ratio": "20:9",
+          "ppi": "393"
+        },
+        "technology": "Dynamic AMOLED",
+        "refreshRate": "120"
+      },
+      "hardware": {
+        "processor": "Qualcomm Snapdragon 888",
+        "gpu": "Adreno 660",
+        "ram": "8",
+        "storage": "256",
+        "os": "Android",
+        "battery": "4800"
+      },
+      "camera": {
+        "rear": "트리플 카메라",
+        "main": "12",
+        "second": "64",
+        "third": "12",
+        "front": "10"
+      },
+      "design": {
+        "demension": ["161.5", "75.6", "7.8"],
+        "weight": "202"
+      }
+    },
+    {
+      "name": "Galaxy S21 Ultra",
+      "url": "samsung-galaxy-s21-ultra",
+      "manufacturer": "Samsung",
+      "released": "2021-01-29",
+      "price": {
+        "12GB/256GB": "1452000",
+        "16GB/512GB": "1599400"
+      },
+      "display": {
+        "size": "6.8",
+        "resolution": {
+          "pixel": "3200 * 1440",
+          "ratio": "20:9",
+          "ppi": "515"
+        },
+        "technology": "Dynamic AMOLED",
+        "refreshRate": "120"
+      },
+      "hardware": {
+        "processor": "Qualcomm Snapdragon 888",
+        "gpu": "Adreno 660",
+        "ram": ["12", "16"],
+        "storage": ["256", "512"],
+        "os": "Android",
+        "battery": "5000"
+      },
+      "camera": {
+        "rear": "쿼드 카메라",
+        "main": "108",
+        "second": "10",
+        "third": "12",
+        "fourth": "10",
+        "front": "40"
+      },
+      "design": {
+        "demension": ["165.1", "75.6", "8.9"],
+        "weight": "229"
+      }
+    },
+    {
+      "name": "Galaxy Z Fold 4",
+      "url": "samsung-galaxy-z-fold-4",
+      "manufacturer": "Samsung",
+      "released": "2022-08-26",
+      "price": {
+        "256GB": "1998700",
+        "512GB": "2117700",
+        "1TB": "2361700"
+      },
+      "display": {
+        "size": "7.6",
+        "resolution": {
+          "pixel": "2176 * 1812",
+          "ratio": "6:5",
+          "ppi": "374"
+        },
+        "technology": "Dynamic AMOLED",
+        "refreshRate": "120"
+      },
+      "coverDisplay": {
+        "size": "6.2",
+        "resolution": {
+          "pixel": "2316 * 904",
+          "ratio": "23.1:9",
+          "ppi": "402"
+        },
+        "technology": "Dynamic AMOLED",
+        "refreshRate": "120"
+      },
+      "hardware": {
+        "processor": "Qualcomm Snapdragon 8+ Gen 1",
+        "gpu": "Adreno 670",
+        "ram": "12",
+        "storage": ["256", "512", "1024"],
+        "os": "Android",
+        "battery": "5000"
+      },
+      "camera": {
+        "rear": "트리플 카메라",
+        "main": "50",
+        "second": "10",
+        "third": "12",
+        "front": "10"
+      },
+      "design": {
+        "demension": ["155.1", "130.1", "6.3"],
+        "folded": ["155.1", "67.1", "15.8"],
+        "weight": "263"
+      }
+    },
+    {
+      "name": "Galaxy Z Fold 3",
+      "url": "samsung-galaxy-z-fold-3",
+      "manufacturer": "Samsung",
+      "released": "2021-08-27",
+      "price": {
+        "256GB": "1998700",
+        "512GB": "2097700"
+      },
+      "display": {
+        "size": "7.6",
+        "resolution": {
+          "pixel": "2208 * 1768",
+          "ratio": "5:4",
+          "ppi": "374"
+        },
+        "technology": "Dynamic AMOLED",
+        "refreshRate": "120"
+      },
+      "coverDisplay": {
+        "size": "6.2",
+        "resolution": {
+          "pixel": "2268 * 832",
+          "ratio": "24.5:9",
+          "ppi": "402"
+        },
+        "technology": "Dynamic AMOLED",
+        "refreshRate": "120"
+      },
+      "hardware": {
+        "processor": "Qualcomm Snapdragon 888",
+        "gpu": "Adreno 660",
+        "ram": "12",
+        "storage": ["256", "512"],
+        "os": "Android",
+        "battery": "4400"
+      },
+      "camera": {
+        "rear": "트리플 카메라",
+        "main": "12",
+        "second": "12",
+        "third": "12",
+        "front": "4"
+      },
+      "design": {
+        "demension": ["158.2", "128.1", "6.4"],
+        "folded": ["158.2", "67.1", "14.4"],
+        "weight": "271"
+      }
+    },
+    {
+      "name": "Galaxy Z Flip 4",
+      "url": "samsung-galaxy-z-flip-4",
+      "manufacturer": "Samsung",
+      "released": "2022-08-26",
+      "price": {
+        "256GB": "1353000",
+        "512GB": "1474000"
+      },
+      "display": {
+        "size": "6.7",
+        "resolution": {
+          "pixel": "2640 * 1080",
+          "ratio": "22:9",
+          "ppi": "425"
+        },
+        "technology": "Dynamic AMOLED",
+        "refreshRate": "120"
+      },
+      "coverDisplay": {
+        "size": "1.9",
+        "resolution": {
+          "pixel": "512 * 260",
+          "ratio": "1.97:1",
+          "ppi": "320"
+        },
+        "technology": "Dynamic AMOLED",
+        "refreshRate": "60"
+      },
+      "hardware": {
+        "processor": "Qualcomm Snapdragon 8+ Gen 1",
+        "gpu": "Adreno 670",
+        "ram": "8",
+        "storage": ["256", "512"],
+        "os": "Android",
+        "battery": "3700"
+      },
+      "camera": {
+        "rear": "듀얼 카메라",
+        "main": "12",
+        "second": "12",
+        "front": "10"
+      },
+      "design": {
+        "demension": ["165.2", "71.9", "6.9"],
+        "folded": ["84.9", "71.9", "17.1"],
+        "weight": "187"
+      }
+    },
+    {
+      "name": "Galaxy Z Flip 3",
+      "url": "samsung-galaxy-z-flip-3",
+      "manufacturer": "Samsung",
+      "released": "2021-08-27",
+      "price": {
+        "256GB": "1254000"
+      },
+      "display": {
+        "size": "6.7",
+        "resolution": {
+          "pixel": "2640 * 1080",
+          "ratio": "22:9",
+          "ppi": "425"
+        },
+        "technology": "Dynamic AMOLED",
+        "refreshRate": "120"
+      },
+      "coverDisplay": {
+        "size": "1.9",
+        "resolution": {
+          "pixel": "512 * 260",
+          "ratio": "1.97:1",
+          "ppi": "320"
+        },
+        "technology": "Dynamic AMOLED",
+        "refreshRate": "60"
+      },
+      "hardware": {
+        "processor": "Qualcomm Snapdragon 888",
+        "gpu": "Adreno 660",
+        "ram": "8",
+        "storage": "256",
+        "os": "Android",
+        "battery": "3300"
+      },
+      "camera": {
+        "rear": "듀얼 카메라",
+        "main": "12",
+        "second": "12",
+        "front": "10"
+      },
+      "design": {
+        "demension": ["166", "72.2", "6.9"],
+        "folded": ["86.4", "72.2", "15.9"],
+        "weight": "183"
+      }
+    },
+    {
+      "name": "Galaxy A53-5g",
+      "url": "samsung-galaxy-a53-5g",
+      "manufacturer": "Samsung",
+      "released": "2022-04-01",
+      "price": {
+        "128GB": "599500"
+      },
+      "display": {
+        "size": "6.5",
+        "resolution": {
+          "pixel": "2400 * 1080",
+          "ratio": "20:9",
+          "ppi": "405"
+        },
+        "technology": "Super AMOLED",
+        "refreshRate": "120"
+      },
+      "hardware": {
+        "processor": "Exynos 1280",
+        "gpu": "ARM Mail-G68",
+        "ram": "6",
+        "storage": "256",
+        "os": "Android",
+        "battery": "5000"
+      },
+      "camera": {
+        "rear": "쿼드 카메라",
+        "main": "64",
+        "second": "12",
+        "third": "5",
+        "fourth": "5",
+        "front": "32"
+      },
+      "design": {
+        "demension": ["159.9", "74.7", "8.1"],
+        "weight": "189"
+      }
+    },
+    {
+      "name": "Pixel 7",
+      "url": "google-pixel-7",
+      "manufacturer": "Google",
+      "released": "2022-10-13",
+      "price": {
+        "256GB": "864000"
+      },
+      "display": {
+        "size": "6.3",
+        "resolution": {
+          "pixel": "2400 * 1080",
+          "ratio": "20:9",
+          "ppi": "418"
+        },
+        "technology": "OLED",
+        "refreshRate": "90"
+      },
+      "hardware": {
+        "processor": "Google Tensor G2",
+        "gpu": "ARM Mail-G710",
+        "ram": "8",
+        "storage": "256",
+        "os": "Android",
+        "battery": "4614"
+      },
+      "camera": {
+        "rear": "듀얼 카메라",
+        "main": "50",
+        "second": "12",
+        "front": "10.8"
+      },
+      "design": {
+        "demension": ["155.6", "73.2", "8.7"],
+        "weight": "197"
+      }
+    },
+    {
+      "name": "Pixel 7 Pro",
+      "url": "google-pixel-7-pro",
+      "manufacturer": "Google",
+      "released": "2022-10-13",
+      "price": {
+        "256GB": "1236000",
+        "512GB": "1359000"
+      },
+      "display": {
+        "size": "6.71",
+        "resolution": {
+          "pixel": "3120 * 1440",
+          "ratio": "19.5:9",
+          "ppi": "512"
+        },
+        "technology": "OLED",
+        "refreshRate": "120"
+      },
+      "hardware": {
+        "processor": "Google Tensor G2",
+        "gpu": "ARM Mail-G710",
+        "ram": "12",
+        "storage": ["256", "512"],
+        "os": "Android",
+        "battery": "5000"
+      },
+      "camera": {
+        "rear": "트리플 카메라",
+        "main": "50",
+        "second": "48",
+        "third": "12",
+        "front": "10.8"
+      },
+      "design": {
+        "demension": ["152.9", "76.6", "8.9"],
+        "weight": "212"
+      }
+    },
+    {
+      "name": "Pixel 6",
+      "url": "google-pixel-6",
+      "manufacturer": "Google",
+      "released": "2021-10-28",
+      "price": {
+        "256GB": "864500"
+      },
+      "display": {
+        "size": "6.4",
+        "resolution": {
+          "pixel": "2400 * 1080",
+          "ratio": "20:9",
+          "ppi": "411"
+        },
+        "technology": "AMOLED",
+        "refreshRate": "90"
+      },
+      "hardware": {
+        "processor": "Google Tensor",
+        "gpu": "ARM Mail-G78",
+        "ram": "8",
+        "storage": "256",
+        "os": "Android",
+        "battery": "4614"
+      },
+      "camera": {
+        "rear": "듀얼 카메라",
+        "main": "50",
+        "second": "12",
+        "front": "8"
+      },
+      "design": {
+        "demension": ["158.6", "74.8", "8.9"],
+        "weight": "207"
+      }
+    },
+    {
+      "name": "Pixel 6 Pro",
+      "url": "google-pixel-6-pro",
+      "manufacturer": "Google",
+      "released": "2021-10-28",
+      "price": {
+        "256GB": "1236000",
+        "512GB": "1359000"
+      },
+      "display": {
+        "size": "6.7",
+        "resolution": {
+          "pixel": "3120 * 1440",
+          "ratio": "19.5:9",
+          "ppi": "512"
+        },
+        "technology": "P-OLED",
+        "refreshRate": "120"
+      },
+      "hardware": {
+        "processor": "Google Tensor",
+        "gpu": "ARM Mail-G78",
+        "ram": "12",
+        "storage": ["256", "512"],
+        "os": "Android",
+        "battery": "5003"
+      },
+      "camera": {
+        "rear": "트리플 카메라",
+        "main": "50",
+        "second": "48",
+        "third": "12",
+        "front": "11.1"
+      },
+      "design": {
+        "demension": ["163.9", "75.9", "8.9"],
+        "weight": "210"
+      }
+    }
+  ]
+}
