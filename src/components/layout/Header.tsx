@@ -11,7 +11,6 @@ const HeaderBlock = styled.header`
   gap: 2rem;
   width: 100%;
   padding: 1rem;
-  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 0.5rem;

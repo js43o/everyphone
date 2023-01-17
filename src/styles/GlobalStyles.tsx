@@ -47,6 +47,23 @@ const GlobalStyles = () => {
         h4 {
           font-size: 1rem;
         }
+        ul,
+        ol,
+        li {
+          padding: 0;
+          margin: 0;
+          list-style: none;
+        }
+        hr {
+          width: 100%;
+          border: none;
+          border-top: 1px solid #eeeeee;
+        }
+        button {
+          padding: 0;
+          border: none;
+          margin: 0;
+        }
       `}
     />
   );
