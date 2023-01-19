@@ -1,14 +1,18 @@
-import styled from '@emotion/styled';
-
-const TitleBlock = styled.span<{ fontSize?: number }>`
-  font-family: 'Bakbak One', cursive;
-  font-size: ${({ fontSize }) => (fontSize ? fontSize : 2)}rem;
-  font-weight: normal;
-`;
+import { Box, Typography } from '@mui/material';
 
 export default function Title(props: {
   children: React.ReactNode;
   fontSize?: number;
 }) {
-  return <TitleBlock fontSize={props.fontSize}>{props.children}</TitleBlock>;
+  return (
+    <Box
+      sx={{
+        fontFamily: 'Bakbak One',
+        fontWeight: 'normal',
+        fontSize: `${props.fontSize || 2}rem`,
+      }}
+    >
+      {props.children}
+    </Box>
+  );
 }

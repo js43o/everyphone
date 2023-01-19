@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Section from 'components/common/SectionBlock';
 import Banner from 'components/common/Banner';
 
 export default function Index() {

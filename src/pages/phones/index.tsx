@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Phone } from 'lib/types';
 import PhoneCard from 'components/phones/PhoneCard';
 import SearchController from 'components/phones/SearchController';
-import Paginator from 'components/common/paginator';
+import { Pagination } from '@mui/material';
 
 const PhonesWrapper = styled.div`
   display: flex;
@@ -71,7 +71,7 @@ export default function Index(props: { data: string }) {
           ))}
         </PhoneCardList>
       </div>
-      <Paginator currentPage={1} lastPage={1} />
+      <Pagination count={1} />
     </PhonesWrapper>
   );
 }

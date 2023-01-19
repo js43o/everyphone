@@ -1,22 +1,25 @@
-import styled from '@emotion/styled';
 import Header from './Header';
 import Contents from './Contents';
 import Footer from './Footer';
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
-`;
+import { Container } from '@mui/material';
 
 export default function Index(props: { children: React.ReactNode }) {
   return (
-    <Wrapper>
+    <Container
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+        height: '100%',
+      }}
+      maxWidth={false}
+      disableGutters
+    >
       <Header />
       <Contents>{props.children}</Contents>
       <Footer />
-    </Wrapper>
+    </Container>
   );
 }

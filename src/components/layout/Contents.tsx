@@ -1,15 +1,20 @@
-import styled from '@emotion/styled';
-
-const ContentsBlock = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-grow: 1;
-  padding: 1rem;
-  width: 100%;
-  background: #efefef;
-`;
+import { Container } from '@mui/material';
 
 export default function Contents(props: { children: React.ReactNode }) {
-  return <ContentsBlock>{props.children}</ContentsBlock>;
+  return (
+    <Container
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        flexGrow: 1,
+        width: '100%',
+        background: '#efefef',
+        p: 2,
+      }}
+      maxWidth={false}
+    >
+      {props.children}
+    </Container>
+  );
 }
