@@ -3,48 +3,46 @@ export type Phone = {
   url: string;
   manufacturer: string;
   released: string;
-  price: {
-    [storage: string]: string;
-  };
+  price: { variant: string; value: number }[];
   display: {
-    size: string;
+    size: number;
     resolution: {
       pixel: string;
       ratio: string;
-      ppi: string;
+      ppi: number;
     };
     technology: string;
-    refreshRate: string;
+    refreshRate: number;
   };
   coverDisplay?: {
-    size: string;
+    size: number;
     resolution: {
       pixel: string;
       ratio: string;
-      ppi: string;
+      ppi: number;
     };
     technology: string;
-    refreshRate: string;
+    refreshRate: number;
   };
   hardware: {
     processor: string;
     gpu: string;
-    ram: string | string[];
-    storage: string | string[];
+    ram: number[];
+    storage: number[];
     os: string;
     battery: string;
   };
   camera: {
     rear: string;
-    main: string;
-    second?: string;
-    third?: string;
-    fourth?: string;
-    front?: string;
+    main: number;
+    second?: number;
+    third?: number;
+    fourth?: number;
+    front?: number;
   };
   design: {
-    demension: string[];
-    folded?: string[];
-    weight: string;
+    demension: number[];
+    folded?: number[];
+    weight: number;
   };
 };

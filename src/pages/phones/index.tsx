@@ -16,9 +16,10 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Phone } from 'lib/types';
 import PhoneCard from 'components/phones/PhoneCard';
 import SearchController from 'components/phones/SearchController';
+import getAllPhones from 'lib/getAllPhones';
 
 export default function Index(props: { data: string }) {
-  const phones: Phone[] = JSON.parse(props.data).phones;
+  const phones: Phone[] = JSON.parse(props.data);
   const [sort, setSort] = useState('latest');
   const [openController, setOpenController] = useState(true);
 
@@ -98,8 +99,8 @@ export default function Index(props: { data: string }) {
 }
 
 export async function getServerSideProps() {
-  const data = await import('lib/phones.json');
+  const response: Phone[] = await getAllPhones();
   return {
-    props: { data: JSON.stringify(data) },
+    props: { data: JSON.stringify(response) },
   };
 }
