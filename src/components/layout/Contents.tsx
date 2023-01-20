@@ -6,13 +6,11 @@ export default function Contents(props: { children: React.ReactNode }) {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
         flexGrow: 1,
         width: '100%',
-        background: '#efefef',
-        p: 2,
+        padding: 2,
       }}
-      maxWidth={false}
+      maxWidth="xl"
     >
       {props.children}
     </Container>

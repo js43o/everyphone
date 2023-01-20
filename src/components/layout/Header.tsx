@@ -8,11 +8,12 @@ export default function Header() {
     <Box
       sx={{
         display: 'flex',
-        flexDirection: { xs: 'column', sm: 'row' },
+        flexDirection: { xs: 'column', lg: 'row' },
         justifyContent: 'center',
         alignItems: 'center',
-        gap: { xs: 1, sm: 4 },
-        p: 2,
+        gap: { xs: 1, lg: 3 },
+        padding: 1,
+        background: 'white',
       }}
       component="header"
     >

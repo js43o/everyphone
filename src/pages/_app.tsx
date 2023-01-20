@@ -1,8 +1,10 @@
+import { ThemeProvider } from '@mui/material';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import Layout from 'components/layout';
-import GlobalStyles from 'styles/GlobalStyles';
 import 'styles/normalize.css';
+import GlobalStyles from 'styles/GlobalStyles';
+import theme from 'styles/theme';
+import Layout from 'components/layout';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -12,9 +14,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <GlobalStyles />
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <ThemeProvider theme={theme}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>{' '}
+      </ThemeProvider>
     </>
   );
 }

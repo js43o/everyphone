@@ -2,12 +2,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { css } from '@emotion/react';
 import { useRouter } from 'next/router';
-
-const NavBarBlock = styled.nav`
-  display: flex;
-  gap: 1rem;
-  text-align: center;
-`;
+import { Box } from '@mui/material';
 
 const LinkBlock = styled(Link)<{ selected: boolean }>`
   padding: 0.5rem 1rem;
@@ -28,7 +23,14 @@ export default function NavBar() {
   const router = useRouter();
 
   return (
-    <NavBarBlock>
+    <Box
+      sx={{
+        display: 'flex',
+        gap: 2,
+        textAlign: 'center',
+      }}
+      component="nav"
+    >
       <LinkBlock href="/" selected={router.asPath === '/'}>
         메인
       </LinkBlock>
@@ -38,6 +40,6 @@ export default function NavBar() {
       <LinkBlock href="/compare" selected={router.asPath === '/compare'}>
         기기 비교
       </LinkBlock>
-    </NavBarBlock>
+    </Box>
   );
 }

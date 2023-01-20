@@ -44,7 +44,7 @@ export default function Banner() {
       </Box>
       <Box
         sx={{
-          display: { xs: 'none', sm: 'flex' },
+          display: { xs: 'none', md: 'flex' },
           animation: `${fadeIn} 1s ease`,
         }}
       >

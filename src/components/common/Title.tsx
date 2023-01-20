@@ -1,11 +1,11 @@
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
 export default function Title(props: {
   children: React.ReactNode;
   fontSize?: number;
 }) {
   return (
-    <Box
+    <Typography
       sx={{
         fontFamily: 'Bakbak One',
         fontWeight: 'normal',
@@ -13,6 +13,6 @@ export default function Title(props: {
       }}
     >
       {props.children}
-    </Box>
+    </Typography>
   );
 }

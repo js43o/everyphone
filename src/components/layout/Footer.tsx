@@ -9,7 +9,8 @@ export default function Footer() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        p: 2,
+        padding: 2,
+        background: 'white',
       }}
     >
       Footer
