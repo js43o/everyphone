@@ -1,6 +1,7 @@
-import { Schema, model, models } from 'mongoose';
+import { Schema, model, models, Model } from 'mongoose';
+import { Phone } from 'lib/types';
 
-const PhoneSchema = new Schema({
+const phoneSchema = new Schema<Phone>({
   name: String,
   url: String,
   manufacturer: String,
@@ -54,6 +55,7 @@ const PhoneSchema = new Schema({
   },
 });
 
-const Phone = models.Phone || model('Phone', PhoneSchema);
+const PhoneModel: Model<Phone, {}, {}, {}, any> =
+  models.Phone || model<Phone>('Phone', phoneSchema);
 
-export default Phone;
+export default PhoneModel;

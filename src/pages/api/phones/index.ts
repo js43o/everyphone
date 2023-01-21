@@ -1,8 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import getAllPhones from 'lib/getAllPhones';
+import nextConnect from 'next-connect';
+import getPhones from 'lib/getPhones';
 import { Phone } from 'lib/types';
 
-export default async function index(req: NextApiRequest, res: NextApiResponse) {
-  const response: Phone[] = await getAllPhones();
+const handler = nextConnect<NextApiRequest, NextApiResponse>();
+
+handler.get(async (req, res) => {
+  const response: Phone[] = await getPhones();
   res.json(response);
-}
+});
+
+export default handler;

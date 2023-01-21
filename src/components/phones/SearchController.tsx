@@ -18,6 +18,7 @@ export default function SearchController() {
   const [manufacturer, setManufacturer] = useState<string[]>([]);
   const [storageSize, setStorageSize] = useState<number[]>([30, 40]);
   const [batterySize, setBatterySize] = useState<number[]>([1000, 10000]);
+  const [weight, setWeight] = useState<number[]>([50, 500]);
 
   return (
     <Box
@@ -40,6 +41,7 @@ export default function SearchController() {
         <h3>제조사</h3>
         <Select
           multiple
+          size="small"
           value={manufacturer}
           onChange={(e) => {
             setManufacturer(e.target.value as string[]);
@@ -121,6 +123,29 @@ export default function SearchController() {
         </Box>
       </Box>
       <Divider />
+      <Box>
+        <h3>무게</h3>
+        <Slider
+          min={50}
+          max={500}
+          step={50}
+          value={weight}
+          onChange={(_, value) => setWeight(value as number[])}
+          valueLabelFormat={(value) => `${value} g`}
+          valueLabelDisplay="off"
+        />
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Typography variant="body2">{weight[0]} g</Typography>
+          <Typography variant="body2">{weight[1]} g</Typography>
+        </Box>
+      </Box>
+      <Divider />
+      <Button variant="contained">적용</Button>
       <Button variant="outlined">초기화</Button>
     </Box>
   );
