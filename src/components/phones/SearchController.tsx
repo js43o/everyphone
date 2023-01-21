@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import {
   Box,
-  Checkbox,
   Slider,
   Divider,
-  FormControlLabel,
-  FormGroup,
   Typography,
   Select,
   MenuItem,
@@ -13,12 +10,48 @@ import {
 } from '@mui/material';
 import ByteRangeSlider from './ByteRangeSlider';
 import { convertToDataFormat } from 'lib/methods';
+import { SelectChangeEvent } from '@mui/material/Select';
+import { defaultSearchPhoneQuery, SearchPhoneQuery } from 'lib/types';
+import axios from 'axios';
+import { MANUFACTURER } from 'lib/constants';
+import { useSetRecoilState } from 'recoil';
+import { phonesState } from 'lib/atoms';
+import queryString from 'query-string';
 
 export default function SearchController() {
-  const [manufacturer, setManufacturer] = useState<string[]>([]);
-  const [storageSize, setStorageSize] = useState<number[]>([30, 40]);
-  const [batterySize, setBatterySize] = useState<number[]>([1000, 10000]);
-  const [weight, setWeight] = useState<number[]>([50, 500]);
+  const [searchPhoneQuery, setSearchPhoneQuery] = useState<SearchPhoneQuery>(
+    defaultSearchPhoneQuery
+  );
+  const setPhones = useSetRecoilState(phonesState);
+
+  const onChangeMultiSelectorQuery = (
+    e: SelectChangeEvent<string[]>,
+    field: string
+  ) => {
+    const {
+      target: { value },
+    } = e;
+    setSearchPhoneQuery({
+      ...searchPhoneQuery,
+      [field]: typeof value === 'string' ? value.split(',') : value,
+    });
+  };
+
+  const onChangeRangeQuery = (field: string, newValue: number | number[]) => {
+    setSearchPhoneQuery({
+      ...searchPhoneQuery,
+      [field]: newValue as number[],
+    });
+  };
+
+  const onResetQuery = () => setSearchPhoneQuery(defaultSearchPhoneQuery);
+
+  const onFetchPhones = async () => {
+    const response = await axios.get(
+      `/api/phones?${queryString.stringify(searchPhoneQuery)}`
+    );
+    setPhones(response.data);
+  };
 
   return (
     <Box
@@ -42,10 +75,8 @@ export default function SearchController() {
         <Select
           multiple
           size="small"
-          value={manufacturer}
-          onChange={(e) => {
-            setManufacturer(e.target.value as string[]);
-          }}
+          value={searchPhoneQuery.manufacturer}
+          onChange={(e) => onChangeMultiSelectorQuery(e, 'manufacturer')}
           renderValue={(value) => {
             if (value.length <= 0) return '전체';
             if (value.length == 1) return value;
@@ -53,7 +84,7 @@ export default function SearchController() {
           }}
           displayEmpty={true}
         >
-          {['삼성', '애플', '구글'].map((name) => (
+          {MANUFACTURER.map((name) => (
             <MenuItem key={name} value={name}>
               <Typography variant="body1">{name}</Typography>
             </MenuItem>
@@ -63,28 +94,13 @@ export default function SearchController() {
       <Divider />
       <Box>
         <h3>화면 크기</h3>
-        <FormGroup>
-          <FormControlLabel
-            control={<Checkbox />}
-            label="소형 (149 mm
-          이하)"
-          />
-          <FormControlLabel control={<Checkbox />} label="중형 (150-179 mm)" />
-          <FormControlLabel
-            control={<Checkbox />}
-            label="대형 (180 mm
-          이상)"
-          />
-        </FormGroup>
-      </Box>
-      <Divider />
-      <Box>
-        <h3>저장 용량</h3>
-        <ByteRangeSlider
-          min={30}
-          max={40}
-          value={storageSize}
-          setValue={setStorageSize}
+        <Slider
+          min={defaultSearchPhoneQuery.height[0]}
+          max={defaultSearchPhoneQuery.height[1]}
+          step={10}
+          value={searchPhoneQuery.height}
+          onChange={(e, newValue) => onChangeRangeQuery('height', newValue)}
+          valueLabelDisplay="off"
         />
         <Box
           sx={{
@@ -93,10 +109,35 @@ export default function SearchController() {
           }}
         >
           <Typography variant="body2">
-            {convertToDataFormat(2 ** storageSize[0])}
+            {searchPhoneQuery.height[0]} mm
           </Typography>
           <Typography variant="body2">
-            {convertToDataFormat(2 ** storageSize[1])}
+            {searchPhoneQuery.height[1]} mm
+          </Typography>
+        </Box>
+      </Box>
+      <Divider />
+      <Box>
+        <h3>저장 용량</h3>
+        <ByteRangeSlider
+          min={defaultSearchPhoneQuery.storage[0]}
+          max={defaultSearchPhoneQuery.storage[1]}
+          value={searchPhoneQuery.storage}
+          setter={(newValue: number[]) =>
+            onChangeRangeQuery('storage', newValue)
+          }
+        />
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Typography variant="body2">
+            {convertToDataFormat(2 ** searchPhoneQuery.storage[0])}
+          </Typography>
+          <Typography variant="body2">
+            {convertToDataFormat(2 ** searchPhoneQuery.storage[1])}
           </Typography>
         </Box>
       </Box>
@@ -104,12 +145,11 @@ export default function SearchController() {
       <Box>
         <h3>배터리</h3>
         <Slider
-          min={1000}
-          max={10000}
+          min={defaultSearchPhoneQuery.battery[0]}
+          max={defaultSearchPhoneQuery.battery[1]}
           step={500}
-          value={batterySize}
-          onChange={(_, value) => setBatterySize(value as number[])}
-          valueLabelFormat={(value) => `${value} mAh`}
+          value={searchPhoneQuery.battery}
+          onChange={(e, newValue) => onChangeRangeQuery('battery', newValue)}
           valueLabelDisplay="off"
         />
         <Box
@@ -118,20 +158,23 @@ export default function SearchController() {
             justifyContent: 'space-between',
           }}
         >
-          <Typography variant="body2">{batterySize[0]} mAh</Typography>
-          <Typography variant="body2">{batterySize[1]} mAh</Typography>
+          <Typography variant="body2">
+            {searchPhoneQuery.battery[0]} mAh
+          </Typography>
+          <Typography variant="body2">
+            {searchPhoneQuery.battery[1]} mAh
+          </Typography>
         </Box>
       </Box>
       <Divider />
       <Box>
         <h3>무게</h3>
         <Slider
-          min={50}
-          max={500}
+          min={defaultSearchPhoneQuery.weight[0]}
+          max={defaultSearchPhoneQuery.weight[1]}
           step={50}
-          value={weight}
-          onChange={(_, value) => setWeight(value as number[])}
-          valueLabelFormat={(value) => `${value} g`}
+          value={searchPhoneQuery.weight}
+          onChange={(e, newValue) => onChangeRangeQuery('weight', newValue)}
           valueLabelDisplay="off"
         />
         <Box
@@ -140,13 +183,21 @@ export default function SearchController() {
             justifyContent: 'space-between',
           }}
         >
-          <Typography variant="body2">{weight[0]} g</Typography>
-          <Typography variant="body2">{weight[1]} g</Typography>
+          <Typography variant="body2">
+            {searchPhoneQuery.weight[0]} g
+          </Typography>
+          <Typography variant="body2">
+            {searchPhoneQuery.weight[1]} g
+          </Typography>
         </Box>
       </Box>
       <Divider />
-      <Button variant="contained">적용</Button>
-      <Button variant="outlined">초기화</Button>
+      <Button variant="contained" onClick={onFetchPhones}>
+        적용
+      </Button>
+      <Button variant="outlined" onClick={onResetQuery}>
+        초기화
+      </Button>
     </Box>
   );
 }

@@ -46,3 +46,19 @@ export type Phone = {
     weight: number;
   };
 };
+
+export type SearchPhoneQuery = {
+  manufacturer: string[];
+  height: number[];
+  storage: number[];
+  battery: number[];
+  weight: number[];
+};
+
+export const defaultSearchPhoneQuery: SearchPhoneQuery = {
+  manufacturer: [],
+  height: [100, 200],
+  storage: [35, 40],
+  battery: [1000, 8000],
+  weight: [100, 400],
+};

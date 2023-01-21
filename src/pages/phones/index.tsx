@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Pagination,
   Box,
@@ -13,18 +13,25 @@ import {
 } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { phonesState } from 'lib/atoms';
 import { Phone } from 'lib/types';
+import getPhones from 'lib/getPhones';
 import PhoneCard from 'components/phones/PhoneCard';
 import SearchController from 'components/phones/SearchController';
-import getPhones from 'lib/getPhones';
 
 export default function Index(props: { data: string }) {
-  const phones: Phone[] = JSON.parse(props.data);
   const [sort, setSort] = useState('latest');
   const [openController, setOpenController] = useState(true);
+  const [phones, setPhones] = useRecoilState(phonesState);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
+
+  useEffect(() => {
+    const ssrPhones: Phone[] = JSON.parse(props.data);
+    setPhones(ssrPhones);
+  }, [props.data, setPhones]);
 
   return (
     <Box
@@ -63,7 +70,7 @@ export default function Index(props: { data: string }) {
           <MenuItem value="cheapest">가격 낮은 순</MenuItem>
         </Select>
       </Box>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} alignItems="flex-start">
         <Grid item xs={12} lg={4} xl={3}>
           <IconButton
             onClick={() => setOpenController(!openController)}

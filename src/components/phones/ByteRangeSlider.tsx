@@ -1,17 +1,16 @@
 import { Slider } from '@mui/material';
-import { Dispatch, SetStateAction } from 'react';
-import { convertToDataFormat } from './../../lib/methods';
+import { convertToDataFormat } from 'lib/methods';
 
 export default function ByteRangeSlider(props: {
   min: number;
   max: number;
   value: number[];
-  setValue: Dispatch<SetStateAction<number[]>>;
+  setter: (newValue: number[]) => void;
 }) {
-  const { min, max, value, setValue } = props;
+  const { min, max, value, setter } = props;
 
-  const handleChange = (event: Event, newValue: number | number[]) => {
-    setValue(newValue as number[]);
+  const handleChange = (e: Event, newValue: number | number[]) => {
+    setter(newValue as number[]);
   };
 
   const handleValueLabelFormat = (value: number) => {

@@ -1,6 +1,7 @@
 import { ThemeProvider } from '@mui/material';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { RecoilRoot } from 'recoil';
 import 'styles/normalize.css';
 import GlobalStyles from 'styles/GlobalStyles';
 import theme from 'styles/theme';
@@ -15,9 +16,11 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <GlobalStyles />
       <ThemeProvider theme={theme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>{' '}
+        <RecoilRoot>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </RecoilRoot>
       </ThemeProvider>
     </>
   );
