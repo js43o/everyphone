@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import getPhones from 'lib/getPhones';
-import { Phone } from 'lib/types';
 import { MANUFACTURER } from 'lib/constants';
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>();
@@ -18,8 +17,12 @@ handler.get(async (req, res) => {
     battery: (req.query.battery as string[]).map((value) => Number(value)),
     weight: (req.query.weight as string[]).map((value) => Number(value)),
   };
+  const page = Number(req.query.page);
 
-  const response: Phone[] = await getPhones(options);
+  const response = await getPhones({
+    options,
+    page,
+  });
   res.json(response);
 });
 

@@ -11,7 +11,7 @@ export default function Header() {
         flexDirection: { xs: 'column', lg: 'row' },
         justifyContent: 'center',
         alignItems: 'center',
-        gap: { xs: 1, lg: 3 },
+        gap: { lg: 3 },
         padding: 1,
         background: 'white',
       }}

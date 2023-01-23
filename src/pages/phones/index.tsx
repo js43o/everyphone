@@ -1,21 +1,49 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import Head from 'next/head';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import axios from 'axios';
+import queryString from 'query-string';
 import { Pagination, Box, Grid, Select, MenuItem } from '@mui/material';
-import { phonesState } from 'lib/atoms';
+import { phonesState, searchPhoneQueryState } from 'lib/atoms';
 import { Phone } from 'lib/types';
 import getPhones from 'lib/getPhones';
 import PhoneCard from 'components/phones/PhoneCard';
 import SearchController from 'components/phones/SearchController';
 
-export default function Index(props: { data: string }) {
-  const [sort, setSort] = useState('latest');
+export default function Index(props: { data: string; lastPage: string }) {
   const [phones, setPhones] = useRecoilState(phonesState);
+  const searchPhoneQuery = useRecoilValue(searchPhoneQueryState);
+  const [lastPage, setLastPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sort, setSort] = useState('latest');
+  const queryChanged = useRef(false);
+
+  const onFetchPhones = useCallback(
+    async (page: number) => {
+      if (!queryChanged.current) return;
+
+      const response = await axios.get(
+        `/api/phones?${queryString.stringify(searchPhoneQuery)}&page=${page}`
+      );
+      setPhones(response.data.phones);
+      setLastPage(response.data.lastPage);
+
+      queryChanged.current = false;
+    },
+    [searchPhoneQuery, setPhones]
+  );
 
   useEffect(() => {
     const ssrPhones: Phone[] = JSON.parse(props.data);
     setPhones(ssrPhones);
-  }, [props.data, setPhones]);
+    setLastPage(Number(props.lastPage));
+  }, [props, setPhones, setLastPage]);
+
+  useEffect(() => {
+    queryChanged.current = true;
+    setCurrentPage(1);
+    onFetchPhones(1);
+  }, [onFetchPhones]);
 
   return (
     <>
@@ -61,7 +89,7 @@ export default function Index(props: { data: string }) {
         </Box>
         <Grid container spacing={2} alignItems="flex-start">
           <Grid item xs={12} lg={4} xl={3}>
-            <SearchController />
+            <SearchController onFetchPhones={onFetchPhones} />
           </Grid>
           <Grid item container xs={12} lg={8} xl={9} spacing={1}>
             {phones.map((phone) => (
@@ -71,15 +99,27 @@ export default function Index(props: { data: string }) {
             ))}
           </Grid>
         </Grid>
-        <Pagination count={1} />
+        <Pagination
+          count={lastPage}
+          page={currentPage}
+          onChange={(_, newPage) => {
+            if (currentPage === newPage) return;
+            queryChanged.current = true;
+            onFetchPhones(newPage);
+            setCurrentPage(newPage);
+          }}
+        />
       </Box>
     </>
   );
 }
 
 export async function getServerSideProps() {
-  const response: Phone[] = await getPhones();
+  const { phones, lastPage } = await getPhones({});
   return {
-    props: { data: JSON.stringify(response) },
+    props: {
+      data: JSON.stringify(phones),
+      lastPage,
+    },
   };
 }

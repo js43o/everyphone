@@ -5,3 +5,4 @@ export const UNIT_OF_SPEC = new Map([
   ['battery', 'mAh'],
   ['weight', 'g'],
 ]);
+export const ITEM_PER_PAGE = 6;

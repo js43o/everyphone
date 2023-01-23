@@ -1,7 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import { useSetRecoilState } from 'recoil';
-import axios from 'axios';
-import queryString from 'query-string';
+import { useState, useEffect } from 'react';
+import { useSetRecoilState, useRecoilState } from 'recoil';
 import {
   Box,
   Slider,
@@ -24,16 +22,21 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { defaultSearchPhoneQuery, SearchPhoneQuery } from 'lib/types';
 import { convertToDataFormat, convertToRangeFormat } from 'lib/methods';
 import { MANUFACTURER } from 'lib/constants';
-import { phonesState } from 'lib/atoms';
+import { searchPhoneQueryState } from 'lib/atoms';
 import ByteRangeSlider from './ByteRangeSlider';
 
-export default function SearchController() {
+type SearchControllerProps = {
+  onFetchPhones: (page: number) => Promise<void>;
+};
+
+export default function SearchController({
+  onFetchPhones,
+}: SearchControllerProps) {
   const [openController, setOpenController] = useState(true);
-  const [searchPhoneQuery, setSearchPhoneQuery] = useState<SearchPhoneQuery>(
+  const [localQuery, setLocalQuery] = useState<SearchPhoneQuery>(
     defaultSearchPhoneQuery
   );
-  const setPhones = useSetRecoilState(phonesState);
-  const queryChanged = useRef(false);
+  const setSearchPhoneQuery = useSetRecoilState(searchPhoneQueryState);
   const isMobile = useMediaQuery(useTheme().breakpoints.down('lg'));
 
   const onChangeMultiSelectorQuery = (
@@ -43,44 +46,34 @@ export default function SearchController() {
     const {
       target: { value },
     } = e;
-    setSearchPhoneQuery({
-      ...searchPhoneQuery,
+    setLocalQuery({
+      ...localQuery,
       [field]: typeof value === 'string' ? value.split(',') : value,
     });
   };
 
   const onChangeRangeQuery = (field: string, newValue: number | number[]) => {
-    setSearchPhoneQuery({
-      ...searchPhoneQuery,
+    setLocalQuery({
+      ...localQuery,
       [field]: newValue as number[],
     });
   };
 
-  const onResetQueryAll = () => setSearchPhoneQuery(defaultSearchPhoneQuery);
+  const onResetQueryAll = () => {
+    setLocalQuery(defaultSearchPhoneQuery);
+  };
 
   const onResetQuery = (field: keyof typeof defaultSearchPhoneQuery) =>
-    setSearchPhoneQuery({
-      ...searchPhoneQuery,
+    setLocalQuery({
+      ...localQuery,
       [field]: defaultSearchPhoneQuery[field],
     });
 
-  const onFetchPhones = async () => {
-    if (!queryChanged.current) return;
-
-    const response = await axios.get(
-      `/api/phones?${queryString.stringify(searchPhoneQuery)}`
-    );
-    setPhones(response.data);
-    queryChanged.current = false;
-  };
+  const onApplyQuery = () => setSearchPhoneQuery(localQuery);
 
   useEffect(() => {
     if (!isMobile) setOpenController(true);
   }, [isMobile]);
-
-  useEffect(() => {
-    queryChanged.current = true;
-  }, [searchPhoneQuery]);
 
   return (
     <>
@@ -93,7 +86,7 @@ export default function SearchController() {
         }}
       >
         <IconButton onClick={() => setOpenController(!openController)}>
-          <Typography variant="h6">필터</Typography>
+          <Typography variant="body1">필터</Typography>
           {openController ? <ExpandLess /> : <ExpandMore />}
         </IconButton>
         <List
@@ -102,13 +95,13 @@ export default function SearchController() {
             display: 'flex',
             gap: 1,
             overflowY: 'scroll',
-            '-ms-overflow-style': 'none',
+            msOverflowStyle: 'none',
             '::-webkit-scrollbar': {
               display: 'none',
             },
           }}
         >
-          {Object.entries(searchPhoneQuery).map((query) => {
+          {Object.entries(localQuery).map((query) => {
             const key = query[0] as keyof typeof defaultSearchPhoneQuery;
             if (
               query[0] === 'manufacturer' ||
@@ -148,7 +141,7 @@ export default function SearchController() {
             <Select
               multiple
               size="small"
-              value={searchPhoneQuery.manufacturer}
+              value={localQuery.manufacturer}
               onChange={(e) => onChangeMultiSelectorQuery(e, 'manufacturer')}
               renderValue={(value) => {
                 if (value.length <= 0) return '전체';
@@ -171,7 +164,7 @@ export default function SearchController() {
               min={defaultSearchPhoneQuery.height[0]}
               max={defaultSearchPhoneQuery.height[1]}
               step={10}
-              value={searchPhoneQuery.height}
+              value={localQuery.height}
               onChange={(e, newValue) => onChangeRangeQuery('height', newValue)}
               valueLabelDisplay="off"
             />
@@ -181,12 +174,8 @@ export default function SearchController() {
                 justifyContent: 'space-between',
               }}
             >
-              <Typography variant="body2">
-                {searchPhoneQuery.height[0]} mm
-              </Typography>
-              <Typography variant="body2">
-                {searchPhoneQuery.height[1]} mm
-              </Typography>
+              <Typography variant="body2">{localQuery.height[0]} mm</Typography>
+              <Typography variant="body2">{localQuery.height[1]} mm</Typography>
             </Box>
           </Box>
           <Divider />
@@ -195,7 +184,7 @@ export default function SearchController() {
             <ByteRangeSlider
               min={defaultSearchPhoneQuery.storage[0]}
               max={defaultSearchPhoneQuery.storage[1]}
-              value={searchPhoneQuery.storage}
+              value={localQuery.storage}
               setter={(newValue: number[]) =>
                 onChangeRangeQuery('storage', newValue)
               }
@@ -207,10 +196,10 @@ export default function SearchController() {
               }}
             >
               <Typography variant="body2">
-                {convertToDataFormat(2 ** searchPhoneQuery.storage[0])}
+                {convertToDataFormat(2 ** localQuery.storage[0])}
               </Typography>
               <Typography variant="body2">
-                {convertToDataFormat(2 ** searchPhoneQuery.storage[1])}
+                {convertToDataFormat(2 ** localQuery.storage[1])}
               </Typography>
             </Box>
           </Box>
@@ -221,7 +210,7 @@ export default function SearchController() {
               min={defaultSearchPhoneQuery.battery[0]}
               max={defaultSearchPhoneQuery.battery[1]}
               step={500}
-              value={searchPhoneQuery.battery}
+              value={localQuery.battery}
               onChange={(e, newValue) =>
                 onChangeRangeQuery('battery', newValue)
               }
@@ -234,10 +223,10 @@ export default function SearchController() {
               }}
             >
               <Typography variant="body2">
-                {searchPhoneQuery.battery[0]} mAh
+                {localQuery.battery[0]} mAh
               </Typography>
               <Typography variant="body2">
-                {searchPhoneQuery.battery[1]} mAh
+                {localQuery.battery[1]} mAh
               </Typography>
             </Box>
           </Box>
@@ -248,7 +237,7 @@ export default function SearchController() {
               min={defaultSearchPhoneQuery.weight[0]}
               max={defaultSearchPhoneQuery.weight[1]}
               step={50}
-              value={searchPhoneQuery.weight}
+              value={localQuery.weight}
               onChange={(e, newValue) => onChangeRangeQuery('weight', newValue)}
               valueLabelDisplay="off"
             />
@@ -258,22 +247,18 @@ export default function SearchController() {
                 justifyContent: 'space-between',
               }}
             >
-              <Typography variant="body2">
-                {searchPhoneQuery.weight[0]} g
-              </Typography>
-              <Typography variant="body2">
-                {searchPhoneQuery.weight[1]} g
-              </Typography>
+              <Typography variant="body2">{localQuery.weight[0]} g</Typography>
+              <Typography variant="body2">{localQuery.weight[1]} g</Typography>
             </Box>
           </Box>
           <Divider />
-          <Button variant="contained" onClick={onFetchPhones}>
+          <Button variant="contained" onClick={onApplyQuery}>
             적용
           </Button>
           <Button variant="outlined" onClick={onResetQueryAll}>
             초기화
           </Button>
-        </Box>{' '}
+        </Box>
       </Collapse>
     </>
   );
