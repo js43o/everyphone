@@ -1,4 +1,5 @@
 import {
+  Box,
   Card,
   CardActionArea,
   CardContent,
@@ -29,9 +30,10 @@ export default function PhoneCard(props: { data: Phone }) {
             height={120}
           />
           <Divider />
-          <Typography fontWeight="500" textAlign="center">
-            {data.name}
-          </Typography>
+          <Box textAlign="center">
+            <Typography fontWeight="500">{data.name}</Typography>
+            <Typography variant="caption">{data.manufacturer}</Typography>
+          </Box>
         </CardContent>
       </CardActionArea>
     </Card>

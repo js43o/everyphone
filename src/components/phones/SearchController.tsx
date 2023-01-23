@@ -1,4 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useSetRecoilState } from 'recoil';
+import axios from 'axios';
+import queryString from 'query-string';
 import {
   Box,
   Slider,
@@ -11,21 +14,18 @@ import {
   Collapse,
   useTheme,
   useMediaQuery,
+  Chip,
+  List,
+  ListItem,
 } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material/Select';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { SelectChangeEvent } from '@mui/material/Select';
-import { useSetRecoilState, useRecoilValue } from 'recoil';
-import queryString from 'query-string';
-import axios from 'axios';
 import { defaultSearchPhoneQuery, SearchPhoneQuery } from 'lib/types';
 import { convertToDataFormat, convertToRangeFormat } from 'lib/methods';
 import { MANUFACTURER } from 'lib/constants';
 import { phonesState } from 'lib/atoms';
 import ByteRangeSlider from './ByteRangeSlider';
-import ListItem from '@mui/material/ListItem';
-import Chip from '@mui/material/Chip';
-import List from '@mui/material/List';
 
 export default function SearchController() {
   const [openController, setOpenController] = useState(true);
@@ -33,8 +33,8 @@ export default function SearchController() {
     defaultSearchPhoneQuery
   );
   const setPhones = useSetRecoilState(phonesState);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
+  const queryChanged = useRef(false);
+  const isMobile = useMediaQuery(useTheme().breakpoints.down('lg'));
 
   const onChangeMultiSelectorQuery = (
     e: SelectChangeEvent<string[]>,
@@ -65,15 +65,22 @@ export default function SearchController() {
     });
 
   const onFetchPhones = async () => {
+    if (!queryChanged.current) return;
+
     const response = await axios.get(
       `/api/phones?${queryString.stringify(searchPhoneQuery)}`
     );
     setPhones(response.data);
+    queryChanged.current = false;
   };
 
   useEffect(() => {
     if (!isMobile) setOpenController(true);
   }, [isMobile]);
+
+  useEffect(() => {
+    queryChanged.current = true;
+  }, [searchPhoneQuery]);
 
   return (
     <>
@@ -95,6 +102,7 @@ export default function SearchController() {
             display: 'flex',
             gap: 1,
             overflowY: 'scroll',
+            '-ms-overflow-style': 'none',
             '::-webkit-scrollbar': {
               display: 'none',
             },

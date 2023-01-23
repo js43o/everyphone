@@ -7,7 +7,7 @@ export default async function getPhones(
 ): Promise<Phone[]> {
   try {
     await connectMongo();
-
+    console.log('getPhones()');
     if (!props) return await PhoneModel.find();
 
     const query = PhoneModel.find({
