@@ -1,19 +1,6 @@
 import { useEffect, useState } from 'react';
-import {
-  Pagination,
-  Box,
-  Grid,
-  Select,
-  MenuItem,
-  Collapse,
-  IconButton,
-  Typography,
-  useTheme,
-  useMediaQuery,
-} from '@mui/material';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { Pagination, Box, Grid, Select, MenuItem } from '@mui/material';
+import { useRecoilState } from 'recoil';
 import { phonesState } from 'lib/atoms';
 import { Phone } from 'lib/types';
 import getPhones from 'lib/getPhones';
@@ -22,11 +9,7 @@ import SearchController from 'components/phones/SearchController';
 
 export default function Index(props: { data: string }) {
   const [sort, setSort] = useState('latest');
-  const [openController, setOpenController] = useState(true);
   const [phones, setPhones] = useRecoilState(phonesState);
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
 
   useEffect(() => {
     const ssrPhones: Phone[] = JSON.parse(props.data);
@@ -72,25 +55,7 @@ export default function Index(props: { data: string }) {
       </Box>
       <Grid container spacing={2} alignItems="flex-start">
         <Grid item xs={12} lg={4} xl={3}>
-          <IconButton
-            onClick={() => setOpenController(!openController)}
-            sx={{
-              display: {
-                xs: 'flex',
-                lg: 'none',
-              },
-            }}
-          >
-            <Typography>필터</Typography>
-            {openController ? <ExpandLess /> : <ExpandMore />}
-          </IconButton>
-          <Collapse
-            in={!isMobile || openController}
-            timeout="auto"
-            unmountOnExit
-          >
-            <SearchController />
-          </Collapse>
+          <SearchController />
         </Grid>
         <Grid item container xs={12} lg={8} xl={9} spacing={1}>
           {phones.map((phone) => (

@@ -15,6 +15,7 @@ const connectMongo = async () => {
   console.log('CONNECTING TO MONGO...');
   try {
     const db = await mongoose.connect(MONGO_URI!);
+    await db.set('strictQuery', true);
     console.log('CONNECTED TO MONGO!');
 
     connection.state = db.connections[0].readyState;
