@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, ChangeEvent } from 'react';
 import Head from 'next/head';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import axios from 'axios';
@@ -9,12 +9,13 @@ import { Phone } from 'lib/types';
 import getPhones from 'lib/getPhones';
 import PhoneCard from 'components/phones/PhoneCard';
 import SearchController from 'components/phones/SearchController';
+import NoResult from 'components/common/NoResult';
 
-export default function Index(props: { data: string; lastPage: string }) {
+export default function Index(props: { phones: string; lastPage: string }) {
   const [phones, setPhones] = useRecoilState(phonesState);
   const searchPhoneQuery = useRecoilValue(searchPhoneQueryState);
-  const [lastPage, setLastPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
   const [sort, setSort] = useState('latest');
   const queryChanged = useRef(false);
 
@@ -33,11 +34,19 @@ export default function Index(props: { data: string; lastPage: string }) {
     [searchPhoneQuery, setPhones]
   );
 
+  const onChangePage = (e: ChangeEvent<unknown>, newPage: number) => {
+    if (currentPage === newPage) return;
+
+    queryChanged.current = true;
+    onFetchPhones(newPage);
+    setCurrentPage(newPage);
+  };
+
   useEffect(() => {
-    const ssrPhones: Phone[] = JSON.parse(props.data);
+    const ssrPhones: Phone[] = JSON.parse(props.phones);
     setPhones(ssrPhones);
     setLastPage(Number(props.lastPage));
-  }, [props, setPhones, setLastPage]);
+  }, [props, setPhones]);
 
   useEffect(() => {
     queryChanged.current = true;
@@ -67,7 +76,7 @@ export default function Index(props: { data: string; lastPage: string }) {
             justifyContent: 'space-between',
             alignItems: 'center',
             width: '100%',
-            gap: '0.5rem',
+            gap: 1,
           }}
         >
           <h1>기기 목록</h1>
@@ -89,25 +98,37 @@ export default function Index(props: { data: string; lastPage: string }) {
         </Box>
         <Grid container spacing={2} alignItems="flex-start">
           <Grid item xs={12} lg={4} xl={3}>
-            <SearchController onFetchPhones={onFetchPhones} />
+            <SearchController />
           </Grid>
-          <Grid item container xs={12} lg={8} xl={9} spacing={1}>
-            {phones.map((phone) => (
-              <Grid item xs={12} md={6} xl={4} key={phone.url}>
-                <PhoneCard data={phone} />
-              </Grid>
-            ))}
-          </Grid>
+          {phones.length > 0 ? (
+            <Grid item container xs={12} lg={8} xl={9} spacing={1}>
+              {phones.map((phone) => (
+                <Grid item xs={12} md={6} xl={4} key={phone.url}>
+                  <PhoneCard data={phone} />
+                </Grid>
+              ))}
+            </Grid>
+          ) : (
+            <Grid
+              item
+              container
+              xs={12}
+              lg={8}
+              xl={9}
+              spacing={1}
+              sx={{
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <NoResult />
+            </Grid>
+          )}
         </Grid>
         <Pagination
           count={lastPage}
           page={currentPage}
-          onChange={(_, newPage) => {
-            if (currentPage === newPage) return;
-            queryChanged.current = true;
-            onFetchPhones(newPage);
-            setCurrentPage(newPage);
-          }}
+          onChange={onChangePage}
         />
       </Box>
     </>
@@ -118,7 +139,7 @@ export async function getServerSideProps() {
   const { phones, lastPage } = await getPhones({});
   return {
     props: {
-      data: JSON.stringify(phones),
+      phones: JSON.stringify(phones),
       lastPage,
     },
   };

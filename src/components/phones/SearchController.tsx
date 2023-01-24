@@ -25,13 +25,7 @@ import { MANUFACTURER } from 'lib/constants';
 import { searchPhoneQueryState } from 'lib/atoms';
 import ByteRangeSlider from './ByteRangeSlider';
 
-type SearchControllerProps = {
-  onFetchPhones: (page: number) => Promise<void>;
-};
-
-export default function SearchController({
-  onFetchPhones,
-}: SearchControllerProps) {
+export default function SearchController() {
   const [openController, setOpenController] = useState(true);
   const [localQuery, setLocalQuery] = useState<SearchPhoneQuery>(
     defaultSearchPhoneQuery
