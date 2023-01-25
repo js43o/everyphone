@@ -1,7 +1,7 @@
 import connectMongo from 'lib/connectMongo';
 import { Phone, SearchPhoneQuery } from 'lib/types';
 import PhoneModel from 'models/Phone';
-import { ITEM_PER_PAGE } from './constants';
+import { ITEM_PER_PAGE, SORT_BY_QUERY } from './constants';
 
 export default async function getPhones(props: {
   options?: SearchPhoneQuery;
@@ -19,8 +19,10 @@ export default async function getPhones(props: {
       return { phones, lastPage };
     }
 
-    const { manufacturer, height, storage, battery, weight } = props.options;
+    const { manufacturer, height, storage, battery, weight, sortBy } =
+      props.options;
     const page = props.page || 1;
+    const sorting = SORT_BY_QUERY.get(sortBy);
 
     const query = PhoneModel.find({
       manufacturer: {
@@ -48,6 +50,7 @@ export default async function getPhones(props: {
       (await query.clone().countDocuments().exec()) / ITEM_PER_PAGE
     );
     const phones = await query
+      .sort(sorting)
       .limit(ITEM_PER_PAGE)
       .skip((page - 1) * ITEM_PER_PAGE)
       .exec();

@@ -10,13 +10,13 @@ import getPhones from 'lib/getPhones';
 import PhoneCard from 'components/phones/PhoneCard';
 import SearchController from 'components/phones/SearchController';
 import NoResult from 'components/common/NoResult';
+import SortingSelector from 'components/phones/SortingSelector';
 
 export default function Index(props: { phones: string; lastPage: string }) {
   const [phones, setPhones] = useRecoilState(phonesState);
   const searchPhoneQuery = useRecoilValue(searchPhoneQueryState);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [sort, setSort] = useState('latest');
   const queryChanged = useRef(false);
 
   const onFetchPhones = useCallback(
@@ -80,21 +80,7 @@ export default function Index(props: { phones: string; lastPage: string }) {
           }}
         >
           <h1>기기 목록</h1>
-          <Select
-            value={sort}
-            onChange={(e) => setSort(e.target.value as string)}
-            size="small"
-            sx={{
-              background: 'white',
-            }}
-          >
-            <MenuItem value="latest" defaultChecked>
-              최근 출시 순
-            </MenuItem>
-            <MenuItem value="oldest">오래된 순</MenuItem>
-            <MenuItem value="expensive">가격 높은 순</MenuItem>
-            <MenuItem value="cheapest">가격 낮은 순</MenuItem>
-          </Select>
+          <SortingSelector />
         </Box>
         <Grid container spacing={2} alignItems="flex-start">
           <Grid item xs={12} lg={4} xl={3}>

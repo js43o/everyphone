@@ -16,6 +16,7 @@ handler.get(async (req, res) => {
     ),
     battery: (req.query.battery as string[]).map((value) => Number(value)),
     weight: (req.query.weight as string[]).map((value) => Number(value)),
+    sortBy: req.query.sortBy as string,
   };
   const page = Number(req.query.page);
 

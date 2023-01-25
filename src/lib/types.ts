@@ -53,6 +53,7 @@ export type SearchPhoneQuery = {
   storage: number[];
   battery: number[];
   weight: number[];
+  sortBy: string;
 };
 
 export const defaultSearchPhoneQuery: SearchPhoneQuery = {
@@ -61,4 +62,5 @@ export const defaultSearchPhoneQuery: SearchPhoneQuery = {
   storage: [35, 40],
   battery: [1000, 8000],
   weight: [100, 400],
+  sortBy: 'latest',
 };
