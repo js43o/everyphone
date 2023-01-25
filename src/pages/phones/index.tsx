@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useCallback, ChangeEvent } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import axios from 'axios';
 import queryString from 'query-string';
@@ -90,7 +91,9 @@ export default function Index(props: { phones: string; lastPage: string }) {
             <Grid item container xs={12} lg={8} xl={9} spacing={1}>
               {phones.map((phone) => (
                 <Grid item xs={12} md={6} xl={4} key={phone.url}>
-                  <PhoneCard data={phone} />
+                  <Link href={`/phones/${phone.url}`}>
+                    <PhoneCard data={phone} />
+                  </Link>
                 </Grid>
               ))}
             </Grid>

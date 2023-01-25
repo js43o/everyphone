@@ -7,6 +7,6 @@ export const phonesState = atom<Phone[]>({
 });
 
 export const searchPhoneQueryState = atom<SearchPhoneQuery>({
-  key: 'lastPageState',
+  key: 'searchPhoneQueryState',
   default: defaultSearchPhoneQuery,
 });
