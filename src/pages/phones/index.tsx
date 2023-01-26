@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import axios from 'axios';
 import queryString from 'query-string';
-import { Pagination, Box, Grid, Select, MenuItem } from '@mui/material';
+import { Pagination, Box, Grid } from '@mui/material';
 import { phonesState, searchPhoneQueryState } from 'lib/atoms';
 import { Phone } from 'lib/types';
 import getPhones from 'lib/getPhones';
@@ -91,7 +91,7 @@ export default function Index(props: { phones: string; lastPage: string }) {
             <Grid item container xs={12} lg={8} xl={9} spacing={1}>
               {phones.map((phone) => (
                 <Grid item xs={12} md={6} xl={4} key={phone.url}>
-                  <Link href={`/phones/${phone.url}`}>
+                  <Link href={`/phones/${encodeURIComponent(phone.url)}`}>
                     <PhoneCard data={phone} />
                   </Link>
                 </Grid>

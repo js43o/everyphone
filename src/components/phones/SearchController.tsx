@@ -77,22 +77,20 @@ export default function SearchController() {
             xs: 'flex',
             lg: 'none',
           },
+          flexGrow: 1,
+          marginBottom: 1,
         }}
       >
         <IconButton onClick={() => setOpenController(!openController)}>
           <Typography variant="body1">필터</Typography>
           {openController ? <ExpandLess /> : <ExpandMore />}
         </IconButton>
-        <List
-          component="ul"
+        <Box
           sx={{
             display: 'flex',
-            gap: 1,
-            overflowY: 'scroll',
-            msOverflowStyle: 'none',
-            '::-webkit-scrollbar': {
-              display: 'none',
-            },
+            flexGrow: 1,
+            flexFlow: 'wrap',
+            gap: 0.5,
           }}
         >
           {Object.entries(localQuery).map((query) => {
@@ -103,15 +101,14 @@ export default function SearchController() {
             )
               return;
             return (
-              <ListItem key={query[0]} disablePadding>
-                <Chip
-                  label={convertToRangeFormat(query[0], query[1] as number[])}
-                  onDelete={() => onResetQuery(key)}
-                />
-              </ListItem>
+              <Chip
+                key={key}
+                label={convertToRangeFormat(query[0], query[1] as number[])}
+                onDelete={() => onResetQuery(key)}
+              />
             );
           })}
-        </List>
+        </Box>
       </Box>
       <Collapse in={!isMobile || openController} timeout="auto" unmountOnExit>
         <Box

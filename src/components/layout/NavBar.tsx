@@ -16,6 +16,11 @@ const LinkBlock = styled(Link)<{ selected: boolean }>`
     css`
       color: white;
       background: black;
+      &:hover {
+        color: white;
+        background: black;
+        pointer-events: none;
+      }
     `};
 `;
 

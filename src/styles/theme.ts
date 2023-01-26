@@ -1,10 +1,37 @@
 import { createTheme } from '@mui/material';
 
+declare module '@mui/material/styles' {
+  interface TypographyVariants {
+    semibold: React.CSSProperties;
+    bold: React.CSSProperties;
+  }
+
+  // allow configuration using `createTheme`
+  interface TypographyVariantsOptions {
+    semibold?: React.CSSProperties;
+    bold?: React.CSSProperties;
+  }
+}
+
+// Update the Typography's variant prop options
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    semibold: true;
+    bold: true;
+  }
+}
+
 const theme = createTheme({
   typography: {
     fontFamily: ['Noto Sans KR', 'Roboto', 'Bakbak One', 'sans-serif'].join(
       ','
     ),
+    semibold: {
+      fontWeight: 500,
+    },
+    bold: {
+      fontWeight: 800,
+    },
   },
   breakpoints: {
     values: {

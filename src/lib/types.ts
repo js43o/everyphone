@@ -38,7 +38,7 @@ export type Phone = {
     second?: number;
     third?: number;
     fourth?: number;
-    front?: number;
+    front: number;
   };
   design: {
     demension: number[];
@@ -64,3 +64,5 @@ export const defaultSearchPhoneQuery: SearchPhoneQuery = {
   weight: [100, 400],
   sortBy: 'latest',
 };
+
+export type Specs = { key: string; value: string[] }[];

@@ -10,16 +10,21 @@ import {
 } from '@mui/material';
 import getPhoneByUrl from 'lib/getPhoneByUrl';
 import { Phone } from 'lib/types';
+import { getSpecsOfPhone } from 'lib/methods';
 import RatioImage from 'components/common/RatioImage';
+import PhoneSpecList from 'components/phones/PhoneSpecList';
+import Link from 'next/link';
 
 export default function IdPage(props: { phone: string }) {
   const phone: Phone = JSON.parse(props.phone);
+  const specs = getSpecsOfPhone(phone);
 
   return (
     <Box
       sx={{
         display: 'flex',
         flexDirection: 'column',
+        gap: 2,
         flexGrow: 1,
         maxWidth: 1024,
       }}
@@ -39,6 +44,7 @@ export default function IdPage(props: { phone: string }) {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            padding: 2,
           }}
         >
           <RatioImage
@@ -54,6 +60,7 @@ export default function IdPage(props: { phone: string }) {
           sx={{
             display: 'flex',
             flexDirection: 'column',
+            gap: 2,
             padding: 2,
             borderRadius: 2,
             background: 'white',
@@ -61,93 +68,29 @@ export default function IdPage(props: { phone: string }) {
         >
           <h2>{phone.name}</h2>
           <Divider />
-          <List component="ul">
-            <ListItem component="li" sx={{ gap: 1, alignItems: 'center' }}>
-              <Typography variant="body1">제조사</Typography>
-              <Chip label={phone.manufacturer} />
-            </ListItem>
-            <ListItem component="li" sx={{ gap: 1, alignItems: 'center' }}>
-              <Typography variant="body1">출시일자</Typography>
-              <Chip label={phone.released} />
-            </ListItem>
-            <ListItem component="li" sx={{ gap: 1, alignItems: 'center' }}>
-              <Typography variant="body1" sx={{ flexShrink: 0 }}>
-                디스플레이
-              </Typography>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexFlow: 'wrap',
-                  gap: 1,
-                  alignItems: 'center',
-                }}
-              >
-                <Chip label={`${phone.display.size}인치`} />
-                <Chip label={`${phone.display.resolution.pixel} px`} />
-                <Chip label={`${phone.display.resolution.ppi} ppi`} />
-                <Chip label={`${phone.display.resolution.ratio}`} />
-                <Chip label={`${phone.display.refreshRate} Hz`} />
-              </Box>
-            </ListItem>
-            <ListItem
-              component="li"
-              sx={{ gap: 1, alignItems: 'center', flexFlow: 'wrap' }}
-            >
-              <Typography variant="body1" sx={{ flexShrink: 0 }}>
-                카메라
-              </Typography>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexFlow: 'wrap',
-                  gap: 1,
-                  alignItems: 'center',
-                }}
-              >
-                <Chip label={`${phone.camera.rear}`} />
-                <Chip label={`메인 ${phone.camera.main} MP`} />
-              </Box>
-            </ListItem>
-            <ListItem
-              component="li"
-              sx={{
-                gap: 1,
-                alignItems: 'center',
-                flexFlow: 'wrap',
-              }}
-            >
-              <Typography variant="body1" sx={{ flexShrink: 0 }}>
-                하드웨어
-              </Typography>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexFlow: 'wrap',
-                  gap: 1,
-                  alignItems: 'center',
-                }}
-              >
-                <Chip
-                  label={`${phone.hardware.processor}`}
+          {specs.map((spec) => (
+            <Grid container item key={spec.key} sx={{ alignItems: 'center' }}>
+              <Grid item xs={4}>
+                <Typography variant="semibold">{spec.key}</Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <Box
                   sx={{
                     display: 'flex',
                     flexFlow: 'wrap',
+                    gap: 0.5,
                   }}
-                />
-                <Chip label={`${phone.hardware.ram.join('/')}GB RAM`} />
-              </Box>
-            </ListItem>
-            <ListItem component="li" sx={{ gap: 1, alignItems: 'center' }}>
-              <Typography variant="body1">저장 용량</Typography>
-              <Chip label={`${phone.price.map((p) => p.variant).join('/')}`} />
-            </ListItem>
-            <ListItem component="li" sx={{ gap: 1, alignItems: 'center' }}>
-              <Typography variant="body1">배터리</Typography>
-              <Chip label={`${phone.hardware.battery} mAh`} />
-            </ListItem>
-          </List>
+                >
+                  {spec.value.map(
+                    (s) => s && <Chip key={s} label={s} variant="outlined" />
+                  )}
+                </Box>
+              </Grid>
+            </Grid>
+          ))}
         </Grid>
       </Grid>
+      <PhoneSpecList phone={phone} />
     </Box>
   );
 }
