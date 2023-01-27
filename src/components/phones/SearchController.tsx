@@ -13,8 +13,6 @@ import {
   useTheme,
   useMediaQuery,
   Chip,
-  List,
-  ListItem,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import ExpandLess from '@mui/icons-material/ExpandLess';

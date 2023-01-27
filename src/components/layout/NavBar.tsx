@@ -4,10 +4,10 @@ import { css } from '@emotion/react';
 import { useRouter } from 'next/router';
 import { Box } from '@mui/material';
 
-const LinkBlock = styled(Link)<{ selected: boolean }>`
+export const LinkBlock = styled(Link)<{ selected: boolean }>`
   padding: 0.5rem 1rem;
-  font-weight: 500;
   border-radius: 10rem;
+  font-weight: 500;
   &:hover {
     background: #efefef;
   }
@@ -39,10 +39,13 @@ export default function NavBar() {
       <LinkBlock href="/" selected={router.asPath === '/'}>
         메인
       </LinkBlock>
-      <LinkBlock href="/phones" selected={router.asPath === '/phones'}>
+      <LinkBlock href="/phones" selected={router.asPath.startsWith('/phones')}>
         기기 목록
       </LinkBlock>
-      <LinkBlock href="/compare" selected={router.asPath === '/compare'}>
+      <LinkBlock
+        href="/compare"
+        selected={router.asPath.startsWith('/compare')}
+      >
         기기 비교
       </LinkBlock>
     </Box>

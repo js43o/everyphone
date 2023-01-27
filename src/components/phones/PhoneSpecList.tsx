@@ -44,7 +44,7 @@ export default function PhoneSpecList(props: { phone: Phone }) {
       <Divider
         sx={{
           background: '#555555',
-          height: 1.5,
+          height: 1,
         }}
       />
 

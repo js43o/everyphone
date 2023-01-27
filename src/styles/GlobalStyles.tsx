@@ -62,6 +62,7 @@ const GlobalStyles = () => {
         button {
           padding: 0;
           border: none;
+          border-radius: 0;
           margin: 0;
         }
       `}
