@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import NavBar from './NavBar';
 import Title from 'components/common/Title';
-import { Box, IconButton, useMediaQuery, useTheme } from '@mui/material';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 import NavDrawerButton from './NavDrawerButton';
-import SearchIcon from '@mui/icons-material/Search';
+import SearchPhoneButton from './SearchPhoneButton';
 
 export default function Header() {
   const isMobile = useMediaQuery(useTheme().breakpoints.down('lg'));
@@ -22,9 +22,7 @@ export default function Header() {
         <Title>
           <Link href="/">EveryPhone</Link>
         </Title>
-        <IconButton sx={{ width: 48, height: 48 }}>
-          <SearchIcon />
-        </IconButton>
+        <SearchPhoneButton />
       </Box>
     );
 
@@ -45,9 +43,7 @@ export default function Header() {
         <Link href="/">EveryPhone</Link>
       </Title>
       <NavBar />
-      <IconButton sx={{ width: 48, height: 48 }}>
-        <SearchIcon />
-      </IconButton>
+      <SearchPhoneButton />
     </Box>
   );
 }

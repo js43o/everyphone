@@ -19,7 +19,6 @@ export const LinkBlock = styled(Link)<{ selected: boolean }>`
       &:hover {
         color: white;
         background: black;
-        pointer-events: none;
       }
     `};
 `;

@@ -66,3 +66,5 @@ export const defaultSearchPhoneQuery: SearchPhoneQuery = {
 };
 
 export type Specs = { key: string; value: string[] }[];
+
+export type SearchPhoneResult = Pick<Phone, 'name' | 'manufacturer' | 'url'>;
