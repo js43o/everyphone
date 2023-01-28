@@ -8,9 +8,9 @@ import {
   ListItem,
   Chip,
 } from '@mui/material';
-import getPhoneByUrl from 'lib/getPhoneByUrl';
-import { Phone } from 'lib/types';
-import { getSpecsOfPhone } from 'lib/methods';
+import getPhoneByUrl from 'utils/getPhoneByUrl';
+import { Phone } from 'utils/types';
+import { getSpecsOfPhone } from 'utils/methods';
 import RatioImage from 'components/common/RatioImage';
 import PhoneSpecList from 'components/phones/PhoneSpecList';
 import Link from 'next/link';

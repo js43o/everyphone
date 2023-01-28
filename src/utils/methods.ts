@@ -1,6 +1,6 @@
-import { DATA_UNIT, UNIT_OF_SPEC } from 'lib/constants';
+import { DATA_UNIT, UNIT_OF_SPEC } from 'utils/constants';
 import { Specs } from './types';
-import { Phone } from 'lib/types';
+import { Phone } from 'utils/types';
 
 export function getArrayOfRange(start: number, end: number) {
   return Array.from({ length: end - start }, (_, index) => index + start);

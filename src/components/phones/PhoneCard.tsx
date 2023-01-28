@@ -6,7 +6,7 @@ import {
   Divider,
   Typography,
 } from '@mui/material';
-import { Phone } from 'lib/types';
+import { Phone } from 'utils/types';
 import RatioImage from 'components/common/RatioImage';
 
 export default function PhoneCard(props: { data: Phone }) {

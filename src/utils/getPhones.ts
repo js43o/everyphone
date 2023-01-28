@@ -1,5 +1,5 @@
-import connectMongo from 'lib/connectMongo';
-import { Phone, SearchPhoneQuery } from 'lib/types';
+import connectMongo from 'utils/connectMongo';
+import { Phone, SearchPhoneQuery } from 'utils/types';
 import PhoneModel from 'models/Phone';
 import { ITEM_PER_PAGE, SORT_BY_QUERY } from './constants';
 

@@ -1,5 +1,5 @@
 import { Slider } from '@mui/material';
-import { convertToDataFormat } from 'lib/methods';
+import { convertToDataFormat } from 'utils/methods';
 
 export default function ByteRangeSlider(props: {
   min: number;

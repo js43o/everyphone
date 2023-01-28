@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { defaultSearchPhoneQuery, Phone, SearchPhoneQuery } from 'lib/types';
+import { defaultSearchPhoneQuery, Phone, SearchPhoneQuery } from 'utils/types';
 import { v1 } from 'uuid';
 
 export const phonesState = atom<Phone[]>({

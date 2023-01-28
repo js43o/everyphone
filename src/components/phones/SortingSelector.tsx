@@ -1,7 +1,7 @@
 import { Select, MenuItem } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { useRecoilState } from 'recoil';
-import { searchPhoneQueryState } from 'lib/atoms';
+import { searchPhoneQueryState } from 'utils/atoms';
 
 export default function SortingSelector() {
   const [searchPhoneQuery, setSearchPhoneQuery] = useRecoilState(

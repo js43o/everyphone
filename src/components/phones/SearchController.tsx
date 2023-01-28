@@ -17,10 +17,10 @@ import {
 import { SelectChangeEvent } from '@mui/material/Select';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { defaultSearchPhoneQuery, SearchPhoneQuery } from 'lib/types';
-import { convertToDataFormat, convertToRangeFormat } from 'lib/methods';
-import { MANUFACTURER } from 'lib/constants';
-import { searchPhoneQueryState } from 'lib/atoms';
+import { defaultSearchPhoneQuery, SearchPhoneQuery } from 'utils/types';
+import { convertToDataFormat, convertToRangeFormat } from 'utils/methods';
+import { MANUFACTURER } from 'utils/constants';
+import { searchPhoneQueryState } from 'utils/atoms';
 import ByteRangeSlider from './ByteRangeSlider';
 
 export default function SearchController() {
@@ -87,8 +87,12 @@ export default function SearchController() {
           sx={{
             display: 'flex',
             flexGrow: 1,
-            flexFlow: 'wrap',
             gap: 0.5,
+            overflowX: 'scroll',
+            msOverflowStyle: 'none',
+            '::-webkit-scrollbar': {
+              display: 'none',
+            },
           }}
         >
           {Object.entries(localQuery).map((query) => {

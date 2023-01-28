@@ -1,5 +1,5 @@
 import { Schema, model, models, Model } from 'mongoose';
-import { Phone } from 'lib/types';
+import { Phone } from 'utils/types';
 
 const phoneSchema = new Schema<Phone>({
   name: String,

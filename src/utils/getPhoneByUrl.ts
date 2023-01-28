@@ -1,5 +1,5 @@
-import connectMongo from 'lib/connectMongo';
-import { Phone } from 'lib/types';
+import connectMongo from 'utils/connectMongo';
+import { Phone } from 'utils/types';
 import PhoneModel from 'models/Phone';
 
 export default async function getPhoneByUrl(url: string): Promise<Phone> {
