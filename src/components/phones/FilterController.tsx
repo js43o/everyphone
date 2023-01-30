@@ -17,18 +17,20 @@ import {
 import { SelectChangeEvent } from '@mui/material/Select';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { defaultSearchPhoneQuery, SearchPhoneQuery } from 'utils/types';
+import { defaultFilterPhoneQuery, FilterPhoneQuery } from 'utils/types';
 import { convertToDataFormat, convertToRangeFormat } from 'utils/methods';
 import { MANUFACTURER } from 'utils/constants';
-import { searchPhoneQueryState } from 'utils/atoms';
+import { filterPhoneQueryState } from 'utils/atoms';
 import ByteRangeSlider from './ByteRangeSlider';
 
-export default function SearchController() {
+export default function FilterController() {
   const [openController, setOpenController] = useState(true);
-  const [localQuery, setLocalQuery] = useState<SearchPhoneQuery>(
-    defaultSearchPhoneQuery
+  const [localQuery, setLocalQuery] = useState<FilterPhoneQuery>(
+    defaultFilterPhoneQuery
   );
-  const setSearchPhoneQuery = useSetRecoilState(searchPhoneQueryState);
+  const [filterPhoneQuery, setFilterPhoneQuery] = useRecoilState(
+    filterPhoneQueryState
+  );
   const isMobile = useMediaQuery(useTheme().breakpoints.down('lg'));
 
   const onChangeMultiSelectorQuery = (
@@ -52,16 +54,20 @@ export default function SearchController() {
   };
 
   const onResetQueryAll = () => {
-    setLocalQuery(defaultSearchPhoneQuery);
+    setLocalQuery(defaultFilterPhoneQuery);
   };
 
-  const onResetQuery = (field: keyof typeof defaultSearchPhoneQuery) =>
+  const onResetQuery = (field: keyof typeof defaultFilterPhoneQuery) =>
     setLocalQuery({
       ...localQuery,
-      [field]: defaultSearchPhoneQuery[field],
+      [field]: defaultFilterPhoneQuery[field],
     });
 
-  const onApplyQuery = () => setSearchPhoneQuery(localQuery);
+  const onApplyQuery = () => setFilterPhoneQuery(localQuery);
+
+  useEffect(() => {
+    setLocalQuery(filterPhoneQuery);
+  }, [filterPhoneQuery]);
 
   useEffect(() => {
     if (!isMobile) setOpenController(true);
@@ -96,10 +102,10 @@ export default function SearchController() {
           }}
         >
           {Object.entries(localQuery).map((query) => {
-            const key = query[0] as keyof typeof defaultSearchPhoneQuery;
+            const key = query[0] as keyof typeof defaultFilterPhoneQuery;
             if (
               query[0] === 'manufacturer' ||
-              query[1] === defaultSearchPhoneQuery[key]
+              query[1] === defaultFilterPhoneQuery[key]
             )
               return;
             return (
@@ -154,8 +160,8 @@ export default function SearchController() {
           <Box>
             <h3>화면 크기</h3>
             <Slider
-              min={defaultSearchPhoneQuery.height[0]}
-              max={defaultSearchPhoneQuery.height[1]}
+              min={defaultFilterPhoneQuery.height[0]}
+              max={defaultFilterPhoneQuery.height[1]}
               step={10}
               value={localQuery.height}
               onChange={(e, newValue) => onChangeRangeQuery('height', newValue)}
@@ -175,8 +181,8 @@ export default function SearchController() {
           <Box>
             <h3>저장 용량</h3>
             <ByteRangeSlider
-              min={defaultSearchPhoneQuery.storage[0]}
-              max={defaultSearchPhoneQuery.storage[1]}
+              min={defaultFilterPhoneQuery.storage[0]}
+              max={defaultFilterPhoneQuery.storage[1]}
               value={localQuery.storage}
               setter={(newValue: number[]) =>
                 onChangeRangeQuery('storage', newValue)
@@ -200,8 +206,8 @@ export default function SearchController() {
           <Box>
             <h3>배터리</h3>
             <Slider
-              min={defaultSearchPhoneQuery.battery[0]}
-              max={defaultSearchPhoneQuery.battery[1]}
+              min={defaultFilterPhoneQuery.battery[0]}
+              max={defaultFilterPhoneQuery.battery[1]}
               step={500}
               value={localQuery.battery}
               onChange={(e, newValue) =>
@@ -227,8 +233,8 @@ export default function SearchController() {
           <Box>
             <h3>무게</h3>
             <Slider
-              min={defaultSearchPhoneQuery.weight[0]}
-              max={defaultSearchPhoneQuery.weight[1]}
+              min={defaultFilterPhoneQuery.weight[0]}
+              max={defaultFilterPhoneQuery.weight[1]}
               step={50}
               value={localQuery.weight}
               onChange={(e, newValue) => onChangeRangeQuery('weight', newValue)}

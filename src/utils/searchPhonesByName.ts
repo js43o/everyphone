@@ -16,16 +16,12 @@ export default async function searchPhonesByName(
       'ig'
     );
 
-    console.log(hasKorean, regExp);
-
     const searchResult = await PhoneModel.find(
       hasKorean
         ? { korName: { $regex: regExp } }
         : { name: { $regex: regExp } },
       { _id: false, name: true, manufacturer: true, url: true }
     ).exec();
-
-    console.log(searchResult.length);
 
     return searchResult;
   } catch (err: any) {

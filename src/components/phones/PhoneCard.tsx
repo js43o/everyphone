@@ -31,9 +31,16 @@ export default function PhoneCard(props: { data: Phone; priority?: boolean }) {
             priority={priority}
           />
           <Divider />
-          <Box textAlign="center">
-            <Typography fontWeight="500">{data.name}</Typography>
-            <Typography variant="caption">{data.manufacturer}</Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 0.5,
+              textAlign: 'center',
+            }}
+          >
+            <Typography variant="semibold">{data.name}</Typography>
+            <Typography variant="secondary">{data.manufacturer}</Typography>
           </Box>
         </CardContent>
       </CardActionArea>

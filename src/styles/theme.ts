@@ -4,12 +4,14 @@ declare module '@mui/material/styles' {
   interface TypographyVariants {
     semibold: React.CSSProperties;
     bold: React.CSSProperties;
+    secondary: React.CSSProperties;
   }
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
     semibold?: React.CSSProperties;
     bold?: React.CSSProperties;
+    secondary?: React.CSSProperties;
   }
 }
 
@@ -18,6 +20,7 @@ declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     semibold: true;
     bold: true;
+    secondary: true;
   }
 }
 
@@ -31,6 +34,10 @@ const theme = createTheme({
     },
     bold: {
       fontWeight: 800,
+    },
+    secondary: {
+      fontSize: 12,
+      color: 'grey',
     },
   },
   breakpoints: {

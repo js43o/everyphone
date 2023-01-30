@@ -26,7 +26,7 @@ export default function SearchPhoneButton() {
       return;
     }
 
-    const response = await axios('/api/phone', {
+    const response = await axios('/api/searching', {
       params: {
         input: inputValue,
       },

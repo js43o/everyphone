@@ -1,23 +1,23 @@
 import { Select, MenuItem } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { useRecoilState } from 'recoil';
-import { searchPhoneQueryState } from 'utils/atoms';
+import { filterPhoneQueryState } from 'utils/atoms';
 
 export default function SortingSelector() {
-  const [searchPhoneQuery, setSearchPhoneQuery] = useRecoilState(
-    searchPhoneQueryState
+  const [filterPhoneQuery, setFilterPhoneQuery] = useRecoilState(
+    filterPhoneQueryState
   );
 
   const onChangeSorting = (e: SelectChangeEvent<string>) => {
-    setSearchPhoneQuery({
-      ...searchPhoneQuery,
+    setFilterPhoneQuery({
+      ...filterPhoneQuery,
       sortBy: e.target.value as string,
     });
   };
 
   return (
     <Select
-      value={searchPhoneQuery.sortBy}
+      value={filterPhoneQuery.sortBy}
       onChange={onChangeSorting}
       size="small"
       sx={{

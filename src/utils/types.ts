@@ -48,7 +48,7 @@ export type Phone = {
   };
 };
 
-export type SearchPhoneQuery = {
+export type FilterPhoneQuery = {
   manufacturer: string[];
   height: number[];
   storage: number[];
@@ -57,7 +57,7 @@ export type SearchPhoneQuery = {
   sortBy: string;
 };
 
-export const defaultSearchPhoneQuery: SearchPhoneQuery = {
+export const defaultFilterPhoneQuery: FilterPhoneQuery = {
   manufacturer: [],
   height: [100, 200],
   storage: [35, 40],

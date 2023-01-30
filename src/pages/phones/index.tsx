@@ -5,17 +5,17 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import axios from 'axios';
 import queryString from 'query-string';
 import { Pagination, Box, Grid } from '@mui/material';
-import { phonesState, searchPhoneQueryState } from 'utils/atoms';
+import { phonesState, filterPhoneQueryState } from 'utils/atoms';
 import { Phone } from 'utils/types';
 import getPhones from 'utils/getPhones';
 import PhoneCard from 'components/phones/PhoneCard';
-import SearchController from 'components/phones/SearchController';
+import FilterController from 'components/phones/FilterController';
 import NoResult from 'components/common/NoResult';
 import SortingSelector from 'components/phones/SortingSelector';
 
 export default function Index(props: { phones: string; lastPage: string }) {
   const [phones, setPhones] = useRecoilState(phonesState);
-  const searchPhoneQuery = useRecoilValue(searchPhoneQueryState);
+  const filterPhoneQuery = useRecoilValue(filterPhoneQueryState);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const queryChanged = useRef(false);
@@ -25,14 +25,14 @@ export default function Index(props: { phones: string; lastPage: string }) {
       if (!queryChanged.current) return;
 
       const response = await axios.get(
-        `/api/phones?${queryString.stringify(searchPhoneQuery)}&page=${page}`
+        `/api/phones?${queryString.stringify(filterPhoneQuery)}&page=${page}`
       );
       setPhones(response.data.phones);
       setLastPage(response.data.lastPage);
 
       queryChanged.current = false;
     },
-    [searchPhoneQuery, setPhones]
+    [filterPhoneQuery, setPhones]
   );
 
   const onChangePage = (e: ChangeEvent<unknown>, newPage: number) => {
@@ -85,7 +85,7 @@ export default function Index(props: { phones: string; lastPage: string }) {
         </Box>
         <Grid container spacing={2} alignItems="flex-start">
           <Grid item xs={12} lg={4} xl={3}>
-            <SearchController />
+            <FilterController />
           </Grid>
           {phones.length > 0 ? (
             <Grid item container xs={12} lg={8} xl={9} spacing={1}>
