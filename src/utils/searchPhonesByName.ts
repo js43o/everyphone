@@ -8,6 +8,7 @@ export default async function searchPhonesByName(
   try {
     await connectMongo();
     const flattend = input.toLowerCase().replace(/\s+/g, '');
+    const hasKorean = /[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(input);
     const regExp = new RegExp(
       ['\\s*', flattend.split('').join('\\s*'), '\\s*']
         .join('')
@@ -15,10 +16,16 @@ export default async function searchPhonesByName(
       'ig'
     );
 
+    console.log(hasKorean, regExp);
+
     const searchResult = await PhoneModel.find(
-      { name: { $regex: regExp } },
+      hasKorean
+        ? { korName: { $regex: regExp } }
+        : { name: { $regex: regExp } },
       { _id: false, name: true, manufacturer: true, url: true }
     ).exec();
+
+    console.log(searchResult.length);
 
     return searchResult;
   } catch (err: any) {

@@ -1,6 +1,7 @@
 export type Phone = {
   name: string;
   url: string;
+  korName: string;
   manufacturer: string;
   released: string;
   price: { variant: string; value: number }[];

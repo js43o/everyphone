@@ -31,12 +31,13 @@ export default function SearchPhoneButton() {
         input: inputValue,
       },
     });
-    setOptions(response.data);
+
+    if (response.data.length > 0) setOptions(response.data);
   }, [inputValue]);
 
   useEffect(() => {
     onFetchSearching();
-  }, [inputValue, onFetchSearching]);
+  }, [onFetchSearching]);
 
   return (
     <>
@@ -71,6 +72,7 @@ export default function SearchPhoneButton() {
             isOptionEqualToValue={(option, value) => option.name === value.name}
             noOptionsText="일치 결과 없음"
             autoHighlight
+            handleHomeEndKeys
             renderInput={(params) => (
               <TextField {...params} label="기기 이름 입력" fullWidth />
             )}

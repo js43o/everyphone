@@ -3,6 +3,7 @@ import { Phone } from 'utils/types';
 
 const phoneSchema = new Schema<Phone>({
   name: String,
+  korName: String,
   url: String,
   manufacturer: String,
   released: String,

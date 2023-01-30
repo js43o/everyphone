@@ -6,7 +6,7 @@ export default function PhoneSpecList(props: { phone: Phone }) {
   const {
     phone: {
       name,
-      url,
+      korName,
       manufacturer,
       released,
       price,
@@ -49,7 +49,7 @@ export default function PhoneSpecList(props: { phone: Phone }) {
       />
 
       <h3># 개요</h3>
-      <PhoneSpecItem title="제품명" content={name} />
+      <PhoneSpecItem title="제품명" content={`${name} / ${korName}`} />
       <PhoneSpecItem title="제조사" content={manufacturer} />
       <PhoneSpecItem title="출시일자" content={released} />
       <PhoneSpecItem
