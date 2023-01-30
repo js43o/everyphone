@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import axios from 'axios';
 import {
   Autocomplete,
@@ -18,7 +18,7 @@ export default function SearchPhoneButton() {
   const [value, setValue] = useState<SearchPhoneResult | null>(null);
   const [options, setOptions] = useState<SearchPhoneResult[]>([]);
 
-  const onCloseDrawer = () => setOpen(!open);
+  const timer = useRef<NodeJS.Timeout>();
 
   const onFetchSearching = useCallback(async () => {
     if (!inputValue) {
@@ -26,13 +26,17 @@ export default function SearchPhoneButton() {
       return;
     }
 
-    const response = await axios('/api/searching', {
-      params: {
-        input: inputValue,
-      },
-    });
+    if (timer.current) clearTimeout(timer.current);
 
-    setOptions(response.data);
+    timer.current = setTimeout(async () => {
+      const response = await axios('/api/searching', {
+        params: {
+          input: inputValue,
+        },
+      });
+
+      setOptions(response.data);
+    }, 200);
   }, [inputValue]);
 
   useEffect(() => {
@@ -48,7 +52,7 @@ export default function SearchPhoneButton() {
       >
         <SearchIcon />
       </IconButton>
-      <Drawer anchor="top" open={open} onClose={onCloseDrawer}>
+      <Drawer anchor="top" open={open} onClose={() => setOpen(!open)}>
         <Box
           sx={{
             display: 'flex',
