@@ -103,11 +103,16 @@ export default function FilterController() {
         >
           {Object.entries(localQuery).map((query) => {
             const key = query[0] as keyof typeof defaultFilterPhoneQuery;
-            if (
-              query[0] === 'manufacturer' ||
-              query[1] === defaultFilterPhoneQuery[key]
-            )
-              return;
+            if (query[1] === defaultFilterPhoneQuery[key]) return;
+            if (query[0] === 'manufacturer') {
+              return (
+                <Chip
+                  key={key}
+                  label={(query[1] as string[]).join('/')}
+                  onDelete={() => onResetQuery(key)}
+                ></Chip>
+              );
+            }
             return (
               <Chip
                 key={key}

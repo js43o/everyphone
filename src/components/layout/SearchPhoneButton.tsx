@@ -32,7 +32,7 @@ export default function SearchPhoneButton() {
       },
     });
 
-    if (response.data.length > 0) setOptions(response.data);
+    setOptions(response.data);
   }, [inputValue]);
 
   useEffect(() => {
