@@ -42,6 +42,7 @@ export default function IdPage(props: { phone: string }) {
             src={`/images/phones/${phone.url}.png`}
             alt={phone.url}
             height={320}
+            priority
           />
         </Grid>
         <Grid

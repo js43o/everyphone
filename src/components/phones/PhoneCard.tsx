@@ -9,8 +9,8 @@ import {
 import { Phone } from 'utils/types';
 import RatioImage from 'components/common/RatioImage';
 
-export default function PhoneCard(props: { data: Phone }) {
-  const data = props.data;
+export default function PhoneCard(props: { data: Phone; priority?: boolean }) {
+  const { data, priority } = props;
 
   return (
     <Card sx={{ borderRadius: 2 }}>
@@ -28,6 +28,7 @@ export default function PhoneCard(props: { data: Phone }) {
             src={`/images/phones/${data.url}.png`}
             alt={data.url}
             height={120}
+            priority={priority}
           />
           <Divider />
           <Box textAlign="center">

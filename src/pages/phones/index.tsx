@@ -92,7 +92,7 @@ export default function Index(props: { phones: string; lastPage: string }) {
               {phones.map((phone) => (
                 <Grid item xs={12} md={6} xl={4} key={phone.url}>
                   <Link href={`/phones/${encodeURIComponent(phone.url)}`}>
-                    <PhoneCard data={phone} />
+                    <PhoneCard data={phone} priority />
                   </Link>
                 </Grid>
               ))}

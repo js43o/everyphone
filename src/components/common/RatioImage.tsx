@@ -6,8 +6,9 @@ export default function RatioImage(props: {
   alt: string;
   width?: number;
   height?: number;
+  priority?: boolean;
 }) {
-  const { src, alt, width, height } = props;
+  const { src, alt, width, height, priority } = props;
   const [relative, setRelative] = useState(0);
 
   if (width) {
@@ -20,6 +21,7 @@ export default function RatioImage(props: {
         onLoadingComplete={(img) =>
           setRelative(width * (img.naturalHeight / img.naturalWidth))
         }
+        priority={priority}
       />
     );
   }
@@ -34,6 +36,7 @@ export default function RatioImage(props: {
         onLoadingComplete={(img) =>
           setRelative(height * (img.naturalWidth / img.naturalHeight))
         }
+        priority={priority}
       />
     );
   }
