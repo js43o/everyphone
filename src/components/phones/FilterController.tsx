@@ -103,7 +103,13 @@ export default function FilterController() {
         >
           {Object.entries(localQuery).map((query) => {
             const key = query[0] as keyof typeof defaultFilterPhoneQuery;
-            if (query[1] === defaultFilterPhoneQuery[key]) return;
+            if (
+              query[0] === 'sortBy' ||
+              query[1] === defaultFilterPhoneQuery[key]
+            ) {
+              return;
+            }
+
             if (query[0] === 'manufacturer') {
               return (
                 <Chip
@@ -113,6 +119,7 @@ export default function FilterController() {
                 ></Chip>
               );
             }
+
             return (
               <Chip
                 key={key}
