@@ -25,12 +25,11 @@ import ByteRangeSlider from './ByteRangeSlider';
 
 export default function FilterController() {
   const [openController, setOpenController] = useState(true);
-  const [localQuery, setLocalQuery] = useState<FilterPhoneQuery>(
-    defaultFilterPhoneQuery
-  );
   const [filterPhoneQuery, setFilterPhoneQuery] = useRecoilState(
     filterPhoneQueryState
   );
+  const [localQuery, setLocalQuery] =
+    useState<FilterPhoneQuery>(filterPhoneQuery);
   const isMobile = useMediaQuery(useTheme().breakpoints.down('lg'));
 
   const onChangeMultiSelectorQuery = (
@@ -64,10 +63,6 @@ export default function FilterController() {
     });
 
   const onApplyQuery = () => setFilterPhoneQuery(localQuery);
-
-  useEffect(() => {
-    setLocalQuery(filterPhoneQuery);
-  }, [filterPhoneQuery]);
 
   useEffect(() => {
     if (!isMobile) setOpenController(true);
