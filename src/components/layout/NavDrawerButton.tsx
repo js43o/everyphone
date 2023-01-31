@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import {styled} from '@mui/system';
 import { Box, Drawer, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { LinkBlock } from './NavBar';

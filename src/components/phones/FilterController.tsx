@@ -86,7 +86,7 @@ export default function FilterController() {
         }}
       >
         <IconButton onClick={() => setOpenController(!openController)}>
-          <Typography variant="body1">필터</Typography>
+          <Typography variant="subtitle1">필터</Typography>
           {openController ? <ExpandLess /> : <ExpandMore />}
         </IconButton>
         <Box
@@ -141,7 +141,7 @@ export default function FilterController() {
               flexDirection: 'column',
             }}
           >
-            <h3>제조사</h3>
+            <Typography variant="subtitle1">제조사</Typography>
             <Select
               multiple
               size="small"
@@ -163,7 +163,7 @@ export default function FilterController() {
           </Box>
           <Divider />
           <Box>
-            <h3>화면 크기</h3>
+            <Typography variant="subtitle1">화면 크기</Typography>
             <Slider
               min={defaultFilterPhoneQuery.height[0]}
               max={defaultFilterPhoneQuery.height[1]}
@@ -184,7 +184,7 @@ export default function FilterController() {
           </Box>
           <Divider />
           <Box>
-            <h3>저장 용량</h3>
+            <Typography variant="subtitle1">저장 용량</Typography>
             <ByteRangeSlider
               min={defaultFilterPhoneQuery.storage[0]}
               max={defaultFilterPhoneQuery.storage[1]}
@@ -209,7 +209,7 @@ export default function FilterController() {
           </Box>
           <Divider />
           <Box>
-            <h3>배터리</h3>
+            <Typography variant="subtitle1">배터리</Typography>
             <Slider
               min={defaultFilterPhoneQuery.battery[0]}
               max={defaultFilterPhoneQuery.battery[1]}
@@ -236,7 +236,7 @@ export default function FilterController() {
           </Box>
           <Divider />
           <Box>
-            <h3>무게</h3>
+            <Typography variant="subtitle1">무게</Typography>
             <Slider
               min={defaultFilterPhoneQuery.weight[0]}
               max={defaultFilterPhoneQuery.weight[1]}

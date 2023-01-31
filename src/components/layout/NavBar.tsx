@@ -1,8 +1,8 @@
-import styled from '@emotion/styled';
 import Link from 'next/link';
-import { css } from '@emotion/react';
 import { useRouter } from 'next/router';
+import { css } from '@emotion/react';
 import { Box } from '@mui/material';
+import { styled } from '@mui/system';
 
 export const LinkBlock = styled(Link)<{ selected: boolean }>`
   padding: 0.5rem 1rem;

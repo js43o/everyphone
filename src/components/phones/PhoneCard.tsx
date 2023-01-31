@@ -35,12 +35,11 @@ export default function PhoneCard(props: { data: Phone; priority?: boolean }) {
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              gap: 0.5,
               textAlign: 'center',
             }}
           >
-            <Typography variant="semibold">{data.name}</Typography>
-            <Typography variant="secondary">{data.manufacturer}</Typography>
+            <Typography variant="subtitle1">{data.name}</Typography>
+            <Typography variant="body2">{data.manufacturer}</Typography>
           </Box>
         </CardContent>
       </CardActionArea>

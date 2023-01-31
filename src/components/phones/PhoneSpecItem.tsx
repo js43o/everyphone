@@ -8,16 +8,16 @@ export default function PhoneSpecItem(props: {
   return (
     <Grid container component="li">
       <Grid item xs={4}>
-        <Typography variant="semibold">{title}</Typography>
+        <Typography variant="subtitle1">{title}</Typography>
       </Grid>
       <Grid item xs={8}>
         {typeof content === 'string' ? (
-          content
+          <Typography variant="body1">{content}</Typography>
         ) : (
           <List disablePadding>
             {content.map((str) => (
               <ListItem key={str} disablePadding>
-                {str}
+                <Typography variant="body1">{str}</Typography>
               </ListItem>
             ))}
           </List>

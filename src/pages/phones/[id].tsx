@@ -20,7 +20,7 @@ export default function IdPage(props: { phone: string }) {
         maxWidth: 1024,
       }}
     >
-      <h1>기기 목록</h1>
+      <Typography variant="h1">기기 목록</Typography>
       <Grid
         container
         sx={{
@@ -58,12 +58,12 @@ export default function IdPage(props: { phone: string }) {
             background: 'white',
           }}
         >
-          <h2>{phone.name}</h2>
+          <Typography variant="h2">{phone.name}</Typography>
           <Divider />
           {specs.map((spec) => (
             <Grid container item key={spec.key} sx={{ alignItems: 'center' }}>
               <Grid item xs={4}>
-                <Typography variant="semibold">{spec.key}</Typography>
+                <Typography variant="subtitle1">{spec.key}</Typography>
               </Grid>
               <Grid item xs={8}>
                 <Box

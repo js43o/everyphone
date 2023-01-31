@@ -1,45 +1,66 @@
 import { createTheme } from '@mui/material';
 
-declare module '@mui/material/styles' {
-  interface TypographyVariants {
-    semibold: React.CSSProperties;
-    bold: React.CSSProperties;
-    secondary: React.CSSProperties;
-  }
-
-  // allow configuration using `createTheme`
-  interface TypographyVariantsOptions {
-    semibold?: React.CSSProperties;
-    bold?: React.CSSProperties;
-    secondary?: React.CSSProperties;
-  }
-}
-
-// Update the Typography's variant prop options
-declare module '@mui/material/Typography' {
-  interface TypographyPropsVariantOverrides {
-    semibold: true;
+declare module '@mui/material/Divider' {
+  interface DividerPropsVariantOverrides {
     bold: true;
-    secondary: true;
   }
 }
 
 const theme = createTheme({
+  components: {
+    MuiDivider: {
+      variants: [
+        {
+          props: { variant: 'bold' },
+          style: {
+            background: '#888888',
+          },
+        },
+      ],
+    },
+  },
   typography: {
     fontFamily: ['Noto Sans KR', 'Roboto', 'Bakbak One', 'sans-serif'].join(
       ','
     ),
-    semibold: {
+    h1: {
+      fontSize: '2.25rem',
+      fontWeight: 'bold',
+      margin: '1rem 0',
+    },
+    h2: {
+      fontSize: '2rem',
+      fontWeight: 'bold',
+      margin: '0.75rem 0',
+    },
+    h3: {
+      fontSize: '1.75rem',
+      fontWeight: 500,
+      margin: '0.5rem 0',
+    },
+    h4: {
+      fontSize: '1.5rem',
+      fontWeight: 500,
+      margin: '0.25rem 0',
+    },
+    h5: {
+      fontSize: '1.25rem',
       fontWeight: 500,
     },
-    bold: {
-      fontWeight: 800,
+    h6: {
+      fontSize: '1rem',
+      fontWeight: 500,
     },
-    secondary: {
-      fontSize: 12,
-      color: 'grey',
+    subtitle1: {
+      fontSize: '1.125rem',
+      fontWeight: 500,
+    },
+    subtitle2: {
+      fontSize: '1rem',
+      fontWeight: 500,
     },
   },
+
   breakpoints: {
     values: {
       xs: 0,

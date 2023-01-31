@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import axios from 'axios';
 import queryString from 'query-string';
-import { Pagination, Box, Grid } from '@mui/material';
+import { Pagination, Box, Grid, Typography } from '@mui/material';
 import { phonesState, filterPhoneQueryState } from 'utils/atoms';
 import { Phone } from 'utils/types';
 import getPhones from 'utils/getPhones';
@@ -80,7 +80,7 @@ export default function Index(props: { phones: string; lastPage: string }) {
             gap: 1,
           }}
         >
-          <h1>기기 목록</h1>
+          <Typography variant="h1">기기 목록</Typography>
           <SortingSelector />
         </Box>
         <Grid container spacing={2} alignItems="flex-start">
