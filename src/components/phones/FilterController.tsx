@@ -89,6 +89,7 @@ export default function FilterController() {
             display: 'flex',
             flexGrow: 1,
             gap: 0.5,
+            alignItems: 'center',
             overflowX: 'scroll',
             msOverflowStyle: 'none',
             '::-webkit-scrollbar': {

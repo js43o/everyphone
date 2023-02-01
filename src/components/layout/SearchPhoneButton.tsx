@@ -1,4 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
+import Link from 'next/link';
+import Router from 'next/router';
 import axios from 'axios';
 import {
   Autocomplete,
@@ -19,6 +21,8 @@ export default function SearchPhoneButton() {
   const [options, setOptions] = useState<SearchPhoneResult[]>([]);
 
   const timer = useRef<NodeJS.Timeout>();
+
+  const onClose = () => setOpen(!open);
 
   const onFetchSearching = useCallback(async () => {
     if (!inputValue) {
@@ -43,6 +47,11 @@ export default function SearchPhoneButton() {
     onFetchSearching();
   }, [onFetchSearching]);
 
+  useEffect(() => {
+    if (!value) return;
+    Router.push(`/phones/${encodeURIComponent(value.url)}`);
+  }, [value]);
+
   return (
     <>
       <IconButton
@@ -52,7 +61,7 @@ export default function SearchPhoneButton() {
       >
         <SearchIcon />
       </IconButton>
-      <Drawer anchor="top" open={open} onClose={() => setOpen(!open)}>
+      <Drawer anchor="top" open={open} onClose={onClose}>
         <Box
           sx={{
             display: 'flex',
@@ -76,7 +85,9 @@ export default function SearchPhoneButton() {
             isOptionEqualToValue={(option, value) => option.name === value.name}
             noOptionsText="일치 결과 없음"
             autoHighlight
+            autoComplete
             handleHomeEndKeys
+            blurOnSelect
             renderInput={(params) => (
               <TextField {...params} label="기기 이름 입력" fullWidth />
             )}
@@ -100,15 +111,6 @@ export default function SearchPhoneButton() {
               maxWidth: 320,
             }}
           />
-          {value ? (
-            <IconButton href={`/phones/${encodeURIComponent(value.url)}`}>
-              <SearchIcon color="primary" />
-            </IconButton>
-          ) : (
-            <IconButton disabled>
-              <SearchIcon color="disabled" />
-            </IconButton>
-          )}
         </Box>
       </Drawer>
     </>

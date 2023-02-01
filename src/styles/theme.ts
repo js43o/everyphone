@@ -62,27 +62,27 @@ const theme = createTheme({
       ','
     ),
     h1: {
-      fontSize: '2.25rem',
+      fontSize: '2.125rem',
       fontWeight: 'bold',
       margin: '1rem 0',
     },
     h2: {
-      fontSize: '2rem',
+      fontSize: '1.85rem',
       fontWeight: 'bold',
       margin: '0.75rem 0',
     },
     h3: {
-      fontSize: '1.75rem',
+      fontSize: '1.5rem',
       fontWeight: 500,
       margin: '0.5rem 0',
     },
     h4: {
-      fontSize: '1.5rem',
+      fontSize: '1.3rem',
       fontWeight: 500,
       margin: '0.25rem 0',
     },
     h5: {
-      fontSize: '1.25rem',
+      fontSize: '1.125rem',
       fontWeight: 500,
     },
     h6: {
