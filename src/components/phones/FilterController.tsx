@@ -29,7 +29,7 @@ export default function FilterController() {
     filterPhoneQueryState
   );
   const [localQuery, setLocalQuery] =
-    useState<FilterPhoneQuery>(filterPhoneQuery);
+    useState<Omit<FilterPhoneQuery, 'sortBy'>>(filterPhoneQuery);
   const isMobile = useMediaQuery(useTheme().breakpoints.down('lg'));
 
   const onChangeMultiSelectorQuery = (
@@ -62,7 +62,9 @@ export default function FilterController() {
       [field]: defaultFilterPhoneQuery[field],
     });
 
-  const onApplyQuery = () => setFilterPhoneQuery(localQuery);
+  const onApplyQuery = () => {
+    setFilterPhoneQuery({ ...localQuery, sortBy: filterPhoneQuery.sortBy });
+  };
 
   useEffect(() => {
     if (!isMobile) setOpenController(true);

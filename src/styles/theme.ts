@@ -27,6 +27,23 @@ const paletteColors = {
 const theme = createTheme({
   palette: paletteColors,
   components: {
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          color: paletteColors.paper.contrastText,
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          background: paletteColors.paper.light,
+        },
+        notchedOutline: {
+          borderColor: paletteColors.paper.dark,
+        },
+      },
+    },
     MuiChip: {
       styleOverrides: {
         root: {
@@ -90,11 +107,11 @@ const theme = createTheme({
       fontWeight: 500,
     },
     subtitle1: {
-      fontSize: '1.125rem',
+      fontSize: '1rem',
       fontWeight: 500,
     },
     subtitle2: {
-      fontSize: '1rem',
+      fontSize: '0.85rem',
       fontWeight: 500,
     },
   },

@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import NavBar from './NavBar';
-import Title from 'components/common/Title';
 import { Box, useMediaQuery, useTheme } from '@mui/material';
+import Title from 'components/common/Title';
+import NavBar from './NavBar';
 import NavDrawerButton from './NavDrawerButton';
 import SearchPhoneButton from './SearchPhoneButton';
 

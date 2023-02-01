@@ -22,6 +22,7 @@ export default function RatioImage(props: {
           setRelative(width * (img.naturalHeight / img.naturalWidth))
         }
         priority={priority}
+        crossOrigin="anonymous"
       />
     );
   }

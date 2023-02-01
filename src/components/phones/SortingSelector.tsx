@@ -20,9 +20,6 @@ export default function SortingSelector() {
       value={filterPhoneQuery.sortBy}
       onChange={onChangeSorting}
       size="small"
-      sx={{
-        background: 'white',
-      }}
     >
       <MenuItem value="latest" defaultChecked>
         최근 출시 순
