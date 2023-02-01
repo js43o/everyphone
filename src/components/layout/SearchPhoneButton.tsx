@@ -33,15 +33,19 @@ export default function SearchPhoneButton() {
     if (timer.current) clearTimeout(timer.current);
 
     timer.current = setTimeout(async () => {
-      const response = await axios('/api/searching', {
+      const response = await axios<SearchPhoneResult[]>('/api/searching', {
         params: {
           input: inputValue,
         },
       });
 
-      setOptions(response.data);
+      const filtered = value
+        ? response.data.filter((x) => x.name !== value.name)
+        : response.data;
+
+      setOptions(value ? [value, ...filtered] : response.data);
     }, 200);
-  }, [inputValue]);
+  }, [inputValue, value]);
 
   useEffect(() => {
     onFetchSearching();
