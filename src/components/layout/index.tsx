@@ -9,9 +9,8 @@ export default function Index(props: { children: React.ReactNode }) {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        width: '100%',
         minHeight: '100%',
-        background: '#efefef',
+        bgcolor: 'paper.main',
       }}
       maxWidth={false}
       disableGutters

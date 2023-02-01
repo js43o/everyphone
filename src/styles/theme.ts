@@ -6,14 +6,52 @@ declare module '@mui/material/Divider' {
   }
 }
 
+declare module '@mui/material/styles' {
+  interface Palette {
+    paper: Palette['primary'];
+  }
+  interface PaletteOptions {
+    paper: PaletteOptions['primary'];
+  }
+}
+
+const paletteColors = {
+  paper: {
+    main: '#eceff1',
+    dark: '#cfd8dc',
+    light: '#ffffff',
+    contrastText: '#3e5060',
+  },
+};
+
 const theme = createTheme({
+  palette: paletteColors,
   components: {
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          borderColor: paletteColors.paper.dark,
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderColor: paletteColors.paper.dark,
+        },
+      },
+    },
     MuiDivider: {
+      styleOverrides: {
+        root: {
+          background: paletteColors.paper.dark,
+        },
+      },
       variants: [
         {
           props: { variant: 'bold' },
           style: {
-            background: '#888888',
+            background: paletteColors.paper.contrastText,
           },
         },
       ],
@@ -60,7 +98,6 @@ const theme = createTheme({
       fontWeight: 500,
     },
   },
-
   breakpoints: {
     values: {
       xs: 0,

@@ -7,7 +7,6 @@ export default function Contents(props: { children: React.ReactNode }) {
         display: 'flex',
         flexDirection: 'column',
         flexGrow: 1,
-        width: '100%',
         padding: 2,
       }}
       maxWidth="xl"

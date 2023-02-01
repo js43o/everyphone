@@ -6,7 +6,7 @@ export default function PhoneSpecItem(props: {
 }) {
   const { title, content } = props;
   return (
-    <Grid container component="li">
+    <Grid container>
       <Grid item xs={4}>
         <Typography variant="subtitle1">{title}</Typography>
       </Grid>

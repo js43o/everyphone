@@ -9,7 +9,7 @@ export const LinkBlock = styled(Link)<{ selected: boolean }>`
   border-radius: 10rem;
   font-weight: 500;
   &:hover {
-    background: #efefef;
+    background: ${({ theme }) => theme.palette.paper.main};
   }
   ${({ selected }) =>
     selected &&

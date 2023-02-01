@@ -90,8 +90,6 @@ export default function IdPage(props: { phone: string }) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const phone = await getPhoneByUrl(context.params?.id as string);
 
-  console.log('phone = ', phone);
-
   return {
     props: {
       phone: JSON.stringify(phone || ''),
