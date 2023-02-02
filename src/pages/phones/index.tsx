@@ -77,13 +77,13 @@ export default function Index(props: { phones: string; lastPage: string }) {
             justifyContent: 'space-between',
             alignItems: 'center',
             width: '100%',
-            gap: 1,
+            paddingX: { xs: 2, lg: 0 },
           }}
         >
           <Typography variant="h1">기기 목록</Typography>
           <SortingSelector />
         </Box>
-        <Grid container spacing={2} alignItems="flex-start">
+        <Grid container spacing={2} sx={{ alignItems: 'flex-start' }}>
           <Grid item xs={12} lg={4} xl={3}>
             <FilterController />
           </Grid>
@@ -118,6 +118,7 @@ export default function Index(props: { phones: string; lastPage: string }) {
           count={lastPage}
           page={currentPage}
           onChange={onChangePage}
+          sx={{ padding: 2 }}
         />
       </Box>
     </>

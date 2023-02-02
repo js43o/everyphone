@@ -59,10 +59,10 @@ export type FilterPhoneQuery = {
 
 export const defaultFilterPhoneQuery: FilterPhoneQuery = {
   manufacturer: [],
-  height: [100, 200],
+  height: [120, 180],
   storage: [35, 40],
-  battery: [1000, 8000],
-  weight: [100, 400],
+  battery: [1500, 6000],
+  weight: [100, 300],
   sortBy: 'latest',
 };
 

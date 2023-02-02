@@ -79,12 +79,12 @@ const theme = createTheme({
       ','
     ),
     h1: {
-      fontSize: '2.125rem',
+      fontSize: '2rem',
       fontWeight: 'bold',
       margin: '1rem 0',
     },
     h2: {
-      fontSize: '1.85rem',
+      fontSize: '1.75rem',
       fontWeight: 'bold',
       margin: '0.75rem 0',
     },
@@ -94,7 +94,7 @@ const theme = createTheme({
       margin: '0.5rem 0',
     },
     h4: {
-      fontSize: '1.3rem',
+      fontSize: '1.25rem',
       fontWeight: 500,
       margin: '0.25rem 0',
     },

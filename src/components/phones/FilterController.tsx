@@ -78,8 +78,6 @@ export default function FilterController() {
             xs: 'flex',
             lg: 'none',
           },
-          flexGrow: 1,
-          marginBottom: 1,
         }}
       >
         <IconButton onClick={() => setOpenController(!openController)}>

@@ -11,10 +11,12 @@ const GlobalStyles = () => {
           font-family: 'Noto Sans KR', sans-serif;
           width: 100%;
           height: 100%;
+          overflow-x: hidden;
         }
         body {
           width: 100%;
           height: 100%;
+          overflow-x: hidden;
         }
         #__next {
           width: 100%;
