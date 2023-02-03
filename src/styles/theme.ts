@@ -46,8 +46,9 @@ const theme = createTheme({
     },
     MuiChip: {
       styleOverrides: {
-        root: {
+        filled: {
           borderColor: paletteColors.paper.dark,
+          background: paletteColors.paper.main,
         },
       },
     },
@@ -61,7 +62,13 @@ const theme = createTheme({
     MuiDivider: {
       styleOverrides: {
         root: {
-          background: paletteColors.paper.dark,
+          '::before': {
+            borderColor: paletteColors.paper.dark,
+          },
+          '::after': {
+            borderColor: paletteColors.paper.dark,
+          },
+          borderColor: paletteColors.paper.dark,
         },
       },
       variants: [

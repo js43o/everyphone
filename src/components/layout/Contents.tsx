@@ -7,10 +7,11 @@ export default function Contents(props: { children: React.ReactNode }) {
         display: 'flex',
         flexDirection: 'column',
         flexGrow: 1,
-        padding: {
+        px: {
           sx: 0,
           lg: 2,
         },
+        py: 2,
       }}
       maxWidth="xl"
       disableGutters

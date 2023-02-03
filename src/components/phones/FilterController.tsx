@@ -80,10 +80,15 @@ export default function FilterController() {
           },
         }}
       >
-        <IconButton onClick={() => setOpenController(!openController)}>
+        <Button
+          onClick={() => setOpenController(!openController)}
+          sx={{
+            px: 2,
+          }}
+        >
           <Typography variant="subtitle1">필터</Typography>
           {openController ? <ExpandLess /> : <ExpandMore />}
-        </IconButton>
+        </Button>
         <Box
           sx={{
             display: 'flex',

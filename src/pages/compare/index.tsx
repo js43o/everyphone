@@ -2,7 +2,6 @@ import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import { Box, Grid, Typography } from '@mui/material';
-import RatioImage from 'components/common/RatioImage';
 import SelectingPhoneCard from 'components/compare/SelectingPhoneCard';
 import { Phone } from 'utils/types';
 import getPhoneByUrl from 'utils/getPhoneByUrl';
