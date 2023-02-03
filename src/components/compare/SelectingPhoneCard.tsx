@@ -11,7 +11,7 @@ const PhoneImage = styled.img`
   object-fit: contain;
 `;
 
-export default function SelectedPhoneImage(props: { phone: Phone | null }) {
+export default function SelectingPhoneImage(props: { phone?: Phone }) {
   const { phone } = props;
 
   return (

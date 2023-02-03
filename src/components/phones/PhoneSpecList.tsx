@@ -152,7 +152,7 @@ export default function PhoneSpecList(props: { phone: Phone }) {
           {design.folded && (
             <PhoneSpecItem
               title="크기 (접었을 때)"
-              content={`${design.demension[0]} × ${design.demension[1]} × ${design.demension[2]} mm`}
+              content={`${design.folded[0]} × ${design.folded[1]} × ${design.folded[2]} mm`}
             />
           )}
           <PhoneSpecItem title="무게" content={`${design.weight} g`} />

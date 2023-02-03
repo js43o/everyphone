@@ -6,11 +6,12 @@ import RatioImage from 'components/common/RatioImage';
 import SelectingPhoneCard from 'components/compare/SelectingPhoneCard';
 import { Phone } from 'utils/types';
 import getPhoneByUrl from 'utils/getPhoneByUrl';
+import SpecComparisonList from 'components/compare/SpecComparisonList';
 
 export default function Index(props: { phones: string }) {
   const phones: [Phone, Phone] = JSON.parse(props.phones);
 
-  const [devices, setDevices] = useState<[Phone | null, Phone | null]>(phones);
+  const [devices, setDevices] = useState<[Phone?, Phone?]>(phones);
 
   return (
     <>
@@ -65,9 +66,14 @@ export default function Index(props: { phones: string }) {
             <Box
               sx={{
                 display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 padding: 1,
+                width: '2.5rem',
+                height: '2.5rem',
                 borderRadius: '100%',
                 bgcolor: 'paper.dark',
+                color: 'paper.light',
                 fontFamily: 'Bakbak One',
                 fontSize: '1.25rem',
               }}
@@ -79,6 +85,7 @@ export default function Index(props: { phones: string }) {
             <SelectingPhoneCard phone={devices[1]} />
           </Grid>
         </Grid>
+        <SpecComparisonList device1={devices[0]} device2={devices[1]} />
       </Box>
     </>
   );
