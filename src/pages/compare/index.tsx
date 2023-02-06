@@ -93,7 +93,7 @@ export default function Index(props: { phones: string }) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // dummy datas
   const phone1 = await getPhoneByUrl('samsung-galaxy-s22');
-  const phone2 = await getPhoneByUrl('apple-iphone-14-pro-max');
+  const phone2 = await getPhoneByUrl('apple-iphone-14');
 
   return {
     props: {

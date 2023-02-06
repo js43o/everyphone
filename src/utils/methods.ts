@@ -30,6 +30,15 @@ export const convertToRangeFormat = (field: string, values: number[]) => {
     .join(' - ');
 };
 
+export const getRearCameraString = (camera?: Phone['camera']) => {
+  if (!camera) return '';
+
+  return Object.entries(camera)
+    .filter(([key, value]) => key !== 'rear' && key !== 'front')
+    .map(([key, value]) => `${value} MP`)
+    .join('+');
+};
+
 export const getSpecsOfPhone = (phone: Phone) => {
   const specs: Specs = [
     { key: '제조사', value: [phone.manufacturer] },
@@ -73,4 +82,75 @@ export const getSpecsOfPhone = (phone: Phone) => {
   ];
 
   return specs;
+};
+
+export const getSuperiorNumber = (
+  title: string,
+  content1?: string | number,
+  content2?: string | number
+) => {
+  if (!content1 || !content2) return 0;
+
+  if (
+    [
+      '출시일자',
+      '화면 크기',
+      '해상도',
+      '최대 주사율',
+      'RAM',
+      '저장용량',
+      '배터리',
+      '카메라',
+      '크기',
+    ].includes(title)
+  ) {
+    if (content1 > content2) return 1;
+    if (content1 < content2) return 2;
+  }
+  if (['가격', '무게'].includes(title)) {
+    if (content1 < content2) return 1;
+    if (content1 > content2) return 2;
+  }
+  if (
+    title === '카메라 종류' &&
+    typeof content1 === 'string' &&
+    typeof content2 === 'string'
+  ) {
+    const cameras = [
+      '싱글 카메라',
+      '듀얼 카메라',
+      '트리플 카메라',
+      '쿼드 카메라',
+      '펜타 카메라',
+    ];
+    if (cameras.indexOf(content1) > cameras.indexOf(content2)) return 1;
+    if (cameras.indexOf(content1) < cameras.indexOf(content2)) return 2;
+  }
+
+  return 0;
+};
+
+export const getSuperiorNumberOfCamera = (
+  content1?: Phone['camera'],
+  content2?: Phone['camera']
+) => {
+  if (!content1 || !content2) return 0;
+
+  const filtered1 = Object.entries(content1)
+    .filter(([key, value]) => key !== 'rear' && key !== 'front')
+    .map(([key, value]) => Number(value));
+  const filtered2 = Object.entries(content2)
+    .filter(([key, value]) => key !== 'rear' && key !== 'front')
+    .map(([key, value]) => Number(value));
+
+  if (Math.max(...filtered1) > Math.max(...filtered2)) return 1;
+  if (Math.max(...filtered1) < Math.max(...filtered2)) return 2;
+
+  const sum1 = filtered1.reduce((acc, cur) => acc + cur);
+  const sum2 = filtered2.reduce((acc, cur) => acc + cur);
+
+  if (sum1 > sum2) return 1;
+  if (sum1 < sum2) return 2;
+
+  return 0;
 };

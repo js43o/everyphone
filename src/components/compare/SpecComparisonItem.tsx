@@ -20,8 +20,11 @@ const TitleBlock = (props: { title: string }) => (
   </Grid>
 );
 
-const SpecComparisonEachItem = (props: { content?: string | string[] }) => {
-  const { content } = props;
+const SpecComparisonEachItem = (props: {
+  content?: string | string[];
+  isSuperior?: boolean;
+}) => {
+  const { content, isSuperior } = props;
 
   if (!content)
     return (
@@ -38,15 +41,25 @@ const SpecComparisonEachItem = (props: { content?: string | string[] }) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        padding: 1,
+        borderRadius: 2,
+        background: isSuperior ? '#a2fffa' : '',
         textAlign: 'center',
       }}
     >
       {typeof content === 'string' ? (
         <Typography variant="body2">{content}</Typography>
       ) : (
-        <List disablePadding>
+        <List disablePadding sx={{}}>
           {content.map((str) => (
-            <ListItem key={str} disablePadding>
+            <ListItem
+              key={str}
+              disablePadding
+              sx={{
+                justifyContent: 'center',
+                textAlign: 'center',
+              }}
+            >
               <Typography variant="body2">{str}</Typography>
             </ListItem>
           ))}
@@ -60,8 +73,9 @@ export default function SpecComparisonItem(props: {
   title: string;
   content1?: string | string[];
   content2?: string | string[];
+  superior?: number;
 }) {
-  const { title, content1, content2 } = props;
+  const { title, content1, content2, superior } = props;
 
   return (
     <Grid
@@ -70,9 +84,9 @@ export default function SpecComparisonItem(props: {
         py: 1,
       }}
     >
-      <SpecComparisonEachItem content={content1} />
+      <SpecComparisonEachItem content={content1} isSuperior={superior === 1} />
       <TitleBlock title={title} />
-      <SpecComparisonEachItem content={content2} />
+      <SpecComparisonEachItem content={content2} isSuperior={superior === 2} />
     </Grid>
   );
 }
