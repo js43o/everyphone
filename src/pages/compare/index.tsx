@@ -1,11 +1,15 @@
 import Head from 'next/head';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { GetServerSideProps } from 'next';
-import { Box, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Grid,
+  Typography,
+} from '@mui/material';
 import SelectingPhoneCard from 'components/compare/SelectingPhoneCard';
+import SpecComparisonList from 'components/compare/SpecComparisonList';
 import { Phone } from 'utils/types';
 import getPhoneByUrl from 'utils/getPhoneByUrl';
-import SpecComparisonList from 'components/compare/SpecComparisonList';
 
 export default function Index(props: { phones: string }) {
   const phones: [Phone, Phone] = JSON.parse(props.phones);

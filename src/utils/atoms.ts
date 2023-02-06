@@ -11,3 +11,8 @@ export const filterPhoneQueryState = atom<FilterPhoneQuery>({
   key: `filterPhoneQueryState/${v1()}`,
   default: defaultFilterPhoneQuery,
 });
+
+export const specHighlightState = atom<boolean>({
+  key: `specHighlightState/${v1()}`,
+  default: true,
+});

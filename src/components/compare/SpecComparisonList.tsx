@@ -1,14 +1,33 @@
-import { Box, Divider, Typography, Grid, Chip } from '@mui/material';
-import { getSuperiorNumber, getSuperiorNumberOfCamera } from 'utils/methods';
+import { useRecoilState } from 'recoil';
+import {
+  Box,
+  Divider,
+  Typography,
+  Grid,
+  Chip,
+  FormControlLabel,
+  FormGroup,
+  Switch,
+} from '@mui/material';
+import {
+  getSuperiorNumber,
+  getSuperiorNumberOfCamera,
+  getRearCameraString,
+} from 'utils/methods';
 import { Phone } from 'utils/types';
+import { specHighlightState } from 'utils/atoms';
 import SpecComparisonItem from './SpecComparisonItem';
-import { getRearCameraString } from './../../utils/methods';
 
 export default function SpecComparisonList(props: {
   device1?: Phone;
   device2?: Phone;
 }) {
+  const [specHighlight, setSpecHighlight] = useRecoilState(specHighlightState);
   const { device1, device2 } = props;
+
+  const toggleHighlight = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSpecHighlight(event.target.checked);
+  };
 
   return (
     <Box
@@ -26,9 +45,23 @@ export default function SpecComparisonList(props: {
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
         <Typography variant="h2">사양 비교</Typography>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Switch
+                value={specHighlight}
+                checked={specHighlight}
+                onChange={toggleHighlight}
+              />
+            }
+            label="우위 표시"
+            labelPlacement="start"
+          />
+        </FormGroup>
       </Box>
 
       <Divider>

@@ -1,4 +1,6 @@
 import { Grid, Box, Typography, List, ListItem } from '@mui/material';
+import { useRecoilValue } from 'recoil';
+import { specHighlightState } from 'utils/atoms';
 
 const TitleBlock = (props: { title: string }) => (
   <Grid
@@ -24,6 +26,7 @@ const SpecComparisonEachItem = (props: {
   content?: string | string[];
   isSuperior?: boolean;
 }) => {
+  const specHighlight = useRecoilValue(specHighlightState);
   const { content, isSuperior } = props;
 
   if (!content)
@@ -43,8 +46,9 @@ const SpecComparisonEachItem = (props: {
         alignItems: 'center',
         padding: 1,
         borderRadius: 2,
-        background: isSuperior ? '#a2fffa' : '',
+        background: specHighlight && isSuperior ? '#a2fffa' : 'white',
         textAlign: 'center',
+        transition: 'background 0.2s',
       }}
     >
       {typeof content === 'string' ? (
