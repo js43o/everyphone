@@ -1,6 +1,6 @@
-import connectMongo from 'utils/connectMongo';
+import connectMongo from 'utils/api/connectMongo';
 import { SearchPhoneResult } from 'utils/types';
-import PhoneModel from 'models/Phone';
+import PhoneModel from 'utils/models/Phone';
 
 export default async function searchPhonesByName(
   input: string

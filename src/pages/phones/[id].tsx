@@ -1,10 +1,10 @@
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 import { Box, Grid, Divider, Typography, Chip } from '@mui/material';
-import getPhoneByUrl from 'utils/getPhoneByUrl';
+import getPhoneByUrl from 'utils/api/getPhoneByUrl';
 import { Phone } from 'utils/types';
 import { getSpecsOfPhone } from 'utils/methods';
 import RatioImage from 'components/common/RatioImage';
-import PhoneSpecList from 'components/phones/PhoneSpecList';
+import PhoneSpecList from 'components/phones/SpecSheet';
 
 export default function IdPage(props: { phone: string }) {
   const phone: Phone = JSON.parse(props.phone);

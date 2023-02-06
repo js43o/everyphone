@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import {styled} from '@mui/system';
+import { styled } from '@mui/system';
 import { Box, Drawer, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { LinkBlock } from './NavBar';
@@ -46,8 +46,8 @@ export default function NavDrawerButton() {
             기기 목록
           </WideLinkBlock>
           <WideLinkBlock
-            href="/compare"
-            selected={router.asPath.startsWith('/compare')}
+            href="/comparison"
+            selected={router.asPath.startsWith('/comparison')}
           >
             기기 비교
           </WideLinkBlock>

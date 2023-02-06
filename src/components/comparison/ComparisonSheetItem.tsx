@@ -46,9 +46,10 @@ const SpecComparisonEachItem = (props: {
         alignItems: 'center',
         padding: 1,
         borderRadius: 2,
-        background: specHighlight && isSuperior ? '#a2fffa' : 'white',
+        bgcolor: specHighlight && isSuperior ? 'primary.main' : '',
+        color: specHighlight && isSuperior ? 'primary.contrastText' : '',
         textAlign: 'center',
-        transition: 'background 0.2s',
+        transition: 'background 0.2s, color 0.2s',
       }}
     >
       {typeof content === 'string' ? (

@@ -1,6 +1,6 @@
 import { Grid, Typography, Box, Divider, List, ListItem } from '@mui/material';
 import { Phone } from 'utils/types';
-import PhoneSpecItem from './PhoneSpecItem';
+import PhoneSpecItem from './SpecSheetItem';
 
 export default function PhoneSpecList(props: { phone: Phone }) {
   const {

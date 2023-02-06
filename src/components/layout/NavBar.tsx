@@ -42,8 +42,8 @@ export default function NavBar() {
         기기 목록
       </LinkBlock>
       <LinkBlock
-        href="/compare"
-        selected={router.asPath.startsWith('/compare')}
+        href="/comparison"
+        selected={router.asPath.startsWith('/comparison')}
       >
         기기 비교
       </LinkBlock>

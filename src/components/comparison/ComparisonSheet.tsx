@@ -16,7 +16,7 @@ import {
 } from 'utils/methods';
 import { Phone } from 'utils/types';
 import { specHighlightState } from 'utils/atoms';
-import SpecComparisonItem from './SpecComparisonItem';
+import SpecComparisonItem from './ComparisonSheetItem';
 
 export default function SpecComparisonList(props: {
   device1?: Phone;
@@ -58,7 +58,7 @@ export default function SpecComparisonList(props: {
                 onChange={toggleHighlight}
               />
             }
-            label="우위 표시"
+            label="우위 강조"
             labelPlacement="start"
           />
         </FormGroup>
