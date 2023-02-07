@@ -1,6 +1,6 @@
-import connectMongo from 'utils/api/connectMongo';
+import connectMongo from 'utils/db/connectMongo';
 import { Phone, FilterPhoneQuery } from 'utils/types';
-import PhoneModel from 'utils/models/Phone';
+import PhoneModel from 'utils/db/models/Phone';
 import { ITEM_PER_PAGE, SORT_BY_QUERY } from '../constants';
 
 export default async function getPhones(props: {

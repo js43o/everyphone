@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
-import getPhones from 'utils/api/getPhones';
+import getPhones from 'utils/db/getPhones';
 import { MANUFACTURER } from 'utils/constants';
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>();

@@ -7,7 +7,7 @@ import queryString from 'query-string';
 import { Pagination, Box, Grid, Typography } from '@mui/material';
 import { phonesState, filterPhoneQueryState } from 'utils/atoms';
 import { Phone } from 'utils/types';
-import getPhones from 'utils/api/getPhones';
+import getPhones from 'utils/db/getPhones';
 import PhoneCard from 'components/phones/PhoneCard';
 import FilterController from 'components/phones/FilterController';
 import NoResult from 'components/common/NoResult';

@@ -1,6 +1,6 @@
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 import { Box, Grid, Divider, Typography, Chip } from '@mui/material';
-import getPhoneByUrl from 'utils/api/getPhoneByUrl';
+import getPhoneByUrl from 'utils/db/getPhoneByUrl';
 import { Phone } from 'utils/types';
 import { getSpecsOfPhone } from 'utils/methods';
 import RatioImage from 'components/common/RatioImage';
