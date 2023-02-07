@@ -69,3 +69,8 @@ export const defaultFilterPhoneQuery: FilterPhoneQuery = {
 export type Specs = { key: string; value: string[] }[];
 
 export type SearchPhoneResult = Pick<Phone, 'name' | 'manufacturer' | 'url'>;
+
+export type SearchingMode = {
+  opened: boolean;
+  mode: 'phones' | 'comparison_device1' | 'comparison_device2';
+};

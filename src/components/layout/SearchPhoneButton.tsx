@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
-import Link from 'next/link';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import Router from 'next/router';
 import axios from 'axios';
 import {
@@ -12,17 +12,36 @@ import {
   ListItem,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { SearchPhoneResult } from 'utils/types';
+import { Phone, SearchPhoneResult } from 'utils/types';
+import { searchingModeState, comparisonDevicesState } from 'utils/atoms';
 
 export default function SearchPhoneButton() {
-  const [open, setOpen] = useState(false);
+  const [searchingMode, setSearchingMode] = useRecoilState(searchingModeState);
+  const [comparisonDevice, setComparisonDevices] = useRecoilState(
+    comparisonDevicesState
+  );
   const [inputValue, setInputValue] = useState('');
   const [value, setValue] = useState<SearchPhoneResult | null>(null);
   const [options, setOptions] = useState<SearchPhoneResult[]>([]);
 
   const timer = useRef<NodeJS.Timeout>();
 
-  const onClose = () => setOpen(!open);
+  const onOpenSearching = () =>
+    setSearchingMode({
+      opened: true,
+      mode: 'phones',
+    });
+
+  const onCloseSearching = () =>
+    setSearchingMode({
+      ...searchingMode,
+      opened: false,
+    });
+
+  const resetInput = () => {
+    setValue(null);
+    setInputValue('');
+  };
 
   const onFetchSearching = useCallback(async () => {
     if (!inputValue) {
@@ -35,7 +54,7 @@ export default function SearchPhoneButton() {
     timer.current = setTimeout(async () => {
       const response = await axios<SearchPhoneResult[]>('/api/searching', {
         params: {
-          input: inputValue,
+          name: inputValue,
         },
       });
 
@@ -47,25 +66,64 @@ export default function SearchPhoneButton() {
     }, 200);
   }, [inputValue, value]);
 
+  const onSelectComparisonDevice = useCallback(
+    async (name: string, slot: 1 | 2) => {
+      if (!name) return;
+
+      const response = await axios<Phone>('/api/phone', {
+        params: {
+          name,
+        },
+      });
+      const phone = response.data;
+
+      console.log(slot, phone);
+
+      if (slot === 1) {
+        setComparisonDevices([phone, comparisonDevice[1]]);
+        return;
+      }
+      setComparisonDevices([comparisonDevice[0], phone]);
+    },
+    [comparisonDevice, setComparisonDevices]
+  );
+
   useEffect(() => {
     onFetchSearching();
   }, [onFetchSearching]);
 
   useEffect(() => {
     if (!value) return;
-    Router.push(`/phones/${encodeURIComponent(value.url)}`);
-  }, [value]);
+    switch (searchingMode.mode) {
+      case 'phones':
+        Router.push(`/phones/${encodeURIComponent(value.url)}`);
+        break;
+      case 'comparison_device1':
+        onSelectComparisonDevice(value.name, 1);
+        break;
+      case 'comparison_device2':
+        onSelectComparisonDevice(value.name, 2);
+        break;
+      default:
+        break;
+    }
+    resetInput();
+  }, [value, searchingMode.mode, onSelectComparisonDevice]);
 
   return (
     <>
       <IconButton
         aria-label="search"
-        onClick={() => setOpen(true)}
+        onClick={onOpenSearching}
         sx={{ width: 48, height: 48 }}
       >
         <SearchIcon />
       </IconButton>
-      <Drawer anchor="top" open={open} onClose={onClose}>
+      <Drawer
+        anchor="top"
+        open={searchingMode.opened}
+        onClose={onCloseSearching}
+      >
         <Box
           sx={{
             display: 'flex',
@@ -81,9 +139,7 @@ export default function SearchPhoneButton() {
             inputValue={inputValue}
             onInputChange={(event, newValue) => setInputValue(newValue)}
             value={value}
-            onChange={(event, newValue) => {
-              setValue(newValue);
-            }}
+            onChange={(event, newValue) => setValue(newValue)}
             filterOptions={(x) => x}
             getOptionLabel={(option) => option.name}
             isOptionEqualToValue={(option, value) => option.name === value.name}

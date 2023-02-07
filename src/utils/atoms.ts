@@ -1,6 +1,11 @@
 import { atom } from 'recoil';
-import { defaultFilterPhoneQuery, Phone, FilterPhoneQuery } from 'utils/types';
 import { v1 } from 'uuid';
+import {
+  defaultFilterPhoneQuery,
+  Phone,
+  FilterPhoneQuery,
+  SearchingMode,
+} from 'utils/types';
 
 export const phonesState = atom<Phone[]>({
   key: `phonesState/${v1()}`,
@@ -15,4 +20,17 @@ export const filterPhoneQueryState = atom<FilterPhoneQuery>({
 export const specHighlightState = atom<boolean>({
   key: `specHighlightState/${v1()}`,
   default: true,
+});
+
+export const searchingModeState = atom<SearchingMode>({
+  key: `searchingModeState/${v1()}`,
+  default: {
+    opened: false,
+    mode: 'phones',
+  },
+});
+
+export const comparisonDevicesState = atom<[Phone?, Phone?]>({
+  key: `comparisonDevices/${v1()}`,
+  default: [undefined, undefined],
 });

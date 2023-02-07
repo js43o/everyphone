@@ -77,8 +77,8 @@ export default function SpecComparisonList(props: {
       >
         <SpecComparisonItem
           title="이름"
-          content1={`${device1?.name} / ${device1?.korName}`}
-          content2={`${device2?.name} / ${device2?.korName}`}
+          content1={device1 ? `${device1.name} / ${device1.korName}` : ''}
+          content2={device2 ? `${device2.name} / ${device2.korName}` : ''}
         />
         <SpecComparisonItem
           title="제조사"
@@ -123,8 +123,8 @@ export default function SpecComparisonList(props: {
       >
         <SpecComparisonItem
           title="크기"
-          content1={`${device1?.display.size} 인치`}
-          content2={`${device2?.display.size} 인치`}
+          content1={device1 ? `${device1?.display.size} 인치` : ''}
+          content2={device2 ? `${device2?.display.size} 인치` : ''}
           superior={getSuperiorNumber(
             '화면 크기',
             device1?.display.size,
@@ -133,8 +133,16 @@ export default function SpecComparisonList(props: {
         />
         <SpecComparisonItem
           title="해상도"
-          content1={`${device1?.display.resolution.pixel} 픽셀 (${device1?.display.resolution.ppi} ppi)`}
-          content2={`${device2?.display.resolution.pixel} 픽셀 (${device2?.display.resolution.ppi} ppi)`}
+          content1={
+            device1
+              ? `${device1?.display.resolution.pixel} 픽셀 (${device1?.display.resolution.ppi} ppi)`
+              : ''
+          }
+          content2={
+            device2
+              ? `${device2?.display.resolution.pixel} 픽셀 (${device2?.display.resolution.ppi} ppi)`
+              : ''
+          }
           superior={getSuperiorNumber(
             '해상도',
             device1?.display.resolution.ppi,
@@ -153,8 +161,8 @@ export default function SpecComparisonList(props: {
         />
         <SpecComparisonItem
           title="최대 주사율"
-          content1={`${device1?.display.refreshRate} Hz`}
-          content2={`${device2?.display.refreshRate} Hz`}
+          content1={device1 ? `${device1?.display.refreshRate} Hz` : ''}
+          content2={device2 ? `${device2?.display.refreshRate} Hz` : ''}
           superior={getSuperiorNumber(
             '최대 주사율',
             device1?.display.refreshRate,
@@ -243,8 +251,8 @@ export default function SpecComparisonList(props: {
         />
         <SpecComparisonItem
           title="RAM"
-          content1={`${device1?.hardware.ram} GB`}
-          content2={`${device2?.hardware.ram} GB`}
+          content1={device1 ? `${device1?.hardware.ram} GB` : ''}
+          content2={device2 ? `${device2?.hardware.ram} GB` : ''}
           superior={getSuperiorNumber(
             'RAM',
             device1?.hardware.ram.slice(-1)[0],
@@ -272,8 +280,8 @@ export default function SpecComparisonList(props: {
         />
         <SpecComparisonItem
           title="배터리"
-          content1={`${device1?.hardware.battery} mAh`}
-          content2={`${device2?.hardware.battery} mAh`}
+          content1={device1 ? `${device1?.hardware.battery} mAh` : ''}
+          content2={device2 ? `${device2?.hardware.battery} mAh` : ''}
           superior={getSuperiorNumber(
             '배터리',
             device1?.hardware.battery,
@@ -311,10 +319,18 @@ export default function SpecComparisonList(props: {
         />
         <SpecComparisonItem
           title="전면 카메라"
-          content1={`
-          ${device1?.camera.front} MP`}
-          content2={`
-          ${device2?.camera.front} MP`}
+          content1={
+            device1
+              ? `
+          ${device1?.camera.front} MP`
+              : ''
+          }
+          content2={
+            device2
+              ? `
+          ${device2?.camera.front} MP`
+              : ''
+          }
           superior={getSuperiorNumber(
             '카메라',
             device1?.camera.front,
@@ -336,8 +352,16 @@ export default function SpecComparisonList(props: {
       >
         <SpecComparisonItem
           title="크기"
-          content1={`${device1?.design.demension[0]} × ${device1?.design.demension[1]} × ${device1?.design.demension[2]} mm`}
-          content2={`${device2?.design.demension[0]} × ${device2?.design.demension[1]} × ${device2?.design.demension[2]} mm`}
+          content1={
+            device1
+              ? `${device1?.design.demension[0]} × ${device1?.design.demension[1]} × ${device1?.design.demension[2]} mm`
+              : ''
+          }
+          content2={
+            device2
+              ? `${device2?.design.demension[0]} × ${device2?.design.demension[1]} × ${device2?.design.demension[2]} mm`
+              : ''
+          }
           superior={getSuperiorNumber(
             '크기',
             device1?.design.demension[0],
@@ -360,8 +384,8 @@ export default function SpecComparisonList(props: {
         )}
         <SpecComparisonItem
           title="무게"
-          content1={`${device1?.design.weight} g`}
-          content2={`${device2?.design.weight} g`}
+          content1={device1 ? `${device1?.design.weight} g` : ''}
+          content2={device2 ? `${device2?.design.weight} g` : ''}
           superior={getSuperiorNumber(
             '무게',
             device1?.design.weight,

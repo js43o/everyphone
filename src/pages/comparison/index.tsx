@@ -1,16 +1,12 @@
 import Head from 'next/head';
-import { useState } from 'react';
-import { GetServerSideProps } from 'next';
+import { useRecoilValue } from 'recoil';
 import { Box, Grid, Typography } from '@mui/material';
-import SelectingPhoneCard from 'components/comparison/SelectingPhone';
+import SelectingPhone from 'components/comparison/SelectingPhone';
 import SpecComparisonList from 'components/comparison/ComparisonSheet';
-import { Phone } from 'utils/types';
-import getPhoneByUrl from 'utils/api/getPhoneByUrl';
+import { comparisonDevicesState } from 'utils/atoms';
 
-export default function Index(props: { phones: string }) {
-  const phones: [Phone, Phone] = JSON.parse(props.phones);
-
-  const [devices, setDevices] = useState<[Phone?, Phone?]>(phones);
+export default function Index() {
+  const [device1, device2] = useRecoilValue(comparisonDevicesState);
 
   return (
     <>
@@ -43,14 +39,16 @@ export default function Index(props: { phones: string }) {
         <Grid
           container
           sx={{
-            textAlign: 'center',
+            display: 'flex',
+            alignItems: 'center',
             padding: 2,
             borderRadius: 2,
             bgcolor: 'paper.light',
+            textAlign: 'center',
           }}
         >
           <Grid item xs={5}>
-            <SelectingPhoneCard phone={devices[0]} />
+            <SelectingPhone phone={device1} slot={1} />
           </Grid>
           <Grid
             item
@@ -81,23 +79,11 @@ export default function Index(props: { phones: string }) {
             </Box>
           </Grid>
           <Grid item xs={5}>
-            <SelectingPhoneCard phone={devices[1]} />
+            <SelectingPhone phone={device2} slot={2} />
           </Grid>
         </Grid>
-        <SpecComparisonList device1={devices[0]} device2={devices[1]} />
+        <SpecComparisonList device1={device1} device2={device2} />
       </Box>
     </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  // dummy datas
-  const phone1 = await getPhoneByUrl('samsung-galaxy-s22');
-  const phone2 = await getPhoneByUrl('apple-iphone-14');
-
-  return {
-    props: {
-      phones: JSON.stringify([phone1, phone2]),
-    },
-  };
-};

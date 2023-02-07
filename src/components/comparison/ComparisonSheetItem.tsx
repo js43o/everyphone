@@ -31,7 +31,13 @@ const SpecComparisonEachItem = (props: {
 
   if (!content)
     return (
-      <Grid item xs={4.5}>
+      <Grid
+        item
+        xs={4.5}
+        sx={{
+          textAlign: 'center',
+        }}
+      >
         -
       </Grid>
     );

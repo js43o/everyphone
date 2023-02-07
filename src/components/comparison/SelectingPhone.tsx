@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
-import { Box, IconButton } from '@mui/material';
-import { Phone } from 'utils/types';
+import { useSetRecoilState } from 'recoil';
+import { Box, IconButton, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import Typography from '@mui/material/Typography';
+import { Phone } from 'utils/types';
+import { searchingModeState } from 'utils/atoms';
 
 const PhoneImage = styled.img`
   width: 100%;
@@ -11,8 +12,16 @@ const PhoneImage = styled.img`
   object-fit: contain;
 `;
 
-export default function SelectingPhoneImage(props: { phone?: Phone }) {
-  const { phone } = props;
+export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
+  const { phone, slot } = props;
+  const setSearchingMode = useSetRecoilState(searchingModeState);
+
+  const onOpenSearcing = () => {
+    setSearchingMode({
+      opened: true,
+      mode: `comparison_device${slot}`,
+    });
+  };
 
   return (
     <Box
@@ -34,9 +43,10 @@ export default function SelectingPhoneImage(props: { phone?: Phone }) {
           sx={{
             display: 'flex',
             flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
-          <IconButton>
+          <IconButton onClick={onOpenSearcing}>
             <AddCircleOutlineIcon fontSize="large" />
           </IconButton>
           기기 추가
