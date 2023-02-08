@@ -1,4 +1,4 @@
-import { DATA_UNIT, UNIT_OF_SPEC } from 'utils/constants';
+import { DATA_UNIT, CAMERA_TYPE, UNIT_OF_SPEC } from 'utils/constants';
 import { Specs } from './types';
 import { Phone } from 'utils/types';
 
@@ -116,15 +116,8 @@ export const getSuperiorNumber = (
     typeof content1 === 'string' &&
     typeof content2 === 'string'
   ) {
-    const cameras = [
-      '싱글 카메라',
-      '듀얼 카메라',
-      '트리플 카메라',
-      '쿼드 카메라',
-      '펜타 카메라',
-    ];
-    if (cameras.indexOf(content1) > cameras.indexOf(content2)) return 1;
-    if (cameras.indexOf(content1) < cameras.indexOf(content2)) return 2;
+    if (CAMERA_TYPE.indexOf(content1) > CAMERA_TYPE.indexOf(content2)) return 1;
+    if (CAMERA_TYPE.indexOf(content1) < CAMERA_TYPE.indexOf(content2)) return 2;
   }
 
   return 0;

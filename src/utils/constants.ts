@@ -14,3 +14,10 @@ export const SORT_BY_QUERY = new Map<string, { [key: string]: SortOrder }>([
   ['high-price', { 'price.0.value': -1 }],
   ['low-price', { 'price.0.value': 1 }],
 ]);
+export const CAMERA_TYPE = [
+  '싱글 카메라',
+  '듀얼 카메라',
+  '트리플 카메라',
+  '쿼드 카메라',
+  '펜타 카메라',
+];

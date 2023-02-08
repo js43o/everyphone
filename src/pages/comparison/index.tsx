@@ -2,8 +2,9 @@ import Head from 'next/head';
 import { useRecoilValue } from 'recoil';
 import { Box, Grid, Typography } from '@mui/material';
 import SelectingPhone from 'components/comparison/SelectingPhone';
-import SpecComparisonList from 'components/comparison/ComparisonSheet';
+import ComparisonSheet from 'components/comparison/ComparisonSheet';
 import { comparisonDevicesState } from 'utils/atoms';
+import SizeComparison from 'components/comparison/SizeComparison';
 
 export default function Index() {
   const [device1, device2] = useRecoilValue(comparisonDevicesState);
@@ -81,7 +82,8 @@ export default function Index() {
             <SelectingPhone phone={device2} slot={2} />
           </Grid>
         </Grid>
-        <SpecComparisonList device1={device1} device2={device2} />
+        <ComparisonSheet device1={device1} device2={device2} />
+        <SizeComparison device1={device1} device2={device2} />
       </Box>
     </>
   );
