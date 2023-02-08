@@ -8,18 +8,21 @@ declare module '@mui/material/Divider' {
 
 declare module '@mui/material/styles' {
   interface Palette {
-    paper: Palette['primary'];
+    bluegrey: Palette['primary'];
   }
   interface PaletteOptions {
-    paper: PaletteOptions['primary'];
+    bluegrey: PaletteOptions['primary'];
   }
 }
 
 const paletteColors = {
-  paper: {
+  bluegrey: {
     main: '#eceff1',
-    dark: '#cfd8dc',
-    light: '#ffffff',
+    dark: '#d3dade',
+    darker: '#b6c1c9',
+    darkest: '#98a8b3',
+    light: '#fbfbfc',
+    lighter: '#ffffff',
     contrastText: '#3e5060',
   },
 };
@@ -27,35 +30,40 @@ const paletteColors = {
 const theme = createTheme({
   palette: paletteColors,
   components: {
+    MuiChip: {
+      styleOverrides: {
+        filled: {
+          background: paletteColors.bluegrey.dark,
+        },
+        outlined: {
+          borderColor: paletteColors.bluegrey.dark,
+        },
+        deleteIcon: {
+          color: paletteColors.bluegrey.darkest,
+        },
+      },
+    },
     MuiIconButton: {
       styleOverrides: {
         root: {
-          color: paletteColors.paper.contrastText,
+          color: paletteColors.bluegrey.contrastText,
         },
       },
     },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          background: paletteColors.paper.light,
+          background: paletteColors.bluegrey.lighter,
         },
         notchedOutline: {
-          borderColor: paletteColors.paper.dark,
-        },
-      },
-    },
-    MuiChip: {
-      styleOverrides: {
-        filled: {
-          borderColor: paletteColors.paper.dark,
-          background: paletteColors.paper.main,
+          borderColor: paletteColors.bluegrey.dark,
         },
       },
     },
     MuiCard: {
       styleOverrides: {
         root: {
-          borderColor: paletteColors.paper.dark,
+          borderColor: paletteColors.bluegrey.dark,
         },
       },
     },
@@ -63,19 +71,19 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           '::before': {
-            borderColor: paletteColors.paper.dark,
+            borderColor: paletteColors.bluegrey.dark,
           },
           '::after': {
-            borderColor: paletteColors.paper.dark,
+            borderColor: paletteColors.bluegrey.dark,
           },
-          borderColor: paletteColors.paper.dark,
+          borderColor: paletteColors.bluegrey.dark,
         },
       },
       variants: [
         {
           props: { variant: 'bold' },
           style: {
-            background: paletteColors.paper.contrastText,
+            background: paletteColors.bluegrey.contrastText,
           },
         },
       ],

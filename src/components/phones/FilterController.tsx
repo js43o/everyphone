@@ -83,6 +83,7 @@ export default function FilterController() {
           onClick={() => setOpenController(!openController)}
           sx={{
             px: 2,
+            flexShrink: 0,
           }}
         >
           <Typography variant="subtitle1">필터</Typography>

@@ -1,6 +1,6 @@
 import connectMongo from 'utils/db/connectMongo';
-import { Phone } from 'utils/types';
 import PhoneModel from 'utils/db/models/Phone';
+import { Phone } from 'utils/types';
 
 export default async function getPhoneByName(name: string): Promise<Phone> {
   try {

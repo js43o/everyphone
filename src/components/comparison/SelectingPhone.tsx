@@ -20,7 +20,7 @@ export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
     comparisonDevicesState
   );
 
-  const onOpenSearcing = () => {
+  const onOpenSearching = () => {
     setSearchingMode({
       opened: true,
       mode: `comparison_device${slot}`,
@@ -55,18 +55,12 @@ export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
           </IconButton>
         </>
       ) : (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <IconButton onClick={onOpenSearcing}>
+        <>
+          <IconButton onClick={onOpenSearching}>
             <AddCircleOutlineIcon fontSize="large" />
           </IconButton>
           기기 추가
-        </Box>
+        </>
       )}
     </Box>
   );

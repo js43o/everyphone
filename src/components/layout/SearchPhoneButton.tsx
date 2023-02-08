@@ -17,7 +17,7 @@ import { searchingModeState, comparisonDevicesState } from 'utils/atoms';
 
 export default function SearchPhoneButton() {
   const [searchingMode, setSearchingMode] = useRecoilState(searchingModeState);
-  const [comparisonDevice, setComparisonDevices] = useRecoilState(
+  const [comparisonDevices, setComparisonDevices] = useRecoilState(
     comparisonDevicesState
   );
   const [inputValue, setInputValue] = useState('');
@@ -66,7 +66,7 @@ export default function SearchPhoneButton() {
     }, 200);
   }, [inputValue, value]);
 
-  const onSelectComparisonDevice = useCallback(
+  const selectDevice = useCallback(
     async (name: string, slot: 1 | 2) => {
       if (!name) return;
 
@@ -77,15 +77,10 @@ export default function SearchPhoneButton() {
       });
       const phone = response.data;
 
-      console.log(slot, phone);
-
-      if (slot === 1) {
-        setComparisonDevices([phone, comparisonDevice[1]]);
-        return;
-      }
-      setComparisonDevices([comparisonDevice[0], phone]);
+      if (slot === 1) setComparisonDevices([phone, comparisonDevices[1]]);
+      if (slot === 2) setComparisonDevices([comparisonDevices[0], phone]);
     },
-    [comparisonDevice, setComparisonDevices]
+    [comparisonDevices, setComparisonDevices]
   );
 
   useEffect(() => {
@@ -99,16 +94,16 @@ export default function SearchPhoneButton() {
         Router.push(`/phones/${encodeURIComponent(value.url)}`);
         break;
       case 'comparison_device1':
-        onSelectComparisonDevice(value.name, 1);
+        selectDevice(value.name, 1);
         break;
       case 'comparison_device2':
-        onSelectComparisonDevice(value.name, 2);
+        selectDevice(value.name, 2);
         break;
       default:
         break;
     }
     resetInput();
-  }, [value, searchingMode.mode, onSelectComparisonDevice]);
+  }, [value, searchingMode.mode, selectDevice]);
 
   return (
     <>

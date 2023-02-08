@@ -4,7 +4,7 @@ import getPhoneByUrl from 'utils/db/getPhoneByUrl';
 import { Phone } from 'utils/types';
 import { getSpecsOfPhone } from 'utils/methods';
 import RatioImage from 'components/common/RatioImage';
-import PhoneSpecList from 'components/phones/SpecSheet';
+import SpecSheet from 'components/phones/SpecSheet';
 
 export default function IdPage(props: { phone: string }) {
   const phone: Phone = JSON.parse(props.phone);
@@ -82,7 +82,7 @@ export default function IdPage(props: { phone: string }) {
           ))}
         </Grid>
       </Grid>
-      <PhoneSpecList phone={phone} />
+      <SpecSheet phone={phone} />
     </Box>
   );
 }

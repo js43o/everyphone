@@ -10,7 +10,7 @@ export default function Index(props: { children: React.ReactNode }) {
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100%',
-        bgcolor: 'paper.main',
+        bgcolor: 'bluegrey.main',
       }}
       maxWidth={false}
       disableGutters

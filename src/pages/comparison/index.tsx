@@ -43,7 +43,6 @@ export default function Index() {
             alignItems: 'center',
             padding: 2,
             borderRadius: 2,
-            bgcolor: 'paper.light',
             textAlign: 'center',
           }}
         >
@@ -69,8 +68,8 @@ export default function Index() {
                 width: '2.5rem',
                 height: '2.5rem',
                 borderRadius: '100%',
-                bgcolor: 'paper.dark',
-                color: 'paper.light',
+                bgcolor: 'bluegrey.darker',
+                color: 'bluegrey.lighter',
                 fontFamily: 'Bakbak One',
                 fontSize: '1.25rem',
               }}

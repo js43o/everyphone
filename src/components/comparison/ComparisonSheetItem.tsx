@@ -1,5 +1,5 @@
-import { Grid, Box, Typography, List, ListItem } from '@mui/material';
 import { useRecoilValue } from 'recoil';
+import { Grid, Box, Typography, List, ListItem } from '@mui/material';
 import { specHighlightState } from 'utils/atoms';
 
 const TitleBlock = (props: { title: string }) => (
@@ -22,7 +22,7 @@ const TitleBlock = (props: { title: string }) => (
   </Grid>
 );
 
-const SpecComparisonEachItem = (props: {
+const SpecItem = (props: {
   content?: string | string[];
   isSuperior?: boolean;
 }) => {
@@ -80,7 +80,7 @@ const SpecComparisonEachItem = (props: {
   );
 };
 
-export default function SpecComparisonItem(props: {
+export default function ComparisonSheetItem(props: {
   title: string;
   content1?: string | string[];
   content2?: string | string[];
@@ -95,9 +95,9 @@ export default function SpecComparisonItem(props: {
         py: 1,
       }}
     >
-      <SpecComparisonEachItem content={content1} isSuperior={superior === 1} />
+      <SpecItem content={content1} isSuperior={superior === 1} />
       <TitleBlock title={title} />
-      <SpecComparisonEachItem content={content2} isSuperior={superior === 2} />
+      <SpecItem content={content2} isSuperior={superior === 2} />
     </Grid>
   );
 }

@@ -1,8 +1,8 @@
-import { Grid, Typography, Box, Divider, List, ListItem } from '@mui/material';
+import { Typography, Box, Divider, List, ListItem } from '@mui/material';
 import { Phone } from 'utils/types';
-import PhoneSpecItem from './SpecSheetItem';
+import SpecSheetItem from './SpecSheetItem';
 
-export default function PhoneSpecList(props: { phone: Phone }) {
+export default function SpecSheet(props: { phone: Phone }) {
   const {
     phone: {
       name,
@@ -52,10 +52,10 @@ export default function PhoneSpecList(props: { phone: Phone }) {
       >
         <ListItem>
           <Typography variant="h3"># 기본 정보</Typography>
-          <PhoneSpecItem title="제품명" content={`${name} / ${korName}`} />
-          <PhoneSpecItem title="제조사" content={manufacturer} />
-          <PhoneSpecItem title="출시일자" content={released} />
-          <PhoneSpecItem
+          <SpecSheetItem title="제품명" content={`${name} / ${korName}`} />
+          <SpecSheetItem title="제조사" content={manufacturer} />
+          <SpecSheetItem title="출시일자" content={released} />
+          <SpecSheetItem
             title="가격"
             content={price.map(
               (item) => `[${item.variant}] ${item.value.toLocaleString()} 원`
@@ -66,14 +66,14 @@ export default function PhoneSpecList(props: { phone: Phone }) {
 
         <ListItem>
           <Typography variant="h3"># 디스플레이</Typography>
-          <PhoneSpecItem title="크기" content={`${display.size} 인치`} />
-          <PhoneSpecItem
+          <SpecSheetItem title="크기" content={`${display.size} 인치`} />
+          <SpecSheetItem
             title="해상도"
             content={`${display.resolution.pixel} 픽셀 (${display.resolution.ppi} ppi)`}
           />
-          <PhoneSpecItem title="비율" content={display.resolution.ratio} />
-          <PhoneSpecItem title="종류" content={display.technology} />
-          <PhoneSpecItem
+          <SpecSheetItem title="비율" content={display.resolution.ratio} />
+          <SpecSheetItem title="종류" content={display.technology} />
+          <SpecSheetItem
             title="최대 주사율"
             content={`${display.refreshRate} Hz`}
           />
@@ -84,20 +84,20 @@ export default function PhoneSpecList(props: { phone: Phone }) {
           <>
             <ListItem>
               <Typography variant="h3"># 커버 디스플레이</Typography>
-              <PhoneSpecItem
+              <SpecSheetItem
                 title="크기"
                 content={`${coverDisplay.size} 인치`}
               />
-              <PhoneSpecItem
+              <SpecSheetItem
                 title="해상도"
                 content={`${coverDisplay.resolution.pixel} 픽셀 (${coverDisplay.resolution.ppi} ppi)`}
               />
-              <PhoneSpecItem
+              <SpecSheetItem
                 title="비율"
                 content={coverDisplay.resolution.ratio}
               />
-              <PhoneSpecItem title="종류" content={coverDisplay.technology} />
-              <PhoneSpecItem
+              <SpecSheetItem title="종류" content={coverDisplay.technology} />
+              <SpecSheetItem
                 title="최대 주사율"
                 content={`${coverDisplay.refreshRate} Hz`}
               />
@@ -108,34 +108,34 @@ export default function PhoneSpecList(props: { phone: Phone }) {
 
         <ListItem>
           <Typography variant="h3"># 하드웨어</Typography>
-          <PhoneSpecItem title="프로세서" content={hardware.processor} />
-          <PhoneSpecItem title="GPU" content={hardware.gpu} />
-          <PhoneSpecItem
+          <SpecSheetItem title="프로세서" content={hardware.processor} />
+          <SpecSheetItem title="GPU" content={hardware.gpu} />
+          <SpecSheetItem
             title="RAM"
             content={hardware.ram.map((r) => `${r} GB`).join('/')}
           />
 
-          <PhoneSpecItem
+          <SpecSheetItem
             title="저장용량"
             content={hardware.storage
               .map((s) => (s < 1024 ? `${s} GB` : `${s / 1024} TB`))
               .join('/')}
           />
-          <PhoneSpecItem title="운영체제" content={hardware.os} />
-          <PhoneSpecItem title="배터리" content={`${hardware.battery} mAh`} />
+          <SpecSheetItem title="운영체제" content={hardware.os} />
+          <SpecSheetItem title="배터리" content={`${hardware.battery} mAh`} />
         </ListItem>
         <Divider />
         <ListItem>
           <Typography variant="h3"># 카메라</Typography>
-          <PhoneSpecItem title="종류" content={camera.rear} />
-          <PhoneSpecItem
+          <SpecSheetItem title="종류" content={camera.rear} />
+          <SpecSheetItem
             title="후면 카메라"
             content={[camera.main, camera.second, camera.third, camera.fourth]
               .filter((x) => !!x)
               .map((x) => `${x} MP`)
               .join('+')}
           />
-          <PhoneSpecItem
+          <SpecSheetItem
             title="전면 카메라"
             content={`
           ${camera.front} MP`}
@@ -145,17 +145,17 @@ export default function PhoneSpecList(props: { phone: Phone }) {
 
         <ListItem>
           <Typography variant="h3"># 규격</Typography>
-          <PhoneSpecItem
+          <SpecSheetItem
             title="크기"
             content={`${design.demension[0]} × ${design.demension[1]} × ${design.demension[2]} mm`}
           />
           {design.folded && (
-            <PhoneSpecItem
+            <SpecSheetItem
               title="크기 (접었을 때)"
               content={`${design.folded[0]} × ${design.folded[1]} × ${design.folded[2]} mm`}
             />
           )}
-          <PhoneSpecItem title="무게" content={`${design.weight} g`} />
+          <SpecSheetItem title="무게" content={`${design.weight} g`} />
         </ListItem>
       </List>
     </Box>

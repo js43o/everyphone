@@ -1,6 +1,6 @@
 import { Grid, Typography, List, ListItem } from '@mui/material';
 
-export default function PhoneSpecItem(props: {
+export default function SpecSheetItem(props: {
   title: string;
   content: string | string[];
 }) {
