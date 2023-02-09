@@ -13,9 +13,15 @@ import {
 import { styled } from '@mui/system';
 import { Phone } from 'utils/types';
 
-const ImageZone = styled(Box)`
+const ImageWrapper = styled(Box)<{ layered: boolean; minWidth?: number }>`
+  display: flex;
+  align-items: flex-end;
   position: relative;
-  img {opacity: 0.5;
+  min-width: ${({ layered, minWidth }) => layered && minWidth};
+  img {
+    position: ${({ layered }) => (layered ? 'absolute' : 'relative')};
+    bottom: 0;
+    opacity: 0.5;
     :first-of-type {
       border: 1px solid red;
     }
@@ -32,11 +38,11 @@ export default function SizeComparison(props: {
   const { device1, device2 } = props;
   const [visible1, setVisible1] = useState(true);
   const [visible2, setVisible2] = useState(true);
+  const [layered, setLayered] = useState(true);
 
   const isSm = useMediaQuery(useTheme().breakpoints.down('sm'));
   const isMd = useMediaQuery(useTheme().breakpoints.down('md'));
-  const isLg = useMediaQuery(useTheme().breakpoints.down('lg'));
-  const offset = isSm ? 1 : isMd ? 1.5 : isLg ? 2 : 2.5;
+  const offset = isSm ? 1.5 : isMd ? 2 : 3;
 
   const onVisibleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -45,6 +51,8 @@ export default function SizeComparison(props: {
     if (slot === 1) setVisible1(event.target.checked);
     if (slot === 2) setVisible2(event.target.checked);
   };
+
+  const toggleLayered = () => setLayered(!layered);
 
   return (
     <Box
@@ -66,21 +74,48 @@ export default function SizeComparison(props: {
         }}
       >
         <Typography variant="h2">크기 비교</Typography>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Switch
+                value={layered}
+                checked={layered}
+                onChange={toggleLayered}
+              />
+            }
+            label="레이어 뷰"
+            labelPlacement="start"
+          />
+        </FormGroup>
       </Box>
-      <Grid container spacing={2}>
-        <Grid
-          item
-          xs={12}
-          lg={8}
+      <Box
+        sx={{
+          display: 'flex',
+          flexFlow: 'wrap',
+          gap: 2,
+        }}
+      >
+        <Box
           sx={{
             display: 'flex',
-            gap: 1,
-            justifyContent: { xs: 'center', lg: 'flex-start' },
-            height: 'auto',
-            position: 'relative',
+            flexFlow: 'wrap',
+            gap: 2,
+            minHeight:
+              Math.max(
+                device1?.design.demension[0] || 100,
+                device2?.design.demension[0] || 100
+              ) * offset,
           }}
         >
-          <ImageZone>
+          <ImageWrapper
+            layered={layered}
+            minWidth={
+              Math.max(
+                device1?.design.demension[1] || 0,
+                device2?.design.demension[1] || 0
+              ) * offset
+            }
+          >
             {device1 && visible1 && (
               <Image
                 src={`/images/size/${device1.url}-front.webp`}
@@ -97,9 +132,17 @@ export default function SizeComparison(props: {
                 width={device2.design.demension[1] * offset}
               />
             )}
-          </ImageZone>
-          <ImageZone>
-            {device1 && visible1 &&  (
+          </ImageWrapper>
+          <ImageWrapper
+            layered={layered}
+            minWidth={
+              Math.max(
+                device1?.design.demension[2] || 0,
+                device2?.design.demension[2] || 0
+              ) * offset
+            }
+          >
+            {device1 && visible1 && (
               <Image
                 src={`/images/size/${device1.url}-side.webp`}
                 alt={device1.url}
@@ -107,7 +150,7 @@ export default function SizeComparison(props: {
                 width={device1.design.demension[2] * offset}
               />
             )}
-            {device2 && visible2 &&  (
+            {device2 && visible2 && (
               <Image
                 src={`/images/size/${device2.url}-side.webp`}
                 alt={device2.url}
@@ -115,13 +158,12 @@ export default function SizeComparison(props: {
                 width={device2.design.demension[2] * offset}
               />
             )}
-          </ImageZone>
-        </Grid>
-        <Grid item xs={12} lg={4}>
+          </ImageWrapper>
+        </Box>
+        <Box>
           <FormGroup
             sx={{
-              flexDirection: { xs: 'row', lg: 'column' },
-              justifyContent: { xs: 'space-around', lg: 'flex-start' },
+              flexDirection: 'column',
             }}
           >
             {device1 && (
@@ -149,8 +191,8 @@ export default function SizeComparison(props: {
               />
             )}
           </FormGroup>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </Box>
   );
 }
