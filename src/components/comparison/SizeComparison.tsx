@@ -13,7 +13,11 @@ import {
 import { styled } from '@mui/system';
 import { Phone } from 'utils/types';
 
-const ImageWrapper = styled(Box)<{ layered: boolean; minWidth?: number }>`
+const ImageWrapper = styled(Box)<{
+  layered: boolean;
+  minWidth?: number;
+  borderColor?: string;
+}>`
   display: flex;
   flex-flow: wrap;
   align-items: flex-end;
@@ -23,12 +27,7 @@ const ImageWrapper = styled(Box)<{ layered: boolean; minWidth?: number }>`
     position: ${({ layered }) => (layered ? 'absolute' : 'relative')};
     bottom: 0;
     opacity: 0.5;
-    :first-of-type {
-      border: 1px solid red;
-    }
-    :last-of-type {
-      border: 1px solid blue;
-    }
+    border: ${({ borderColor }) => borderColor && `1px solid ${borderColor}`};
   }
 `;
 
@@ -39,19 +38,12 @@ export default function SizeComparison(props: {
   const { device1, device2 } = props;
   const [visible1, setVisible1] = useState(true);
   const [visible2, setVisible2] = useState(true);
+  const [handView, setHandView] = useState(false);
   const [layered, setLayered] = useState(true);
 
   const isSm = useMediaQuery(useTheme().breakpoints.down('sm'));
   const isMd = useMediaQuery(useTheme().breakpoints.down('md'));
   const offset = isSm ? 1.5 : isMd ? 2 : 3;
-
-  const onVisibleChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    slot: 1 | 2
-  ) => {
-    if (slot === 1) setVisible1(event.target.checked);
-    if (slot === 2) setVisible2(event.target.checked);
-  };
 
   return (
     <Box
@@ -94,13 +86,25 @@ export default function SizeComparison(props: {
         </Box>
         <Divider />
         <FormGroup>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={handView}
+                value={handView}
+                onChange={(e) => setHandView(e.target.checked)}
+                color="secondary"
+              />
+            }
+            label="손"
+            labelPlacement="start"
+          />
           {device1 && (
             <FormControlLabel
               control={
                 <Switch
                   checked={visible1}
                   value={visible1}
-                  onChange={(e) => onVisibleChange(e, 1)}
+                  onChange={(e) => setVisible1(e.target.checked)}
                   color="secondary"
                 />
               }
@@ -114,7 +118,7 @@ export default function SizeComparison(props: {
                 <Switch
                   checked={visible2}
                   value={visible2}
-                  onChange={(e) => onVisibleChange(e, 2)}
+                  onChange={(e) => setVisible2(e.target.checked)}
                   color="secondary"
                 />
               }
@@ -131,8 +135,8 @@ export default function SizeComparison(props: {
           gap: 2,
           minHeight:
             Math.max(
-              device1?.design.demension[0] || 100,
-              device2?.design.demension[0] || 100
+              device1?.design.demension[0] || 200,
+              device2?.design.demension[0] || 200
             ) * offset,
         }}
       >
@@ -147,6 +151,7 @@ export default function SizeComparison(props: {
               device2?.design.demension[1] || 0
             ) * offset
           }
+          borderColor="red"
         >
           {device1 && visible1 && (
             <Image
@@ -164,6 +169,14 @@ export default function SizeComparison(props: {
               width={device2.design.demension[1] * offset}
             />
           )}
+          {handView && (
+            <Image
+              src="/images/hand-icon.svg"
+              alt="hand"
+              width={150 * offset * 0.8}
+              height={150 * offset}
+            />
+          )}
         </ImageWrapper>
         <ImageWrapper
           layered={layered}
@@ -173,6 +186,7 @@ export default function SizeComparison(props: {
               device2?.design.demension[2] || 0
             ) * offset
           }
+          borderColor="blue"
         >
           {device1 && visible1 && (
             <Image
