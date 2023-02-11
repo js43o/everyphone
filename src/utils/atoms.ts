@@ -34,3 +34,8 @@ export const comparisonDevicesState = atom<[Phone?, Phone?]>({
   key: `comparisonDevices/${v1()}`,
   default: [undefined, undefined],
 });
+
+export const handSizeState = atom<number>({
+  key: `handSize/${v1()}`,
+  default: 170,
+});

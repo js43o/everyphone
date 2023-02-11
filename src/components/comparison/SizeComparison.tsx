@@ -9,12 +9,18 @@ import {
   Divider,
   useMediaQuery,
   useTheme,
+  IconButton,
+  Modal,
 } from '@mui/material';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { styled } from '@mui/system';
 import { Phone } from 'utils/types';
+import HandSizeModal from './HandSizeModal';
+import { useRecoilValue } from 'recoil';
+import { handSizeState } from 'utils/atoms';
 
 const ImageWrapper = styled(Box)<{
-  layered: boolean;
+  layered: number;
   minWidth?: number;
   borderColor?: string;
 }>`
@@ -23,11 +29,19 @@ const ImageWrapper = styled(Box)<{
   align-items: flex-end;
   position: relative;
   min-width: ${({ layered, minWidth }) => layered && minWidth};
+  pointer-events: none;
   img {
     position: ${({ layered }) => (layered ? 'absolute' : 'relative')};
+    left: 0;
     bottom: 0;
     opacity: 0.5;
     border: ${({ borderColor }) => borderColor && `1px solid ${borderColor}`};
+    :first-of-type {
+      border: 1px solid red;
+    }
+    :last-of-type {
+      border: 1px solid blue;
+    }
   }
 `;
 
@@ -36,10 +50,12 @@ export default function SizeComparison(props: {
   device2?: Phone;
 }) {
   const { device1, device2 } = props;
+  const [layered, setLayered] = useState(true);
   const [visible1, setVisible1] = useState(true);
   const [visible2, setVisible2] = useState(true);
   const [handView, setHandView] = useState(false);
-  const [layered, setLayered] = useState(true);
+  const [modalOpened, setModalOpened] = useState(false);
+  const handSize = useRecoilValue(handSizeState);
 
   const isSm = useMediaQuery(useTheme().breakpoints.down('sm'));
   const isMd = useMediaQuery(useTheme().breakpoints.down('md'));
@@ -72,12 +88,17 @@ export default function SizeComparison(props: {
           }}
         >
           <Typography variant="h2">크기 비교</Typography>
+          <HandSizeModal
+            opened={modalOpened}
+            onClose={() => setModalOpened(false)}
+          />
           <FormControlLabel
             control={
               <Switch
                 value={layered}
                 checked={layered}
                 onChange={() => setLayered(!layered)}
+                disabled={!device1 || !device2}
               />
             }
             label="레이어 뷰"
@@ -86,18 +107,28 @@ export default function SizeComparison(props: {
         </Box>
         <Divider />
         <FormGroup>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={handView}
-                value={handView}
-                onChange={(e) => setHandView(e.target.checked)}
-                color="secondary"
-              />
-            }
-            label="손"
-            labelPlacement="start"
-          />
+          <Box
+            sx={{
+              alignSelf: 'flex-end',
+            }}
+          >
+            <IconButton onClick={() => setModalOpened(true)}>
+              <SettingsIcon />
+            </IconButton>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={handView}
+                  value={handView}
+                  onChange={(e) => setHandView(e.target.checked)}
+                  color="secondary"
+                  disabled={!device1 && !device2}
+                />
+              }
+              label="더미 핸드"
+              labelPlacement="start"
+            />
+          </Box>
           {device1 && (
             <FormControlLabel
               control={
@@ -133,84 +164,106 @@ export default function SizeComparison(props: {
           display: 'flex',
           flexFlow: 'wrap',
           gap: 2,
+          position: 'relative',
           minHeight:
             Math.max(
-              device1?.design.demension[0] || 200,
-              device2?.design.demension[0] || 200
+              device1?.design.demension[0] || 0,
+              device2?.design.demension[0] || 0,
+              handSize
             ) * offset,
         }}
       >
-        {!device1 && !device2 && (
-          <Typography variant="body1">선택된 기기가 없습니다.</Typography>
+        {!device1 && !device2 ? (
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexGrow: 1,
+            }}
+          >
+            <Typography variant="body1">선택된 기기가 없습니다.</Typography>
+          </Box>
+        ) : (
+          <>
+            {handView && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  width: handSize * offset * 0.65,
+                  left: 0,
+                  bottom: 0,
+                  opacity: 0.5,
+                }}
+              >
+                <Image
+                  src="/images/hand-icon.svg"
+                  alt="hand"
+                  width={handSize * offset * 0.65}
+                  height={handSize * offset}
+                />
+              </Box>
+            )}
+            <ImageWrapper
+              layered={layered ? 1 : 0}
+              minWidth={
+                Math.max(
+                  device1?.design.demension[1] || 0,
+                  device2?.design.demension[1] || 0
+                ) * offset
+              }
+            >
+              {device1 && visible1 && (
+                <Image
+                  src={`/images/size/${device1.url}-front.webp`}
+                  alt={device1.url}
+                  height={device1.design.demension[0] * offset}
+                  width={device1.design.demension[1] * offset}
+                />
+              )}
+              {device2 && visible2 && (
+                <Image
+                  src={`/images/size/${device2.url}-front.webp`}
+                  alt={device2.url}
+                  height={device2.design.demension[0] * offset}
+                  width={device2.design.demension[1] * offset}
+                />
+              )}
+            </ImageWrapper>
+            <ImageWrapper
+              layered={layered ? 1 : 0}
+              minWidth={
+                Math.max(
+                  device1?.design.demension[2] || 0,
+                  device2?.design.demension[2] || 0
+                ) * offset
+              }
+            >
+              {device1 && visible1 && (
+                <Image
+                  src={`/images/size/${device1.url}-side.webp`}
+                  alt={device1.url}
+                  height={device1.design.demension[0] * offset}
+                  width={device1.design.demension[2] * offset}
+                />
+              )}
+              {device2 && visible2 && (
+                <Image
+                  src={`/images/size/${device2.url}-side.webp`}
+                  alt={device2.url}
+                  height={device2.design.demension[0] * offset}
+                  width={device2.design.demension[2] * offset}
+                />
+              )}
+            </ImageWrapper>
+          </>
         )}
-        <ImageWrapper
-          layered={layered}
-          minWidth={
-            Math.max(
-              device1?.design.demension[1] || 0,
-              device2?.design.demension[1] || 0
-            ) * offset
-          }
-          borderColor="red"
-        >
-          {device1 && visible1 && (
-            <Image
-              src={`/images/size/${device1.url}-front.webp`}
-              alt={device1.url}
-              height={device1.design.demension[0] * offset}
-              width={device1.design.demension[1] * offset}
-            />
-          )}
-          {device2 && visible2 && (
-            <Image
-              src={`/images/size/${device2.url}-front.webp`}
-              alt={device2.url}
-              height={device2.design.demension[0] * offset}
-              width={device2.design.demension[1] * offset}
-            />
-          )}
-          {handView && (
-            <Image
-              src="/images/hand-icon.svg"
-              alt="hand"
-              width={150 * offset * 0.8}
-              height={150 * offset}
-            />
-          )}
-        </ImageWrapper>
-        <ImageWrapper
-          layered={layered}
-          minWidth={
-            Math.max(
-              device1?.design.demension[2] || 0,
-              device2?.design.demension[2] || 0
-            ) * offset
-          }
-          borderColor="blue"
-        >
-          {device1 && visible1 && (
-            <Image
-              src={`/images/size/${device1.url}-side.webp`}
-              alt={device1.url}
-              height={device1.design.demension[0] * offset}
-              width={device1.design.demension[2] * offset}
-            />
-          )}
-          {device2 && visible2 && (
-            <Image
-              src={`/images/size/${device2.url}-side.webp`}
-              alt={device2.url}
-              height={device2.design.demension[0] * offset}
-              width={device2.design.demension[2] * offset}
-            />
-          )}
-        </ImageWrapper>
       </Box>
       <Divider />
       {device1 && device2 && (
-        <Box sx={{}}>
+        <Box sx={{ py: 2 }}>
           <Typography variant="body1">
-            {device1.name}에 비해 <b>{device2.name}</b>이 세로로{' '}
+            <b>{device1.name}</b>에 비해 <b>{device2.name}</b>이 세로로{' '}
             <b>
               {Math.abs(
                 device2.design.demension[1] - device1.design.demension[1]

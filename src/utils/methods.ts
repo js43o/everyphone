@@ -2,13 +2,25 @@ import { DATA_UNIT, CAMERA_TYPE, UNIT_OF_SPEC } from 'utils/constants';
 import { Specs } from './types';
 import { Phone } from 'utils/types';
 
-export function getArrayOfRange(start: number, end: number) {
-  return Array.from({ length: end - start }, (_, index) => index + start);
-}
+export const isNumber = (str: string) => {
+  return /^\d*$/.test(str);
+};
 
-export function getArrayOfSize(start: number, size: number) {
+export const trimToRange = (
+  value: number,
+  minValue?: number,
+  maxValue?: number
+) => {
+  return Math.min(Math.max(value, minValue || value), maxValue || value);
+};
+
+export const getArrayOfRange = (start: number, end: number) => {
+  return Array.from({ length: end - start }, (_, index) => index + start);
+};
+
+export const getArrayOfSize = (start: number, size: number) => {
   return Array.from({ length: size }, (_, index) => index + start);
-}
+};
 
 export const convertToDataFormat = (byte: number) => {
   let unitIndex = Math.floor(Math.log(byte) / Math.log(1024));
