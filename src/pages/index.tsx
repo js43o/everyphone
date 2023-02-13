@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Banner from 'components/common/Banner';
+import Banner from 'components/home/Banner';
 
 export default function Index() {
   return (

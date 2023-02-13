@@ -163,7 +163,7 @@ export default function SizeComparison(props: {
         sx={{
           display: 'flex',
           flexFlow: 'wrap',
-          gap: 2,
+          gap: 1,
           position: 'relative',
           minHeight:
             Math.max(

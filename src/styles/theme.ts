@@ -116,10 +116,12 @@ const theme = createTheme({
     h5: {
       fontSize: '1.125rem',
       fontWeight: 500,
+      margin: 0,
     },
     h6: {
       fontSize: '1rem',
       fontWeight: 500,
+      margin: 0,
     },
     subtitle1: {
       fontSize: '1rem',
