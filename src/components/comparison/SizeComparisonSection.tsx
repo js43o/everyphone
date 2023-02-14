@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import Image from 'next/image';
 import {
   Box,
@@ -14,9 +15,9 @@ import {
 import SettingsIcon from '@mui/icons-material/Settings';
 import { styled } from '@mui/system';
 import { Phone } from 'utils/types';
-import HandSizeModal from './HandSizeModal';
-import { useRecoilValue } from 'recoil';
 import { handSizeState } from 'utils/atoms';
+import HandSizeModal from './HandSizeModal';
+import SizeComparisonText from './SizeComparisonText';
 
 const ImageWrapper = styled(Box)<{
   layered: number;
@@ -42,21 +43,54 @@ const ImageWrapper = styled(Box)<{
   }
 `;
 
+type ComparisonViewOptions = {
+  layered: boolean;
+  handDummy: boolean;
+  device1: boolean;
+  device2: boolean;
+};
+
+const initialOptions: ComparisonViewOptions = {
+  layered: false,
+  handDummy: false,
+  device1: true,
+  device2: true,
+};
+
+const reducer = (state: ComparisonViewOptions, action: { type: string }) => {
+  switch (action.type) {
+    case 'LAYERED':
+      return { ...state, layered: !state.layered };
+    case 'HAND_DUMMY':
+      return { ...state, handDummy: !state.handDummy };
+    case 'DEVICE_ONE':
+      return { ...state, device1: !state.device1 };
+    case 'DEVICE_TWO':
+      return { ...state, device2: !state.device2 };
+    default:
+      return state;
+  }
+};
+
 export default function SizeComparisonSection(props: {
   device1?: Phone;
   device2?: Phone;
 }) {
   const { device1, device2 } = props;
-  const [layered, setLayered] = useState(true);
-  const [visible1, setVisible1] = useState(true);
-  const [visible2, setVisible2] = useState(true);
-  const [handView, setHandView] = useState(false);
   const [modalOpened, setModalOpened] = useState(false);
+  const [viewState, dispatch] = useReducer(reducer, initialOptions);
   const handSize = useRecoilValue(handSizeState);
 
   const isSm = useMediaQuery(useTheme().breakpoints.down('sm'));
   const isMd = useMediaQuery(useTheme().breakpoints.down('md'));
   const offset = isSm ? 1.5 : isMd ? 2 : 3;
+
+  const [device1Height, device1Width, device1Thickness] = device1
+    ? device1.design.demension.map((value) => value * offset)
+    : [0, 0, 0];
+  const [device2Height, device2Width, device2Thickness] = device2
+    ? device2.design.demension.map((value) => value * offset)
+    : [0, 0, 0];
 
   return (
     <Box
@@ -92,9 +126,9 @@ export default function SizeComparisonSection(props: {
           <FormControlLabel
             control={
               <Switch
-                value={layered}
-                checked={layered}
-                onChange={() => setLayered(!layered)}
+                value={viewState.layered}
+                checked={viewState.layered}
+                onChange={() => dispatch({ type: 'LAYERED' })}
                 disabled={!device1 || !device2}
               />
             }
@@ -115,9 +149,8 @@ export default function SizeComparisonSection(props: {
             <FormControlLabel
               control={
                 <Switch
-                  checked={handView}
-                  value={handView}
-                  onChange={(e) => setHandView(e.target.checked)}
+                  checked={viewState.handDummy}
+                  onChange={() => dispatch({ type: 'HAND_DUMMY' })}
                   color="secondary"
                   disabled={!device1 && !device2}
                 />
@@ -130,9 +163,8 @@ export default function SizeComparisonSection(props: {
             <FormControlLabel
               control={
                 <Switch
-                  checked={visible1}
-                  value={visible1}
-                  onChange={(e) => setVisible1(e.target.checked)}
+                  checked={viewState.device1}
+                  onChange={() => dispatch({ type: 'DEVICE_ONE' })}
                   color="secondary"
                 />
               }
@@ -144,9 +176,8 @@ export default function SizeComparisonSection(props: {
             <FormControlLabel
               control={
                 <Switch
-                  checked={visible2}
-                  value={visible2}
-                  onChange={(e) => setVisible2(e.target.checked)}
+                  checked={viewState.device2}
+                  onChange={() => dispatch({ type: 'DEVICE_TWO' })}
                   color="secondary"
                 />
               }
@@ -162,12 +193,7 @@ export default function SizeComparisonSection(props: {
           flexFlow: 'wrap',
           gap: 1,
           position: 'relative',
-          minHeight:
-            Math.max(
-              device1?.design.demension[0] || 0,
-              device2?.design.demension[0] || 0,
-              handSize
-            ) * offset,
+          minHeight: Math.max(device1Height, device2Height, handSize * offset),
         }}
       >
         {!device1 && !device2 ? (
@@ -183,7 +209,7 @@ export default function SizeComparisonSection(props: {
           </Box>
         ) : (
           <>
-            {handView && (
+            {viewState.handDummy && (
               <Box
                 sx={{
                   position: 'absolute',
@@ -199,54 +225,41 @@ export default function SizeComparisonSection(props: {
               </Box>
             )}
             <ImageWrapper
-              layered={layered ? 1 : 0}
-              minWidth={
-                Math.max(
-                  device1?.design.demension[1] || 0,
-                  device2?.design.demension[1] || 0
-                ) * offset
-              }
+              layered={viewState.layered ? 1 : 0}
+              minWidth={Math.max(device1Width, device2Width)}
             >
-              {device1 && visible1 && (
+              {device1 && viewState.device1 && (
                 <Image
                   src={`/images/size/${device1.url}-front.webp`}
                   alt={device1.url}
-                  height={device1.design.demension[0] * offset}
-                  width={device1.design.demension[1] * offset}
+                  height={device1Height}
+                  width={device1Width}
                 />
               )}
-              {device2 && visible2 && (
+              {device2 && viewState.device2 && (
                 <Image
                   src={`/images/size/${device2.url}-front.webp`}
                   alt={device2.url}
-                  height={device2.design.demension[0] * offset}
-                  width={device2.design.demension[1] * offset}
+                  height={device2Height}
+                  width={device2Width}
                 />
               )}
             </ImageWrapper>
-            <ImageWrapper
-              layered={layered ? 1 : 0}
-              minWidth={
-                Math.max(
-                  device1?.design.demension[2] || 0,
-                  device2?.design.demension[2] || 0
-                ) * offset
-              }
-            >
-              {device1 && visible1 && (
+            <ImageWrapper layered={viewState.layered ? 1 : 0}>
+              {device1 && viewState.device1 && (
                 <Image
                   src={`/images/size/${device1.url}-side.webp`}
                   alt={device1.url}
-                  height={device1.design.demension[0] * offset}
-                  width={device1.design.demension[2] * offset}
+                  height={device1Height}
+                  width={device1Thickness}
                 />
               )}
-              {device2 && visible2 && (
+              {device2 && viewState.device2 && (
                 <Image
                   src={`/images/size/${device2.url}-side.webp`}
                   alt={device2.url}
-                  height={device2.design.demension[0] * offset}
-                  width={device2.design.demension[2] * offset}
+                  height={device2Height}
+                  width={device2Thickness}
                 />
               )}
             </ImageWrapper>
@@ -255,42 +268,7 @@ export default function SizeComparisonSection(props: {
       </Box>
       <Divider />
       {device1 && device2 && (
-        <Box sx={{ py: 2 }}>
-          <Typography variant="body1">
-            <b>{device1.name}</b>에 비해 <b>{device2.name}</b>이 세로로{' '}
-            <b>
-              {Math.abs(
-                device2.design.demension[1] - device1.design.demension[1]
-              ).toFixed(2)}
-              mm
-            </b>
-            {device2.design.demension[1] > device1.design.demension[1]
-              ? ' 더 크며, '
-              : ' 더 작으며, '}
-            가로로{' '}
-            <b>
-              {Math.abs(
-                device2.design.demension[0] - device1.design.demension[0]
-              ).toFixed(2)}
-              mm
-            </b>
-            {device2.design.demension[0] > device1.design.demension[0]
-              ? ' 더 큽니다.'
-              : ' 더 작습니다.'}
-          </Typography>
-          <Typography variant="body1">
-            두께는{' '}
-            <b>
-              {Math.abs(
-                device2.design.demension[2] - device1.design.demension[2]
-              ).toFixed(2)}
-              mm
-            </b>
-            {device2.design.demension[2] > device1.design.demension[2]
-              ? ' 더 두껍습니다.'
-              : ' 더 얇습니다.'}
-          </Typography>
-        </Box>
+        <SizeComparisonText device1={device1} device2={device2} />
       )}
     </Box>
   );
