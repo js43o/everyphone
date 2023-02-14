@@ -8,8 +8,8 @@ export default function Title(props: { fontSize?: number }) {
         fontFamily: 'Bakbak One',
         fontWeight: 'normal',
         fontSize: `${props.fontSize || 2}rem`,
+        lineHeight: 1,
       }}
-      variant="h1"
     >
       Everyphone
     </Typography>

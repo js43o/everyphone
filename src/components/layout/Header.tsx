@@ -19,7 +19,9 @@ export default function Header() {
         }}
       >
         <NavDrawerButton />
-        <Link href="/"><Title /></Link>
+        <Link href="/">
+          <Title />
+        </Link>
         <SearchPhoneButton />
       </Box>
     );
@@ -36,8 +38,10 @@ export default function Header() {
         background: 'white',
       }}
       component="header"
-    >      
-        <Link href="/"><Title /></Link>
+    >
+      <Link href="/">
+        <Title />
+      </Link>
       <NavBar />
       <SearchPhoneButton />
     </Box>

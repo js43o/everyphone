@@ -1,22 +1,32 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 import Title from 'components/common/Title';
 import { ReactNode } from 'react';
 import Carousel from 'react-material-ui-carousel';
 
 const BannerItem = (props: {
   contents: string | ReactNode;
-  imgSrc: string;
+  imageName: string;
 }) => {
-  const { contents, imgSrc } = props;
+  const { contents, imageName } = props;
 
   return (
     <Box
       sx={{
+        display: 'flex',
+        justifyContent: { xs: 'center', lg: 'flex-start' },
         height: '100%',
         padding: 2,
-        backgroundImage: `url(${imgSrc})`,
+        backgroundImage: {
+          xs: `url(/images/banner/${imageName}_small.webp)`,
+          lg: `url(/images/banner/${imageName}_large.webp)`,
+        },
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
+        backgroundPosition: '50% 50%',
+        textAlign: {
+          xs: 'center',
+          lg: 'left',
+        },
       }}
     >
       {contents}
@@ -25,16 +35,20 @@ const BannerItem = (props: {
 };
 
 export default function Banner() {
+  const isMobile = useMediaQuery(useTheme().breakpoints.down('lg'));
+
   return (
-    <Carousel animation="slide" duration={750} interval={6000} height={240}>
+    <Carousel
+      animation="slide"
+      duration={750}
+      interval={6000}
+      height={isMobile ? 430 : 240}
+    >
       <BannerItem
         contents={
           <Box
             sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 2,
-              maxWidth: 430,
+              maxWidth: { xs: '100%', lg: 430 },
               color: 'white',
             }}
           >
@@ -46,16 +60,13 @@ export default function Banner() {
             비교할 수 있습니다.
           </Box>
         }
-        imgSrc="/images/banner/s23_triple.webp"
+        imageName="s23_triple"
       />
       <BannerItem
         contents={
           <Box
             sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 2,
-              maxWidth: 430,
+              maxWidth: { xs: '100%', lg: 430 },
               color: 'white',
             }}
           >
@@ -67,7 +78,7 @@ export default function Banner() {
             비교할 수 있습니다.
           </Box>
         }
-        imgSrc="/images/banner/iphone_14.webp"
+        imageName="iphone_14"
       />
     </Carousel>
   );
