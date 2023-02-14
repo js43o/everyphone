@@ -10,7 +10,6 @@ import {
   useMediaQuery,
   useTheme,
   IconButton,
-  Modal,
 } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { styled } from '@mui/system';
@@ -22,7 +21,6 @@ import { handSizeState } from 'utils/atoms';
 const ImageWrapper = styled(Box)<{
   layered: number;
   minWidth?: number;
-  borderColor?: string;
 }>`
   display: flex;
   flex-flow: wrap;
@@ -35,7 +33,6 @@ const ImageWrapper = styled(Box)<{
     left: 0;
     bottom: 0;
     opacity: 0.5;
-    border: ${({ borderColor }) => borderColor && `1px solid ${borderColor}`};
     :first-of-type {
       border: 1px solid red;
     }
@@ -45,7 +42,7 @@ const ImageWrapper = styled(Box)<{
   }
 `;
 
-export default function SizeComparison(props: {
+export default function SizeComparisonSection(props: {
   device1?: Phone;
   device2?: Phone;
 }) {
@@ -69,7 +66,7 @@ export default function SizeComparison(props: {
         gap: 1,
         padding: 2,
         borderRadius: 2,
-        background: 'white',
+        bgcolor: 'bluegrey.lighter',
         width: '100%',
       }}
     >
@@ -190,9 +187,6 @@ export default function SizeComparison(props: {
               <Box
                 sx={{
                   position: 'absolute',
-                  width: handSize * offset * 0.65,
-                  left: 0,
-                  bottom: 0,
                   opacity: 0.5,
                 }}
               >

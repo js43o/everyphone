@@ -11,12 +11,23 @@ export default async function getPhones(props: {
     await connectMongo();
 
     if (!props.options) {
-      const phones = await PhoneModel.find().limit(10).exec();
+      const phones = await PhoneModel.find()
+        .sort(SORT_BY_QUERY.get('latest'))
+        .exec();
       const lastPage = Math.ceil(
         (await PhoneModel.countDocuments().exec()) / ITEM_PER_PAGE
       );
 
       return { phones, lastPage };
+    }
+
+    if (typeof props.options === 'number') {
+      const phones = await PhoneModel.find()
+        .sort(SORT_BY_QUERY.get('latest'))
+        .limit(props.options)
+        .exec();
+
+      return { phones, lastPage: 0 };
     }
 
     const { manufacturer, height, storage, battery, weight, sortBy } =

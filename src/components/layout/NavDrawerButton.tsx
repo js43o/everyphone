@@ -11,7 +11,7 @@ const WideLinkBlock = styled(LinkBlock)`
 
 export default function NavDrawerButton() {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
+  const path = useRouter().asPath;
 
   const onCloseDrawer = () => setOpen(!open);
 
@@ -36,18 +36,18 @@ export default function NavDrawerButton() {
           onClick={onCloseDrawer}
         >
           <h2>메뉴</h2>
-          <WideLinkBlock href="/" selected={router.asPath === '/'}>
+          <WideLinkBlock href="/" selected={path === '/'}>
             메인
           </WideLinkBlock>
           <WideLinkBlock
             href="/phones"
-            selected={router.asPath.startsWith('/phones')}
+            selected={path.startsWith('/phones')}
           >
             기기 목록
           </WideLinkBlock>
           <WideLinkBlock
             href="/comparison"
-            selected={router.asPath.startsWith('/comparison')}
+            selected={path.startsWith('/comparison')}
           >
             기기 비교
           </WideLinkBlock>

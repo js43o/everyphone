@@ -1,4 +1,4 @@
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { Box, Grid, Divider, Typography, Chip } from '@mui/material';
 import getPhoneByUrl from 'utils/db/getPhoneByUrl';
 import { Phone } from 'utils/types';
@@ -16,17 +16,16 @@ export default function IdPage(props: { phone: string }) {
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
-        flexGrow: 1,
-        maxWidth: 1024,
       }}
     >
-      <Typography variant="h1">기기 목록</Typography>
-      <Grid
-        container
+      <Box
         sx={{
-          flexGrow: 1,
+          px: { xs: 2, lg: 0 },
         }}
       >
+        <Typography variant="h1">기기 목록</Typography>
+      </Box>
+      <Grid container>
         <Grid
           item
           xs={12}
@@ -55,7 +54,7 @@ export default function IdPage(props: { phone: string }) {
             gap: 2,
             padding: 2,
             borderRadius: 2,
-            background: 'white',
+            bgcolor: 'bluegrey.lighter',
           }}
         >
           <Typography variant="h2">{phone.name}</Typography>

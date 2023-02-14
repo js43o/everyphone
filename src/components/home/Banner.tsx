@@ -49,7 +49,7 @@ export default function Banner() {
           <Box
             sx={{
               maxWidth: { xs: '100%', lg: 430 },
-              color: 'white',
+              color: 'bluegrey.lighter',
             }}
           >
             <Typography variant="h2">
@@ -67,7 +67,7 @@ export default function Banner() {
           <Box
             sx={{
               maxWidth: { xs: '100%', lg: 430 },
-              color: 'white',
+              color: 'bluegrey.lighter',
             }}
           >
             <Typography variant="h2">

@@ -11,20 +11,20 @@ export const LinkBlock = styled(Link)<{ selected: boolean }>`
   &:hover {
     background: ${({ theme }) => theme.palette.bluegrey.main};
   }
-  ${({ selected }) =>
+  ${({ theme, selected }) =>
     selected &&
     css`
-      color: white;
-      background: black;
+      color: ${theme.palette.bluegrey.lighter};
+      background: ${theme.palette.bluegrey.black};
       &:hover {
-        color: white;
-        background: black;
+        color: ${theme.palette.bluegrey.lighter};
+        background: ${theme.palette.bluegrey.black};
       }
     `};
 `;
 
 export default function NavBar() {
-  const router = useRouter();
+  const path = useRouter().asPath;
 
   return (
     <Box
@@ -35,16 +35,13 @@ export default function NavBar() {
       }}
       component="nav"
     >
-      <LinkBlock href="/" selected={router.asPath === '/'}>
+      <LinkBlock href="/" selected={path === '/'}>
         메인
       </LinkBlock>
-      <LinkBlock href="/phones" selected={router.asPath.startsWith('/phones')}>
+      <LinkBlock href="/phones" selected={path.startsWith('/phones')}>
         기기 목록
       </LinkBlock>
-      <LinkBlock
-        href="/comparison"
-        selected={router.asPath.startsWith('/comparison')}
-      >
+      <LinkBlock href="/comparison" selected={path.startsWith('/comparison')}>
         기기 비교
       </LinkBlock>
     </Box>

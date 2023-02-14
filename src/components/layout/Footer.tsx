@@ -9,7 +9,7 @@ export default function Footer() {
         justifyContent: 'center',
         alignItems: 'center',
         padding: 2,
-        background: 'white',
+        bgcolor: 'bluegrey.lighter',
       }}
     >
       Footer

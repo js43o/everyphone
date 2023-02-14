@@ -24,6 +24,7 @@ const paletteColors = {
     light: '#fbfbfc',
     lighter: '#ffffff',
     contrastText: '#3e5060',
+    black: 'black',
   },
 };
 

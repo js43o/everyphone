@@ -37,7 +37,7 @@ export default function ComparisonSheet(props: {
         gap: 1,
         padding: 2,
         borderRadius: 2,
-        background: 'white',
+        bgcolor: 'bluegrey.lighter',
         width: '100%',
       }}
     >

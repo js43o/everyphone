@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSetRecoilState, useRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import {
   Box,
   Slider,
@@ -21,6 +21,23 @@ import { convertToDataFormat, convertToRangeFormat } from 'utils/methods';
 import { MANUFACTURER } from 'utils/constants';
 import { filterPhoneQueryState } from 'utils/atoms';
 import ByteRangeSlider from './ByteRangeSlider';
+
+const FilterValueIndicator = (props: {
+  minValue: string;
+  maxValue: string;
+}) => {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+      }}
+    >
+      <Typography variant="body2">{props.minValue}</Typography>
+      <Typography variant="body2">{props.maxValue}</Typography>
+    </Box>
+  );
+};
 
 export default function FilterController() {
   const [openController, setOpenController] = useState(true);
@@ -138,9 +155,9 @@ export default function FilterController() {
             flexDirection: 'column',
             gap: 1,
             height: 'min-content',
-            borderRadius: 2,
             padding: 2,
-            background: 'white',
+            borderRadius: 2,
+            bgcolor: 'bluegrey.lighter',
           }}
         >
           <Box
@@ -180,15 +197,10 @@ export default function FilterController() {
               onChange={(e, newValue) => onChangeRangeQuery('height', newValue)}
               valueLabelDisplay="off"
             />
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Typography variant="body2">{localQuery.height[0]} mm</Typography>
-              <Typography variant="body2">{localQuery.height[1]} mm</Typography>
-            </Box>
+            <FilterValueIndicator
+              minValue={`${localQuery.height[0]} mm`}
+              maxValue={`${localQuery.height[1]} mm`}
+            />
           </Box>
           <Divider />
           <Box>
@@ -201,75 +213,54 @@ export default function FilterController() {
                 onChangeRangeQuery('storage', newValue)
               }
             />
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Typography variant="body2">
-                {convertToDataFormat(2 ** localQuery.storage[0])}
-              </Typography>
-              <Typography variant="body2">
-                {convertToDataFormat(2 ** localQuery.storage[1])}
-              </Typography>
-            </Box>
-          </Box>
-          <Divider />
-          <Box>
-            <Typography variant="subtitle1">배터리</Typography>
-            <Slider
-              min={defaultFilterPhoneQuery.battery[0]}
-              max={defaultFilterPhoneQuery.battery[1]}
-              step={500}
-              value={localQuery.battery}
-              onChange={(e, newValue) =>
-                onChangeRangeQuery('battery', newValue)
-              }
-              valueLabelDisplay="off"
+            <FilterValueIndicator
+              minValue={convertToDataFormat(2 ** localQuery.storage[0])}
+              maxValue={convertToDataFormat(2 ** localQuery.storage[1])}
             />
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Typography variant="body2">
-                {localQuery.battery[0]} mAh
-              </Typography>
-              <Typography variant="body2">
-                {localQuery.battery[1]} mAh
-              </Typography>
             </Box>
-          </Box>
-          <Divider />
-          <Box>
-            <Typography variant="subtitle1">무게</Typography>
-            <Slider
-              min={defaultFilterPhoneQuery.weight[0]}
-              max={defaultFilterPhoneQuery.weight[1]}
-              step={50}
-              value={localQuery.weight}
-              onChange={(e, newValue) => onChangeRangeQuery('weight', newValue)}
-              valueLabelDisplay="off"
-            />
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Typography variant="body2">{localQuery.weight[0]} g</Typography>
-              <Typography variant="body2">{localQuery.weight[1]} g</Typography>
+            <Divider />
+            <Box>
+              <Typography variant="subtitle1">배터리</Typography>
+              <Slider
+                min={defaultFilterPhoneQuery.battery[0]}
+                max={defaultFilterPhoneQuery.battery[1]}
+                step={500}
+                value={localQuery.battery}
+                onChange={(e, newValue) =>
+                  onChangeRangeQuery('battery', newValue)
+                }
+                valueLabelDisplay="off"
+              />
+              <FilterValueIndicator
+                minValue={`${localQuery.battery[0]} mAh`}
+                maxValue={`${localQuery.battery[1]} mAh`}
+              />
             </Box>
-          </Box>
-          <Divider />
-          <Button variant="contained" onClick={onApplyQuery}>
-            적용
-          </Button>
-          <Button variant="outlined" onClick={onResetQueryAll}>
-            초기화
-          </Button>
+            <Divider />
+            <Box>
+              <Typography variant="subtitle1">무게</Typography>
+              <Slider
+                min={defaultFilterPhoneQuery.weight[0]}
+                max={defaultFilterPhoneQuery.weight[1]}
+                step={50}
+                value={localQuery.weight}
+                onChange={(e, newValue) =>
+                  onChangeRangeQuery('weight', newValue)
+                }
+                valueLabelDisplay="off"
+              />
+              <FilterValueIndicator
+                minValue={`${localQuery.weight[0]} g`}
+                maxValue={`${localQuery.weight[1]} g`}
+              />
+            </Box>
+            <Divider />
+            <Button variant="contained" onClick={onApplyQuery} >
+              적용
+            </Button>
+            <Button variant="outlined" onClick={onResetQueryAll}>
+              초기화
+            </Button>
         </Box>
       </Collapse>
     </>

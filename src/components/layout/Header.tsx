@@ -8,42 +8,34 @@ import SearchPhoneButton from './SearchPhoneButton';
 export default function Header() {
   const isMobile = useMediaQuery(useTheme().breakpoints.down('lg'));
 
-  if (isMobile)
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          padding: 1,
-          background: 'white',
-        }}
-      >
-        <NavDrawerButton />
-        <Link href="/">
-          <Title />
-        </Link>
-        <SearchPhoneButton />
-      </Box>
-    );
-
   return (
     <Box
       sx={{
         display: 'flex',
-        flexDirection: { xs: 'column', lg: 'row' },
-        justifyContent: 'center',
+        justifyContent: { xs: 'space-between', lg: 'center' },
         alignItems: 'center',
-        gap: 3,
+        gap: { xs: 0, lg: 3 },
         padding: 1,
-        background: 'white',
+        bgcolor: 'bluegrey.lighter',
       }}
-      component="header"
     >
-      <Link href="/">
-        <Title />
-      </Link>
-      <NavBar />
-      <SearchPhoneButton />
+      {isMobile ? (
+        <>
+          <NavDrawerButton />
+          <Link href="/">
+            <Title />
+          </Link>
+          <SearchPhoneButton />
+        </>
+      ) : (
+        <>
+          <Link href="/">
+            <Title />
+          </Link>
+          <NavBar />
+          <SearchPhoneButton />
+        </>
+      )}
     </Box>
   );
 }

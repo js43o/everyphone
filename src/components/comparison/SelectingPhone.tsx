@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
 import { useRecoilState, useSetRecoilState } from 'recoil';
+import styled from '@emotion/styled';
 import { Box, IconButton, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -41,6 +41,7 @@ export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        padding: 1,
       }}
     >
       {phone ? (

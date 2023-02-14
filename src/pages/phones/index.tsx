@@ -6,8 +6,6 @@ import axios from 'axios';
 import queryString from 'query-string';
 import { Pagination, Box, Grid, Typography } from '@mui/material';
 import { phonesState, filterPhoneQueryState } from 'utils/atoms';
-import { Phone } from 'utils/types';
-import getPhones from 'utils/db/getPhones';
 import PhoneCard from 'components/phones/PhoneCard';
 import FilterController from 'components/phones/FilterController';
 import NoResult from 'components/common/NoResult';
@@ -61,17 +59,15 @@ export default function Index() {
           flexDirection: 'column',
           alignItems: 'center',
           gap: 2,
-          width: '100%',
-          maxWidth: 1024,
         }}
       >
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            alignItems: 'center',
+            alignItems: 'flex-start',
             width: '100%',
-            paddingX: { xs: 2, lg: 0 },
+            px: { xs: 2, lg: 0 },
           }}
         >
           <Typography variant="h1">기기 목록</Typography>
@@ -81,38 +77,36 @@ export default function Index() {
           <Grid item xs={12} lg={4} xl={3}>
             <FilterController />
           </Grid>
-          {phones.length > 0 ? (
-            <Grid item container xs={12} lg={8} xl={9} spacing={1}>
-              {phones.map((phone) => (
+          <Grid
+            item
+            container
+            xs={12}
+            lg={8}
+            xl={9}
+            spacing={1}
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+            }}
+          >
+            {phones.length > 0 ? (
+              phones.map((phone) => (
                 <Grid item xs={12} md={6} xl={4} key={phone.url}>
                   <Link href={`/phones/${encodeURIComponent(phone.url)}`}>
                     <PhoneCard data={phone} priority />
                   </Link>
                 </Grid>
-              ))}
-            </Grid>
-          ) : (
-            <Grid
-              item
-              container
-              xs={12}
-              lg={8}
-              xl={9}
-              spacing={1}
-              sx={{
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
+              ))
+            ) : (
               <NoResult />
-            </Grid>
-          )}
+            )}
+          </Grid>
         </Grid>
         <Pagination
           count={lastPage}
           page={currentPage}
           onChange={onChangePage}
-          sx={{ padding: 2 }}
+          sx={{ py: 2 }}
         />
       </Box>
     </>

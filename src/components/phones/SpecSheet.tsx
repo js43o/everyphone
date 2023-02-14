@@ -26,17 +26,10 @@ export default function SpecSheet(props: { phone: Phone }) {
         gap: 1,
         padding: 2,
         borderRadius: 2,
-        background: 'white',
+        bgcolor: 'bluegrey.lighter',
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography variant="h2">상세 사양</Typography>
-      </Box>
+      <Typography variant="h2">상세 사양</Typography>
       <Divider variant="bold" />
       <List
         sx={{
@@ -45,7 +38,7 @@ export default function SpecSheet(props: { phone: Phone }) {
             flexDirection: 'column',
             alignItems: 'flex-start',
             gap: 1,
-            paddingX: 0,
+            padding: '1rem 0',
           },
         }}
         disablePadding
