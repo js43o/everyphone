@@ -13,7 +13,7 @@ import FilterController from 'components/phones/FilterController';
 import NoResult from 'components/common/NoResult';
 import SortingSelector from 'components/phones/SortingSelector';
 
-export default function Index(props: { phones: string; lastPage: string }) {
+export default function Index() {
   const [phones, setPhones] = useRecoilState(phonesState);
   const filterPhoneQuery = useRecoilValue(filterPhoneQueryState);
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,12 +42,6 @@ export default function Index(props: { phones: string; lastPage: string }) {
     onFetchPhones(newPage);
     setCurrentPage(newPage);
   };
-
-  useEffect(() => {
-    const ssrPhones: Phone[] = JSON.parse(props.phones);
-    setPhones(ssrPhones);
-    setLastPage(Number(props.lastPage));
-  }, [props, setPhones]);
 
   useEffect(() => {
     queryChanged.current = true;
@@ -123,14 +117,4 @@ export default function Index(props: { phones: string; lastPage: string }) {
       </Box>
     </>
   );
-}
-
-export async function getServerSideProps() {
-  const { phones, lastPage } = await getPhones({});
-  return {
-    props: {
-      phones: JSON.stringify(phones),
-      lastPage,
-    },
-  };
 }
