@@ -27,7 +27,7 @@ export default function PhoneCard(props: { data: Phone; priority?: boolean }) {
           <RatioImage
             src={`/images/phones/${data.url}.png`}
             alt={data.url}
-            height={120}
+            height={160}
             priority={priority}
           />
           <Divider />

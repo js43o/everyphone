@@ -42,6 +42,7 @@ export default function IdPage(props: { phone: string }) {
             alt={phone.url}
             height={320}
             priority
+            quality={100}
           />
         </Grid>
         <Grid

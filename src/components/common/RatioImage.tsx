@@ -1,46 +1,28 @@
-import Image from 'next/image';
-import { useState } from 'react';
+import Image, { ImageProps } from 'next/image';
+import { Box } from '@mui/material';
 
-export default function RatioImage(props: {
-  src: string;
-  alt: string;
-  width?: number;
-  height?: number;
-  priority?: boolean;
-}) {
+export default function RatioImage(props: Partial<ImageProps>) {
   const { src, alt, width, height, priority } = props;
-  const [relative, setRelative] = useState(0);
 
-  if (width) {
-    return (
+  if (!src || !alt) return <></>;
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        height: height || width,
+        width: width || height,
+        position: 'relative',
+        '& > img': { objectFit: 'contain' },
+      }}
+    >
       <Image
         src={src}
         alt={alt}
-        width={width}
-        height={relative}
-        onLoadingComplete={(img) =>
-          setRelative(width * (img.naturalHeight / img.naturalWidth))
-        }
-        priority={priority}
         crossOrigin="anonymous"
+        priority={!!priority}
+        fill
       />
-    );
-  }
-
-  if (height) {
-    return (
-      <Image
-        src={src}
-        alt={alt}
-        width={relative}
-        height={height}
-        onLoadingComplete={(img) =>
-          setRelative(height * (img.naturalWidth / img.naturalHeight))
-        }
-        priority={priority}
-      />
-    );
-  }
-
-  return <div>PROPS ERROR</div>;
+    </Box>
+  );
 }

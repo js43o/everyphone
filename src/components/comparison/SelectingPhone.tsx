@@ -1,17 +1,10 @@
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import styled from '@emotion/styled';
 import { Box, IconButton, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { Phone } from 'utils/types';
 import { comparisonDevicesState, searchingModeState } from 'utils/atoms';
-
-const PhoneImage = styled.img`
-  width: 100%;
-  height: 100%;
-  max-height: 320px;
-  object-fit: contain;
-`;
+import RatioImage from 'components/common/RatioImage';
 
 export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
   const { phone, slot } = props;
@@ -46,7 +39,13 @@ export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
     >
       {phone ? (
         <>
-          <PhoneImage src={`/images/phones/${phone.url}.png`} alt={phone.url} />
+          <RatioImage
+            src={`/images/phones/${phone.url}.png`}
+            alt={phone.url}
+            width={320}
+            priority
+            quality={100}
+          />
           <Typography variant="h2" mb={0}>
             {phone.name}
           </Typography>
