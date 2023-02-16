@@ -1,10 +1,11 @@
-import { GetServerSideProps } from 'next';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { Box, Grid, Divider, Typography, Chip } from '@mui/material';
 import getPhoneByUrl from 'utils/db/getPhoneByUrl';
 import { Phone } from 'utils/types';
 import { getSpecsOfPhone } from 'utils/methods';
 import RatioImage from 'components/common/RatioImage';
 import SpecSheet from 'components/phones/SpecSheet';
+import getAllPhoneUrls from 'utils/db/getAllPhoneUrls';
 
 export default function IdPage(props: { phone: string }) {
   const phone: Phone = JSON.parse(props.phone);
@@ -87,7 +88,20 @@ export default function IdPage(props: { phone: string }) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  const urls = await getAllPhoneUrls();
+
+  return {
+    paths: urls.map((url) => ({
+      params: {
+        id: url,
+      },
+    })),
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
   const phone = await getPhoneByUrl(context.params?.id as string);
 
   return {

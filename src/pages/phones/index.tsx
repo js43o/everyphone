@@ -1,26 +1,33 @@
 import { useEffect, useState, useRef, useCallback, ChangeEvent } from 'react';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import axios from 'axios';
 import queryString from 'query-string';
 import { Pagination, Box, Grid, Typography } from '@mui/material';
-import { phonesState, filterPhoneQueryState } from 'utils/atoms';
 import PhoneCard from 'components/phones/PhoneCard';
 import FilterController from 'components/phones/FilterController';
 import NoResult from 'components/common/NoResult';
 import SortingSelector from 'components/phones/SortingSelector';
+import { filterPhoneQueryState } from 'utils/atoms';
+import getPhones from 'utils/db/getPhones';
+import { Phone } from 'utils/types';
+import { ITEM_PER_PAGE } from 'utils/constants';
 
-export default function Index() {
-  const [phones, setPhones] = useRecoilState(phonesState);
-  const filterPhoneQuery = useRecoilValue(filterPhoneQueryState);
+export default function Index(props: { phones: string; lastPage: number }) {
+  const [phones, setPhones] = useState<Phone[]>(JSON.parse(props.phones));
+  const [lastPage, setLastPage] = useState(props.lastPage);
   const [currentPage, setCurrentPage] = useState(1);
-  const [lastPage, setLastPage] = useState(1);
   const queryChanged = useRef(false);
+  const propsAccepted = useRef(false);
+  const filterPhoneQuery = useRecoilValue(filterPhoneQueryState);
 
   const onFetchPhones = useCallback(
     async (page: number) => {
       if (!queryChanged.current) return;
+
+      console.log('fetched');
 
       const response = await axios.get(
         `/api/phones?${queryString.stringify(filterPhoneQuery)}&page=${page}`
@@ -42,6 +49,10 @@ export default function Index() {
   };
 
   useEffect(() => {
+    if (!propsAccepted.current) {
+      propsAccepted.current = true;
+      return;
+    }
     queryChanged.current = true;
     setCurrentPage(1);
     onFetchPhones(1);
@@ -90,10 +101,10 @@ export default function Index() {
             }}
           >
             {phones.length > 0 ? (
-              phones.map((phone) => (
+              phones.map((phone, index) => (
                 <Grid item xs={12} md={6} xl={4} key={phone.url}>
                   <Link href={`/phones/${encodeURIComponent(phone.url)}`}>
-                    <PhoneCard data={phone} priority />
+                    <PhoneCard data={phone} priority={index < ITEM_PER_PAGE} />
                   </Link>
                 </Grid>
               ))
@@ -112,3 +123,14 @@ export default function Index() {
     </>
   );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const { phones, lastPage } = await getPhones({ options: ITEM_PER_PAGE });
+
+  return {
+    props: {
+      phones: JSON.stringify(phones),
+      lastPage,
+    },
+  };
+};

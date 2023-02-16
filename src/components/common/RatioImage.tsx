@@ -22,6 +22,7 @@ export default function RatioImage(props: Partial<ImageProps>) {
         crossOrigin="anonymous"
         priority={!!priority}
         fill
+        sizes={`${width || height}`}
       />
     </Box>
   );

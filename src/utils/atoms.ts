@@ -7,11 +7,6 @@ import {
   SearchingMode,
 } from 'utils/types';
 
-export const phonesState = atom<Phone[]>({
-  key: `phonesState/${v1()}`,
-  default: [],
-});
-
 export const filterPhoneQueryState = atom<FilterPhoneQuery>({
   key: `filterPhoneQueryState/${v1()}`,
   default: defaultFilterPhoneQuery,

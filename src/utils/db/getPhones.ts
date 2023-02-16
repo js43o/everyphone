@@ -4,7 +4,7 @@ import PhoneModel from 'utils/db/models/Phone';
 import { ITEM_PER_PAGE, SORT_BY_QUERY } from '../constants';
 
 export default async function getPhones(props: {
-  options?: FilterPhoneQuery;
+  options?: FilterPhoneQuery | number;
   page?: number;
 }): Promise<{ phones: Phone[]; lastPage: Number }> {
   try {
