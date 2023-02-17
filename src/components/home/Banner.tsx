@@ -1,35 +1,43 @@
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 import Title from 'components/common/Title';
+import Image from 'next/image';
 import { ReactNode } from 'react';
 import Carousel from 'react-material-ui-carousel';
 
 const BannerItem = (props: {
   contents: string | ReactNode;
   imageName: string;
+  isMobile: boolean;
+  priority?: boolean;
 }) => {
-  const { contents, imageName } = props;
+  const { contents, imageName, isMobile, priority } = props;
 
   return (
     <Box
       sx={{
         display: 'flex',
         justifyContent: { xs: 'center', lg: 'flex-start' },
+        position: 'relative',
         height: '100%',
         padding: 2,
-        backgroundImage: {
-          xs: `url(/images/banner/${imageName}_small.webp)`,
-          lg: `url(/images/banner/${imageName}_large.webp)`,
-        },
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: '50% 50%',
         textAlign: {
           xs: 'center',
           lg: 'left',
         },
+        img: {
+          zIndex: -1,
+          objectFit: 'cover',
+        },
       }}
     >
       {contents}
+      <Image
+        src={`/images/banner/${imageName}_${isMobile ? 'small' : 'large'}.webp`}
+        alt={imageName}
+        fill
+        sizes="(max-width: 768px) 734px; 992px"
+        priority={priority}
+      />
     </Box>
   );
 };
@@ -61,6 +69,8 @@ export default function Banner() {
           </Box>
         }
         imageName="s23_triple"
+        isMobile={isMobile}
+        priority
       />
       <BannerItem
         contents={
@@ -79,6 +89,7 @@ export default function Banner() {
           </Box>
         }
         imageName="iphone_14"
+        isMobile={isMobile}
       />
     </Carousel>
   );

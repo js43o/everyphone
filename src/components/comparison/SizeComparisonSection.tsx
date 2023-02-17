@@ -214,6 +214,9 @@ export default function SizeComparisonSection(props: {
                 sx={{
                   position: 'absolute',
                   opacity: 0.5,
+                  img: {
+                    width: 'auto',
+                  },
                 }}
               >
                 <Image

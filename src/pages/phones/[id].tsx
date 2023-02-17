@@ -44,6 +44,7 @@ export default function IdPage(props: { phone: string }) {
             height={320}
             priority
             quality={100}
+            sizes="320px"
           />
         </Grid>
         <Grid

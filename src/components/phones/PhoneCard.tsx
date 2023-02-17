@@ -29,6 +29,7 @@ export default function PhoneCard(props: { data: Phone; priority?: boolean }) {
             alt={data.url}
             height={160}
             priority={priority}
+            sizes="160px"
           />
           <Divider />
           <Box

@@ -45,6 +45,7 @@ export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
             width={320}
             priority
             quality={100}
+            sizes="320px"
           />
           <Typography variant="h2" mb={0}>
             {phone.name}

@@ -2,7 +2,7 @@ import Image, { ImageProps } from 'next/image';
 import { Box } from '@mui/material';
 
 export default function RatioImage(props: Partial<ImageProps>) {
-  const { src, alt, width, height, priority } = props;
+  const { src, alt, width, height, priority, sizes } = props;
 
   if (!src || !alt) return <></>;
 
@@ -22,7 +22,7 @@ export default function RatioImage(props: Partial<ImageProps>) {
         crossOrigin="anonymous"
         priority={!!priority}
         fill
-        sizes={`${width || height}`}
+        sizes={sizes}
       />
     </Box>
   );
