@@ -214,17 +214,11 @@ export default function SizeComparisonSection(props: {
                 sx={{
                   position: 'absolute',
                   opacity: 0.5,
-                  img: {
-                    width: 'auto',
-                  },
+                  width: handSize * offset * 0.65,
+                  height: handSize * offset,
                 }}
               >
-                <Image
-                  src="/images/hand-icon.svg"
-                  alt="hand"
-                  width={handSize * offset * 0.65}
-                  height={handSize * offset}
-                />
+                <Image src="/images/hand-icon.svg" alt="hand" fill />
               </Box>
             )}
             <ImageWrapper

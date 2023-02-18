@@ -5,6 +5,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { Phone } from 'utils/types';
 import { comparisonDevicesState, searchingModeState } from 'utils/atoms';
 import RatioImage from 'components/common/RatioImage';
+import Image from 'next/image';
 
 export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
   const { phone, slot } = props;
@@ -39,14 +40,23 @@ export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
     >
       {phone ? (
         <>
-          <RatioImage
-            src={`/images/phones/${phone.url}.png`}
-            alt={phone.url}
-            width={320}
-            priority
-            quality={100}
-            sizes="320px"
-          />
+          <Box
+            sx={{
+              position: 'relative',
+              width: '100%',
+              height: '40vw',
+              maxHeight: 360,
+            }}
+          >
+            <RatioImage
+              src={`/images/phones/${phone.url}.png`}
+              alt={phone.url}
+              fill
+              priority
+              quality={100}
+              sizes="400px"
+            />
+          </Box>
           <Typography variant="h2" mb={0}>
             {phone.name}
           </Typography>

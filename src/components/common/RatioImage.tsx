@@ -10,8 +10,8 @@ export default function RatioImage(props: Partial<ImageProps>) {
     <Box
       sx={{
         display: 'flex',
-        height: height || width,
-        width: width || height,
+        height: height || width || '100%',
+        width: width || height || '100%',
         position: 'relative',
         '& > img': { objectFit: 'contain' },
       }}
