@@ -7,7 +7,7 @@ import { comparisonDevicesState } from 'utils/atoms';
 import SizeComparisonSection from 'components/comparison/SizeComparisonSection';
 import VsCircle from 'components/comparison/VsCircle';
 
-export default function Index() {
+export default function Comparison() {
   const [device1, device2] = useRecoilValue(comparisonDevicesState);
 
   return (

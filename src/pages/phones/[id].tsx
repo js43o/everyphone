@@ -17,7 +17,7 @@ import getPhoneByUrl from 'utils/db/getPhoneByUrl';
 import { Phone } from 'utils/types';
 import { getSpecsOfPhone, isFavorite, toggleFavorite } from 'utils/methods';
 
-export default function IdPage(props: { phone: string }) {
+export default function PhonesId(props: { phone: string }) {
   const [favorite, setFavorite] = useState(false);
   const phone: Phone = JSON.parse(props.phone);
   const specs = getSpecsOfPhone(phone);
@@ -84,10 +84,15 @@ export default function IdPage(props: { phone: string }) {
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
+              alignItems: 'center',
             }}
           >
             <Typography variant="h2">{phone.name}</Typography>
-            <IconButton onClick={onToggleFavorite}>
+            <IconButton
+              onClick={onToggleFavorite}
+              aria-label="toggle the favorite device"
+              sx={{ width: 48, height: 48 }}
+            >
               {favorite ? (
                 <FavoriteIcon color="secondary" />
               ) : (

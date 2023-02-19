@@ -1,9 +1,25 @@
 import Link from 'next/link';
-import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { Box, IconButton, useMediaQuery, useTheme } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import Title from 'components/common/Title';
 import NavBar from './NavBar';
 import NavDrawerButton from './NavDrawerButton';
 import SearchPhoneButton from './SearchPhoneButton';
+
+const FavoriteButton = () => {
+  return (
+    <Link href="/favorite">
+      <IconButton
+        sx={{
+          width: 48,
+          height: 48,
+        }}
+      >
+        <FavoriteIcon />
+      </IconButton>
+    </Link>
+  );
+};
 
 export default function Header() {
   const isMobile = useMediaQuery(useTheme().breakpoints.down('lg'));
@@ -25,7 +41,15 @@ export default function Header() {
           <Link href="/">
             <Title />
           </Link>
-          <SearchPhoneButton />
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
+            }}
+          >
+            <SearchPhoneButton />
+          </Box>
         </>
       ) : (
         <>
@@ -33,7 +57,16 @@ export default function Header() {
             <Title />
           </Link>
           <NavBar />
-          <SearchPhoneButton />
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
+            }}
+          >
+            <SearchPhoneButton />
+            <FavoriteButton />
+          </Box>
         </>
       )}
     </Box>

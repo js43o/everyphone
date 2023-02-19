@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { styled } from '@mui/system';
-import { Box, Drawer, IconButton } from '@mui/material';
+import { Box, Drawer, IconButton, Typography, Divider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { LinkBlock } from './NavBar';
 
@@ -18,7 +18,7 @@ export default function NavDrawerButton() {
   return (
     <>
       <IconButton
-        aria-label="menu"
+        aria-label="open the menu"
         onClick={() => setOpen(true)}
         sx={{ width: 48, height: 48 }}
       >
@@ -35,14 +35,11 @@ export default function NavDrawerButton() {
           component="nav"
           onClick={onCloseDrawer}
         >
-          <h2>메뉴</h2>
+          <Typography variant="h2">메뉴</Typography>
           <WideLinkBlock href="/" selected={path === '/'}>
             메인
           </WideLinkBlock>
-          <WideLinkBlock
-            href="/phones"
-            selected={path.startsWith('/phones')}
-          >
+          <WideLinkBlock href="/phones" selected={path.startsWith('/phones')}>
             기기 목록
           </WideLinkBlock>
           <WideLinkBlock
@@ -50,6 +47,13 @@ export default function NavDrawerButton() {
             selected={path.startsWith('/comparison')}
           >
             기기 비교
+          </WideLinkBlock>
+          <Divider />
+          <WideLinkBlock
+            href="/favorite"
+            selected={path.startsWith('/favorite')}
+          >
+            북마크
           </WideLinkBlock>
         </Box>
       </Drawer>

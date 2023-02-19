@@ -42,8 +42,7 @@ export default function HandSizeModal(props: {
     <Modal
       open={opened}
       onClose={onClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
+      aria-labelledby="dummy hand sizing modal"
     >
       <Box
         sx={{
@@ -60,7 +59,9 @@ export default function HandSizeModal(props: {
         }}
       >
         <Box>
-          <Typography variant="h3">더미 핸드 크기</Typography>
+          <Typography variant="h3" id="dummy hand sizing">
+            더미 핸드 크기
+          </Typography>
           <Typography variant="body2">
             손바닥 끝부터 중지 끝까지의 길이를 입력해주세요.
           </Typography>
@@ -72,6 +73,8 @@ export default function HandSizeModal(props: {
           value={value}
           onChange={handleChange}
           helperText="최소 100 mm - 최대 250 mm"
+          aria-labelledby="dummy hand sizing"
+          aria-describedby="between 100 and 250 millimeters"
         />
         <Box
           sx={{

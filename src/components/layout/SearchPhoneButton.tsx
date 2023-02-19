@@ -108,7 +108,7 @@ export default function SearchPhoneButton() {
   return (
     <>
       <IconButton
-        aria-label="search"
+        aria-label="open the search"
         onClick={onOpenSearching}
         sx={{ width: 48, height: 48 }}
       >

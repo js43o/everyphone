@@ -61,7 +61,7 @@ const reducer = (state: ComparisonViewOptions, action: { type: string }) => {
   switch (action.type) {
     case 'LAYERED':
       return { ...state, layered: !state.layered };
-    case 'HAND_DUMMY':
+    case 'DUMMY_HAND':
       return { ...state, handDummy: !state.handDummy };
     case 'DEVICE_ONE':
       return { ...state, device1: !state.device1 };
@@ -143,14 +143,17 @@ export default function SizeComparisonSection(props: {
               alignSelf: 'flex-end',
             }}
           >
-            <IconButton onClick={() => setModalOpened(true)}>
+            <IconButton
+              onClick={() => setModalOpened(true)}
+              aria-label="open modal for dummy hand sizing"
+            >
               <SettingsIcon />
             </IconButton>
             <FormControlLabel
               control={
                 <Switch
                   checked={viewState.handDummy}
-                  onChange={() => dispatch({ type: 'HAND_DUMMY' })}
+                  onChange={() => dispatch({ type: 'DUMMY_HAND' })}
                   color="secondary"
                   disabled={!device1 && !device2}
                 />
@@ -209,22 +212,27 @@ export default function SizeComparisonSection(props: {
           </Box>
         ) : (
           <>
-            {viewState.handDummy && (
-              <Box
-                sx={{
-                  position: 'absolute',
-                  opacity: 0.5,
-                  width: handSize * offset * 0.65,
-                  height: handSize * offset,
-                }}
-              >
-                <Image src="/images/hand-icon.svg" alt="hand" fill />
-              </Box>
-            )}
             <ImageWrapper
               layered={viewState.layered ? 1 : 0}
               minWidth={Math.max(device1Width, device2Width)}
             >
+              {viewState.handDummy && (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    width: handSize * offset * 0.65,
+                    height: handSize * offset,
+                    bottom: 0,
+                  }}
+                >
+                  <Image
+                    src="/images/hand-icon.svg"
+                    alt="hand"
+                    fill
+                    style={{ border: '1px solid green' }}
+                  />
+                </Box>
+              )}
               {device1 && viewState.device1 && (
                 <Image
                   src={`/images/size/${device1.url}-front.webp`}

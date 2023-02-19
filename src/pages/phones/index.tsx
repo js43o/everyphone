@@ -15,7 +15,7 @@ import getPhones from 'utils/db/getPhones';
 import { Phone } from 'utils/types';
 import { ITEM_PER_PAGE } from 'utils/constants';
 
-export default function Index(props: { phones: string; lastPage: number }) {
+export default function Phones(props: { phones: string; lastPage: number }) {
   const [phones, setPhones] = useState<Phone[]>(JSON.parse(props.phones));
   const [lastPage, setLastPage] = useState(props.lastPage);
   const [currentPage, setCurrentPage] = useState(1);

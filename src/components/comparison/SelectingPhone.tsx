@@ -21,7 +21,7 @@ export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
     });
   };
 
-  const unselectDevice = () => {
+  const deselectDevice = () => {
     if (slot === 1) {
       setComparisonDevice([undefined, comparisonDevice[1]]);
       return;
@@ -61,13 +61,16 @@ export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
             {phone.name}
           </Typography>
           <Typography variant="subtitle1">{phone.korName}</Typography>
-          <IconButton onClick={unselectDevice}>
+          <IconButton onClick={deselectDevice} aria-label="deselect a device">
             <RemoveCircleOutlineIcon fontSize="large" color="error" />
           </IconButton>
         </>
       ) : (
         <>
-          <IconButton onClick={onOpenSearching}>
+          <IconButton
+            onClick={onOpenSearching}
+            aria-label="search for device to select"
+          >
             <AddCircleOutlineIcon fontSize="large" />
           </IconButton>
           기기 추가
