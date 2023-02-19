@@ -13,7 +13,7 @@ export default function PhoneCard(props: { data: Phone; priority?: boolean }) {
   const { data, priority } = props;
 
   return (
-    <Card sx={{ borderRadius: 2 }} variant="outlined">
+    <Card sx={{ borderRadius: 2 }}>
       <CardActionArea>
         <CardContent
           sx={{

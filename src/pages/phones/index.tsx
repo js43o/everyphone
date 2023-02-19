@@ -6,7 +6,7 @@ import { useRecoilValue } from 'recoil';
 import axios from 'axios';
 import queryString from 'query-string';
 import { Pagination, Box, Grid, Typography } from '@mui/material';
-import PhoneCard from 'components/phones/PhoneCard';
+import PhoneCard from 'components/common/PhoneCard';
 import FilterController from 'components/phones/FilterController';
 import NoResult from 'components/common/NoResult';
 import SortingSelector from 'components/phones/SortingSelector';
