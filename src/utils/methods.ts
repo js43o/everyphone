@@ -159,3 +159,20 @@ export const getSuperiorNumberOfCamera = (
 
   return 0;
 };
+
+export const getFavoriteList = (): string[] => {
+  const json = localStorage.getItem('favorite');
+  return json ? JSON.parse(json) : [];
+};
+
+export const toggleFavorite = (name: string) => {
+  let favorite = getFavoriteList();
+  if (isFavorite(name)) favorite = favorite.filter((item) => item !== name);
+  else favorite.push(name);
+  localStorage.setItem('favorite', JSON.stringify(favorite));
+};
+
+export const isFavorite = (name: string) => {
+  const favorite = getFavoriteList();
+  return favorite.includes(name);
+};

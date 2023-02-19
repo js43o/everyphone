@@ -1,15 +1,35 @@
+import { useState, useEffect } from 'react';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { Box, Grid, Divider, Typography, Chip } from '@mui/material';
-import getPhoneByUrl from 'utils/db/getPhoneByUrl';
-import { Phone } from 'utils/types';
-import { getSpecsOfPhone } from 'utils/methods';
+import {
+  Box,
+  Grid,
+  Divider,
+  Typography,
+  Chip,
+  IconButton,
+} from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RatioImage from 'components/common/RatioImage';
 import SpecSheet from 'components/phones/SpecSheet';
 import getAllPhoneUrls from 'utils/db/getAllPhoneUrls';
+import getPhoneByUrl from 'utils/db/getPhoneByUrl';
+import { Phone } from 'utils/types';
+import { getSpecsOfPhone, isFavorite, toggleFavorite } from 'utils/methods';
 
 export default function IdPage(props: { phone: string }) {
+  const [favorite, setFavorite] = useState(false);
   const phone: Phone = JSON.parse(props.phone);
   const specs = getSpecsOfPhone(phone);
+
+  useEffect(() => {
+    if (isFavorite(phone.name)) setFavorite(true);
+  }, [phone.name]);
+
+  const onToggleFavorite = () => {
+    setFavorite(!favorite);
+    toggleFavorite(phone.name);
+  };
 
   return (
     <Box
@@ -60,7 +80,21 @@ export default function IdPage(props: { phone: string }) {
             bgcolor: 'bluegrey.lighter',
           }}
         >
-          <Typography variant="h2">{phone.name}</Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Typography variant="h2">{phone.name}</Typography>
+            <IconButton onClick={onToggleFavorite}>
+              {favorite ? (
+                <FavoriteIcon color="secondary" />
+              ) : (
+                <FavoriteBorderIcon />
+              )}
+            </IconButton>
+          </Box>
           <Divider />
           {specs.map((spec) => (
             <Grid container item key={spec.key} sx={{ alignItems: 'center' }}>

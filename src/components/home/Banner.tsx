@@ -35,7 +35,7 @@ const BannerItem = (props: {
         src={`/images/banner/${imageName}_${isMobile ? 'small' : 'large'}.webp`}
         alt={imageName}
         fill
-        sizes="(max-width: 768px) 734px; 992px"
+        sizes="(max-width: 768px) 734px, 992px"
         priority={priority}
       />
     </Box>
