@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { Box, Grid, Typography } from '@mui/material';
 import Banner from 'components/home/Banner';
 import PhoneCard from 'components/common/PhoneCard';
-import getPhones from 'utils/db/getPhones';
-import { ITEM_PER_PAGE } from 'utils/constants';
-import { Phone } from 'utils/types';
 import NoResult from 'components/common/NoResult';
+import { Phone } from 'utils/types';
+import { ITEM_PER_PAGE } from 'utils/constants';
+import getAllPhones from 'utils/db/getAllPhones';
 
 export default function Index(props: { phones: string }) {
   return (
@@ -46,7 +46,7 @@ export default function Index(props: { phones: string }) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { phones } = await getPhones({ options: 4 });
+  const { phones } = await getAllPhones(4);
 
   return {
     props: {

@@ -229,7 +229,7 @@ export default function SizeComparisonSection(props: {
                     src="/images/hand-icon.svg"
                     alt="hand"
                     fill
-                    style={{ border: '1px solid green' }}
+                    style={{ border: 'none' }}
                   />
                 </Box>
               )}

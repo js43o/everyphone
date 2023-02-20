@@ -12,10 +12,10 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RatioImage from 'components/common/RatioImage';
 import SpecSheet from 'components/phones/SpecSheet';
-import getAllPhoneUrls from 'utils/db/getAllPhoneUrls';
 import getPhoneByUrl from 'utils/db/getPhoneByUrl';
 import { Phone } from 'utils/types';
 import { getSpecsOfPhone, isFavorite, toggleFavorite } from 'utils/methods';
+import getAllPhones from 'utils/db/getAllPhones';
 
 export default function PhonesId(props: { phone: string }) {
   const [favorite, setFavorite] = useState(false);
@@ -129,7 +129,8 @@ export default function PhonesId(props: { phone: string }) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const urls = await getAllPhoneUrls();
+  const { phones } = await getAllPhones();
+  const urls = phones.map((phone) => phone.url);
 
   return {
     paths: urls.map((url) => ({

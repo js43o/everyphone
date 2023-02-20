@@ -11,9 +11,9 @@ import FilterController from 'components/phones/FilterController';
 import NoResult from 'components/common/NoResult';
 import SortingSelector from 'components/phones/SortingSelector';
 import { filterPhoneQueryState } from 'utils/atoms';
-import getPhones from 'utils/db/getPhones';
 import { Phone } from 'utils/types';
 import { ITEM_PER_PAGE } from 'utils/constants';
+import getAllPhones from 'utils/db/getAllPhones';
 
 export default function Phones(props: { phones: string; lastPage: number }) {
   const [phones, setPhones] = useState<Phone[]>(JSON.parse(props.phones));
@@ -26,8 +26,6 @@ export default function Phones(props: { phones: string; lastPage: number }) {
   const onFetchPhones = useCallback(
     async (page: number) => {
       if (!queryChanged.current) return;
-
-      console.log('fetched');
 
       const response = await axios.get(
         `/api/phones?${queryString.stringify(filterPhoneQuery)}&page=${page}`
@@ -76,7 +74,7 @@ export default function Phones(props: { phones: string; lastPage: number }) {
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            alignItems: 'flex-start',
+            alignItems: 'center',
             width: '100%',
             px: { xs: 2, lg: 0 },
           }}
@@ -125,7 +123,7 @@ export default function Phones(props: { phones: string; lastPage: number }) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { phones, lastPage } = await getPhones({ options: ITEM_PER_PAGE });
+  const { phones, lastPage } = await getAllPhones(ITEM_PER_PAGE);
 
   return {
     props: {

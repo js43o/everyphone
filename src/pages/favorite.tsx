@@ -8,6 +8,7 @@ import NoResult from 'components/common/NoResult';
 import { Phone } from 'utils/types';
 import { ITEM_PER_PAGE } from 'utils/constants';
 import { getFavoriteList, toggleFavorite } from 'utils/methods';
+import queryString from 'query-string';
 
 export default function Favorite() {
   const [phones, setPhones] = useState<Phone[]>([]);
@@ -21,16 +22,10 @@ export default function Favorite() {
     const favorite = getFavoriteList();
     const fetchFavorites = async () => {
       try {
-        const responses = await Promise.all(
-          favorite.map((name) =>
-            axios<Phone>('/api/phone', {
-              params: {
-                name,
-              },
-            })
-          )
-        );
-        setPhones(responses.map((res) => res.data));
+        const response = await axios<Phone[]>('/api/favorite', {
+          params: { names: favorite },
+        });
+        setPhones(response.data);
       } catch (e) {
         throw e;
       }

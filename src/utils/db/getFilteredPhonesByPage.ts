@@ -3,32 +3,12 @@ import { Phone, FilterPhoneQuery } from 'utils/types';
 import PhoneModel from 'utils/db/models/Phone';
 import { ITEM_PER_PAGE, SORT_BY_QUERY } from '../constants';
 
-export default async function getPhones(props: {
-  options?: FilterPhoneQuery | number;
-  page?: number;
+export default async function getFilteredPhonesByPage(props: {
+  options: FilterPhoneQuery;
+  page: number;
 }): Promise<{ phones: Phone[]; lastPage: Number }> {
   try {
     await connectMongo();
-
-    if (!props.options) {
-      const phones = await PhoneModel.find()
-        .sort(SORT_BY_QUERY.get('latest'))
-        .exec();
-      const lastPage = Math.ceil(
-        (await PhoneModel.countDocuments().exec()) / ITEM_PER_PAGE
-      );
-
-      return { phones, lastPage };
-    }
-
-    if (typeof props.options === 'number') {
-      const phones = await PhoneModel.find()
-        .sort(SORT_BY_QUERY.get('latest'))
-        .limit(props.options)
-        .exec();
-
-      return { phones, lastPage: 0 };
-    }
 
     const { manufacturer, height, storage, battery, weight, sortBy } =
       props.options;

@@ -1,28 +1,36 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
-import getPhones from 'utils/db/getPhones';
+import getFilteredPhonesByPage from 'utils/db/getFilteredPhonesByPage';
 import { MANUFACTURER } from 'utils/constants';
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>();
 
-handler.get(async (req, res) => {
-  const options = {
-    manufacturer: req.query.manufacturer
-      ? (req.query.manufacturer as string[])
-      : MANUFACTURER,
-    height: (req.query.height as string[]).map((value) => Number(value)),
-    storage: (req.query.storage as string[]).map(
-      (value) => 2 ** Number(value) / 1024 ** 3
-    ),
-    battery: (req.query.battery as string[]).map((value) => Number(value)),
-    weight: (req.query.weight as string[]).map((value) => Number(value)),
-    sortBy: req.query.sortBy as string,
-  };
-  const page = Number(req.query.page);
+type QueryType = {
+  manufacturer: string[];
+  height: string[];
+  storage: string[];
+  battery: string[];
+  weight: string[];
+  sortBy: string;
+  page: string;
+};
 
-  const response = await getPhones({
+handler.get(async (req, res) => {
+  const { manufacturer, height, storage, battery, weight, sortBy, page } =
+    req.query as QueryType;
+
+  const options = {
+    manufacturer: manufacturer || MANUFACTURER,
+    height: height.map((value) => Number(value)),
+    storage: storage.map((value) => 2 ** Number(value) / 1024 ** 3),
+    battery: battery.map((value) => Number(value)),
+    weight: weight.map((value) => Number(value)),
+    sortBy,
+  };
+
+  const response = await getFilteredPhonesByPage({
     options,
-    page,
+    page: Number(page),
   });
   res.json(response);
 });
