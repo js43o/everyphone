@@ -2,18 +2,19 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Head from 'next/head';
 import Link from 'next/link';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
+import LoadingIndicator from 'components/common/LoadingIndicator';
 import PhoneCard from 'components/common/PhoneCard';
 import NoResult from 'components/common/NoResult';
 import { Phone } from 'utils/types';
 import { ITEM_PER_PAGE } from 'utils/constants';
 import { getFavoriteList, toggleFavorite } from 'utils/methods';
-import queryString from 'query-string';
 
 export default function Favorite() {
-  const [phones, setPhones] = useState<Phone[]>([]);
+  const [phones, setPhones] = useState<Phone[] | null>(null);
 
   const onDeleteFavorite = (name: string) => {
+    if (!phones) return;
     toggleFavorite(name);
     setPhones(phones.filter((other) => other.name !== name));
   };
@@ -50,7 +51,9 @@ export default function Favorite() {
       >
         <Typography variant="h1">내 북마크</Typography>
         <Grid container spacing={1}>
-          {phones.length ? (
+          {phones === null ? (
+            <LoadingIndicator />
+          ) : phones.length > 0 ? (
             phones.map((phone, index) => (
               <Grid item key={phone.url} xs={12} md={6} lg={3}>
                 <Link href={`/phones/${encodeURIComponent(phone.url)}`}>
