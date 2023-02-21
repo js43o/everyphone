@@ -74,3 +74,10 @@ export type SearchingMode = {
   opened: boolean;
   mode: 'phones' | 'comparison_device1' | 'comparison_device2';
 };
+
+export type Comment = {
+  phoneUrl: string;
+  username: string;
+  contents: string;
+  date: string;
+};

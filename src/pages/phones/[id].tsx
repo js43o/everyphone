@@ -12,6 +12,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RatioImage from 'components/common/RatioImage';
 import SpecSheet from 'components/phones/SpecSheet';
+import CommentsSection from 'components/phones/CommentsSection';
 import getPhoneByUrl from 'utils/db/getPhoneByUrl';
 import { Phone } from 'utils/types';
 import { getSpecsOfPhone, isFavorite, toggleFavorite } from 'utils/methods';
@@ -124,6 +125,7 @@ export default function PhonesId(props: { phone: string }) {
         </Grid>
       </Grid>
       <SpecSheet phone={phone} />
+      <CommentsSection phoneUrl={phone.url} />
     </Box>
   );
 }
