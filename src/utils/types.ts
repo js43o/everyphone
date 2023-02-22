@@ -78,6 +78,7 @@ export type SearchingMode = {
 export type Comment = {
   phoneUrl: string;
   username: string;
+  hashedPassword: string;
   contents: string;
   date: string;
 };

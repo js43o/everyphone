@@ -1,5 +1,12 @@
-import { ChangeEvent, useState, useEffect, useCallback } from 'react';
+import {
+  ChangeEvent,
+  useState,
+  useEffect,
+  useCallback,
+  useReducer,
+} from 'react';
 import axios from 'axios';
+import { v1 } from 'uuid';
 import {
   Box,
   Typography,
@@ -9,6 +16,8 @@ import {
   Avatar,
   Divider,
   IconButton,
+  TextField,
+  Button,
 } from '@mui/material';
 import { Comment } from 'utils/types';
 import { getColorByTimeStr } from 'utils/methods';
@@ -59,33 +68,93 @@ const CommentItem = (props: { comment: Comment }) => {
   );
 };
 
+type InputState = {
+  username: string;
+  password: string;
+  contents: string;
+};
+
+const initialState: InputState = {
+  username: '',
+  password: '',
+  contents: '',
+};
+
+const reducer = (
+  state: InputState,
+  action: { type: string; payload: string }
+) => {
+  switch (action.type) {
+    case 'USERNAME':
+      return { ...state, username: action.payload };
+    case 'PASSWORD':
+      return { ...state, password: action.payload };
+    case 'CONTENTS':
+      return { ...state, contents: action.payload };
+    case 'CLEAN_ALL':
+      return initialState;
+    default:
+      return state;
+  }
+};
+
 export default function CommentsSection(props: { phoneUrl: string }) {
   const [lastPage, setLastPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [comments, setComments] = useState<Comment[]>([]);
+  const [inputState, dispatch] = useReducer(reducer, initialState);
 
-  const onFetchComments = useCallback(async () => {
-    const response = await axios('/api/comments', {
-      params: {
-        phoneUrl: props.phoneUrl,
-        page: currentPage,
-      },
-    });
+  const onChangeField = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    field: string
+  ) => {
+    const { value } = e.target;
+    if ((field === 'USERNAME' || field === 'PASSWORD') && value.length > 10) {
+      return;
+    }
+    if (field === 'CONTENTS' && value.length > 100) return;
 
-    setComments(response.data.comments);
-    setLastPage(response.data.lastPage);
-  }, [props.phoneUrl, currentPage]);
+    dispatch({ type: field, payload: e.target.value });
+  };
+
+  const fetchComments = useCallback(
+    async (page: number) => {
+      const response = await axios('/api/comments', {
+        params: {
+          phoneUrl: props.phoneUrl,
+          page,
+        },
+      });
+
+      setComments(response.data.comments);
+      setLastPage(response.data.lastPage);
+    },
+    [props.phoneUrl]
+  );
 
   const onChangePage = (e: ChangeEvent<unknown>, newPage: number) => {
     if (currentPage === newPage) return;
 
-    onFetchComments();
+    fetchComments(newPage);
     setCurrentPage(newPage);
   };
 
+  const onSubmitComment = async () => {
+    await axios.post('/api/comment', {
+      phoneUrl: props.phoneUrl,
+      username: inputState.username,
+      password: inputState.password,
+      contents: inputState.contents,
+    });
+
+    setCurrentPage(1);
+    fetchComments(1);
+    dispatch({ type: 'CLEAN_ALL', payload: '' });
+  };
+
   useEffect(() => {
-    onFetchComments();
-  }, [onFetchComments]);
+    fetchComments(1);
+  }, [fetchComments]);
 
   return (
     <Box
@@ -100,6 +169,55 @@ export default function CommentsSection(props: { phoneUrl: string }) {
     >
       <Typography variant="h2">댓글</Typography>
       <Divider />
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1,
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: 1,
+          }}
+        >
+          <TextField
+            label="닉네임"
+            size="small"
+            value={inputState.username}
+            onChange={(e) => onChangeField(e, 'USERNAME')}
+          />
+          <TextField
+            label="비밀번호"
+            size="small"
+            type="password"
+            value={inputState.password}
+            onChange={(e) => onChangeField(e, 'PASSWORD')}
+          />
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 1,
+            alignItems: 'stretch',
+            flexGrow: 1,
+          }}
+        >
+          <TextField
+            label="내용"
+            rows={2}
+            multiline
+            fullWidth
+            value={inputState.contents}
+            onChange={(e) => onChangeField(e, 'CONTENTS')}
+          />
+          <Button variant="contained" onClick={onSubmitComment}>
+            작성
+          </Button>
+        </Box>
+      </Box>
       <List
         sx={{
           display: 'flex',
@@ -109,7 +227,7 @@ export default function CommentsSection(props: { phoneUrl: string }) {
         disablePadding
       >
         {comments.map((comment) => (
-          <CommentItem key={comment.date} comment={comment} />
+          <CommentItem key={`${comment.date}${v1()}`} comment={comment} />
         ))}
       </List>
       <Pagination

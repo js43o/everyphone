@@ -1,4 +1,4 @@
-import { ITEM_PER_PAGE, SORT_BY_QUERY } from 'utils/constants';
+import { ITEM_PER_PAGE } from 'utils/constants';
 import connectMongo from 'utils/db/connectMongo';
 import { Comment } from 'utils/types';
 import CommentModel from './models/Comment';

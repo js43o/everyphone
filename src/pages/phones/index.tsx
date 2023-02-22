@@ -23,7 +23,7 @@ export default function Phones(props: { phones: string; lastPage: number }) {
   const propsAccepted = useRef(false);
   const filterPhoneQuery = useRecoilValue(filterPhoneQueryState);
 
-  const onFetchPhones = useCallback(
+  const fetchPhones = useCallback(
     async (page: number) => {
       if (!queryChanged.current) return;
 
@@ -42,7 +42,7 @@ export default function Phones(props: { phones: string; lastPage: number }) {
     if (currentPage === newPage) return;
 
     queryChanged.current = true;
-    onFetchPhones(newPage);
+    fetchPhones(newPage);
     setCurrentPage(newPage);
   };
 
@@ -53,8 +53,8 @@ export default function Phones(props: { phones: string; lastPage: number }) {
     }
     queryChanged.current = true;
     setCurrentPage(1);
-    onFetchPhones(1);
-  }, [onFetchPhones]);
+    fetchPhones(1);
+  }, [fetchPhones]);
 
   return (
     <>

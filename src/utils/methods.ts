@@ -1,6 +1,7 @@
+// import bcrypt from 'bcrypt';
 import { DATA_UNIT, CAMERA_TYPE, UNIT_OF_SPEC } from 'utils/constants';
-import { Specs } from './types';
 import { Phone } from 'utils/types';
+import { Specs } from './types';
 
 export const isNumber = (str: string) => {
   return /^\d*$/.test(str);
@@ -199,4 +200,27 @@ export const getColorByTimeStr = (str: string) => {
       .reduce((acc, cur) => acc + Number(cur), 0) % PALETTE.length;
 
   return PALETTE[hashedIndex];
+};
+
+const fillLeadingZeros = (num: number, digit: number) => {
+  return String(num).padStart(digit, '0');
+};
+
+export const convertDateToFormattedString = (date: Date) => {
+  return `${date.getFullYear()}-${fillLeadingZeros(
+    date.getMonth() + 1,
+    2
+  )}-${fillLeadingZeros(date.getDate(), 2)} ${fillLeadingZeros(
+    date.getHours(),
+    2
+  )}:${fillLeadingZeros(date.getMinutes(), 2)}:${fillLeadingZeros(
+    date.getSeconds(),
+    2
+  )}`;
+};
+
+export const hashPassword = async (password: string) => {
+  /* const hash = await bcrypt.hash(password, 5);
+  return hash; */
+  return password;
 };

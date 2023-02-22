@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 import {
   Box,
   Grid,
@@ -129,21 +129,7 @@ export default function PhonesId(props: { phone: string }) {
   );
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const { phones } = await getAllPhones();
-  const urls = phones.map((phone) => phone.url);
-
-  return {
-    paths: urls.map((url) => ({
-      params: {
-        id: url,
-      },
-    })),
-    fallback: false,
-  };
-};
-
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const phone = await getPhoneByUrl(context.params?.id as string);
 
   return {
