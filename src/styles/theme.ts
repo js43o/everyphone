@@ -1,11 +1,5 @@
 import { createTheme } from '@mui/material';
 
-declare module '@mui/material/Divider' {
-  interface DividerPropsVariantOverrides {
-    bold: true;
-  }
-}
-
 declare module '@mui/material/styles' {
   interface Palette {
     bluegrey: Palette['primary'];
@@ -80,14 +74,13 @@ const theme = createTheme({
           borderColor: paletteColors.bluegrey.dark,
         },
       },
-      variants: [
-        {
-          props: { variant: 'bold' },
-          style: {
-            background: paletteColors.bluegrey.contrastText,
-          },
+    },
+    MuiListItem: {
+      styleOverrides: {
+        divider: {
+          borderColor: paletteColors.bluegrey.dark,
         },
-      ],
+      },
     },
   },
   typography: {

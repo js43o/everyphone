@@ -22,7 +22,7 @@ export default async function getComments(props: {
       (await query.clone().countDocuments().exec()) / ITEM_PER_PAGE
     );
     const comments = await query
-      .sort(SORT_BY_QUERY.get('latest'))
+      .sort({ date: -1 })
       .limit(ITEM_PER_PAGE)
       .skip((page - 1) * ITEM_PER_PAGE);
 

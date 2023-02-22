@@ -176,3 +176,27 @@ export const isFavorite = (name: string) => {
   const favorite = getFavoriteList();
   return favorite.includes(name);
 };
+
+export const getColorByTimeStr = (str: string) => {
+  const PALETTE = [
+    '#34568B',
+    '#FF6F61',
+    '#6B5B95',
+    '#88B04B',
+    '#955251',
+    '#B565A7',
+    '#DD4124',
+    '#D65076',
+    '#45B8AC',
+    '#EFC050',
+    '#5B5EA6',
+  ];
+  const hashedIndex =
+    str
+      .split(':')
+      .map((pair) => pair.split(''))
+      .flat()
+      .reduce((acc, cur) => acc + Number(cur), 0) % PALETTE.length;
+
+  return PALETTE[hashedIndex];
+};

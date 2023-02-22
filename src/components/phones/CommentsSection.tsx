@@ -1,8 +1,18 @@
 import { ChangeEvent, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { Box, Typography, Pagination, List, ListItem } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Pagination,
+  List,
+  ListItem,
+  Avatar,
+  Divider,
+  IconButton,
+} from '@mui/material';
 import { Comment } from 'utils/types';
-import { styled } from '@mui/system';
+import { getColorByTimeStr } from 'utils/methods';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const CommentItem = (props: { comment: Comment }) => {
   const { username, date, contents } = props.comment;
@@ -11,22 +21,40 @@ const CommentItem = (props: { comment: Comment }) => {
     <ListItem
       sx={{
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'flex-start',
-        borderRadius: 2,
+        px: 1,
+        py: 2,
       }}
+      divider
     >
+      <Avatar
+        alt={username}
+        sx={{ mr: 2, bgcolor: getColorByTimeStr(date.split(' ')[1]) }}
+      >
+        {username[0]}
+      </Avatar>
       <Box
         sx={{
           display: 'flex',
-          alignItems: 'center',
-          gap: 2,
+          flexDirection: 'column',
+          flexGrow: 1,
         }}
       >
-        <Typography variant="subtitle1">{username}</Typography>
-        <Typography variant="caption">{date}</Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2,
+          }}
+        >
+          <Typography variant="subtitle1">{username}</Typography>
+          <Typography variant="caption">{date}</Typography>
+        </Box>
+        <Typography variant="body1">{contents}</Typography>
       </Box>
-      <Typography variant="body1">{contents}</Typography>
+      <IconButton sx={{ alignSelf: 'center' }}>
+        <ClearIcon />
+      </IconButton>
     </ListItem>
   );
 };
@@ -71,8 +99,11 @@ export default function CommentsSection(props: { phoneUrl: string }) {
       }}
     >
       <Typography variant="h2">댓글</Typography>
+      <Divider />
       <List
         sx={{
+          display: 'flex',
+          flexDirection: 'column',
           alignItems: 'flex-start',
         }}
         disablePadding
