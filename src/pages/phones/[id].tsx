@@ -19,9 +19,8 @@ import { getSpecsOfPhone, isFavorite, toggleFavorite } from 'utils/methods';
 import getAllPhones from 'utils/db/getAllPhones';
 
 export default function PhonesId(props: { phone: string }) {
-  const [favorite, setFavorite] = useState(false);
   const phone: Phone = JSON.parse(props.phone);
-  const specs = getSpecsOfPhone(phone);
+  const [favorite, setFavorite] = useState(false);
 
   useEffect(() => {
     if (isFavorite(phone.name)) setFavorite(true);
@@ -102,7 +101,7 @@ export default function PhonesId(props: { phone: string }) {
             </IconButton>
           </Box>
           <Divider />
-          {specs.map((spec) => (
+          {getSpecsOfPhone(phone).map((spec) => (
             <Grid container item key={spec.key} sx={{ alignItems: 'center' }}>
               <Grid item xs={4}>
                 <Typography variant="subtitle1">{spec.key}</Typography>

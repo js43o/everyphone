@@ -1,11 +1,11 @@
-import { ThemeProvider } from '@mui/material';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { RecoilRoot } from 'recoil';
+import { ThemeProvider } from '@mui/material';
+import Layout from 'components/layout';
 import 'styles/normalize.css';
 import GlobalStyles from 'styles/GlobalStyles';
 import theme from 'styles/theme';
-import Layout from 'components/layout';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

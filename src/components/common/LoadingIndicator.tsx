@@ -1,11 +1,4 @@
-import { Box, styled } from '@mui/material';
-import SyncIcon from '@mui/icons-material/Sync';
-import { rotateLeft } from 'styles/keyframes';
-
-const LoadingIndicatorIcon = styled(SyncIcon)`
-  font-size: 2rem;
-  animation: 1s linear infinite ${rotateLeft};
-`;
+import { Box, CircularProgress } from '@mui/material';
 
 export default function LoadingIndicator() {
   return (
@@ -16,10 +9,10 @@ export default function LoadingIndicator() {
         alignItems: 'center',
         width: '100%',
         height: '100%',
-        padding: 3,
+        gap: 1,
       }}
     >
-      <LoadingIndicatorIcon />
+      <CircularProgress />
       불러오는 중...
     </Box>
   );
