@@ -48,37 +48,38 @@ export default function FilterController() {
     useState<Omit<FilterPhoneQuery, 'sortBy'>>(filterPhoneQuery);
   const isMobile = useMediaQuery(useTheme().breakpoints.down('lg'));
 
-  const onChangeMultiSelectorQuery = (
+  const handleChangeMultiSelectorQuery = (
     e: SelectChangeEvent<string[]>,
     field: string
   ) => {
-    const {
-      target: { value },
-    } = e;
+    const { value } = e.target;
     setLocalQuery({
       ...localQuery,
       [field]: typeof value === 'string' ? value.split(',') : value,
     });
   };
 
-  const onChangeRangeQuery = (field: string, newValue: number | number[]) => {
+  const handleChangeRangeQuery = (
+    field: string,
+    newValue: number | number[]
+  ) => {
     setLocalQuery({
       ...localQuery,
       [field]: newValue as number[],
     });
   };
 
-  const onResetQueryAll = () => {
+  const resetAllQuery = () => {
     setLocalQuery(defaultFilterPhoneQuery);
   };
 
-  const onResetQuery = (field: keyof typeof defaultFilterPhoneQuery) =>
+  const resetQuery = (field: keyof typeof defaultFilterPhoneQuery) =>
     setLocalQuery({
       ...localQuery,
       [field]: defaultFilterPhoneQuery[field],
     });
 
-  const onApplyQuery = () => {
+  const applyQuery = () => {
     setFilterPhoneQuery({ ...localQuery, sortBy: filterPhoneQuery.sortBy });
   };
 
@@ -133,7 +134,7 @@ export default function FilterController() {
                 <Chip
                   key={key}
                   label={(query[1] as string[]).join('/')}
-                  onDelete={() => onResetQuery(key)}
+                  onDelete={() => resetQuery(key)}
                 ></Chip>
               );
             }
@@ -142,7 +143,7 @@ export default function FilterController() {
               <Chip
                 key={key}
                 label={convertToRangeFormat(query[0], query[1] as number[])}
-                onDelete={() => onResetQuery(key)}
+                onDelete={() => resetQuery(key)}
               />
             );
           })}
@@ -171,7 +172,9 @@ export default function FilterController() {
               multiple
               size="small"
               value={localQuery.manufacturer}
-              onChange={(e) => onChangeMultiSelectorQuery(e, 'manufacturer')}
+              onChange={(e) =>
+                handleChangeMultiSelectorQuery(e, 'manufacturer')
+              }
               renderValue={(value) => {
                 if (value.length <= 0) return '전체';
                 if (value.length == 1) return value;
@@ -194,7 +197,9 @@ export default function FilterController() {
               max={defaultFilterPhoneQuery.height[1]}
               step={10}
               value={localQuery.height}
-              onChange={(e, newValue) => onChangeRangeQuery('height', newValue)}
+              onChange={(e, newValue) =>
+                handleChangeRangeQuery('height', newValue)
+              }
               valueLabelDisplay="off"
             />
             <FilterValueIndicator
@@ -210,57 +215,57 @@ export default function FilterController() {
               max={defaultFilterPhoneQuery.storage[1]}
               value={localQuery.storage}
               setter={(newValue: number[]) =>
-                onChangeRangeQuery('storage', newValue)
+                handleChangeRangeQuery('storage', newValue)
               }
             />
             <FilterValueIndicator
               minValue={convertToDataFormat(2 ** localQuery.storage[0])}
               maxValue={convertToDataFormat(2 ** localQuery.storage[1])}
             />
-            </Box>
-            <Divider />
-            <Box>
-              <Typography variant="subtitle1">배터리</Typography>
-              <Slider
-                min={defaultFilterPhoneQuery.battery[0]}
-                max={defaultFilterPhoneQuery.battery[1]}
-                step={500}
-                value={localQuery.battery}
-                onChange={(e, newValue) =>
-                  onChangeRangeQuery('battery', newValue)
-                }
-                valueLabelDisplay="off"
-              />
-              <FilterValueIndicator
-                minValue={`${localQuery.battery[0]} mAh`}
-                maxValue={`${localQuery.battery[1]} mAh`}
-              />
-            </Box>
-            <Divider />
-            <Box>
-              <Typography variant="subtitle1">무게</Typography>
-              <Slider
-                min={defaultFilterPhoneQuery.weight[0]}
-                max={defaultFilterPhoneQuery.weight[1]}
-                step={50}
-                value={localQuery.weight}
-                onChange={(e, newValue) =>
-                  onChangeRangeQuery('weight', newValue)
-                }
-                valueLabelDisplay="off"
-              />
-              <FilterValueIndicator
-                minValue={`${localQuery.weight[0]} g`}
-                maxValue={`${localQuery.weight[1]} g`}
-              />
-            </Box>
-            <Divider />
-            <Button variant="contained" onClick={onApplyQuery} >
-              적용
-            </Button>
-            <Button variant="outlined" onClick={onResetQueryAll}>
-              초기화
-            </Button>
+          </Box>
+          <Divider />
+          <Box>
+            <Typography variant="subtitle1">배터리</Typography>
+            <Slider
+              min={defaultFilterPhoneQuery.battery[0]}
+              max={defaultFilterPhoneQuery.battery[1]}
+              step={500}
+              value={localQuery.battery}
+              onChange={(e, newValue) =>
+                handleChangeRangeQuery('battery', newValue)
+              }
+              valueLabelDisplay="off"
+            />
+            <FilterValueIndicator
+              minValue={`${localQuery.battery[0]} mAh`}
+              maxValue={`${localQuery.battery[1]} mAh`}
+            />
+          </Box>
+          <Divider />
+          <Box>
+            <Typography variant="subtitle1">무게</Typography>
+            <Slider
+              min={defaultFilterPhoneQuery.weight[0]}
+              max={defaultFilterPhoneQuery.weight[1]}
+              step={50}
+              value={localQuery.weight}
+              onChange={(e, newValue) =>
+                handleChangeRangeQuery('weight', newValue)
+              }
+              valueLabelDisplay="off"
+            />
+            <FilterValueIndicator
+              minValue={`${localQuery.weight[0]} g`}
+              maxValue={`${localQuery.weight[1]} g`}
+            />
+          </Box>
+          <Divider />
+          <Button variant="contained" onClick={applyQuery}>
+            적용
+          </Button>
+          <Button variant="outlined" onClick={resetAllQuery}>
+            초기화
+          </Button>
         </Box>
       </Collapse>
     </>

@@ -13,7 +13,7 @@ import { getFavoriteList, toggleFavorite } from 'utils/methods';
 export default function Favorite() {
   const [phones, setPhones] = useState<Phone[] | null>(null);
 
-  const onDeleteFavorite = (name: string) => {
+  const deleteFavorite = (name: string) => {
     if (!phones) return;
     toggleFavorite(name);
     setPhones(phones.filter((other) => other.name !== name));
@@ -60,7 +60,7 @@ export default function Favorite() {
                   <PhoneCard
                     data={phone}
                     priority={index < ITEM_PER_PAGE}
-                    onDelete={() => onDeleteFavorite(phone.name)}
+                    handleDelete={() => deleteFavorite(phone.name)}
                   />
                 </Link>
               </Grid>

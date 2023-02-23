@@ -13,7 +13,7 @@ export default function NavDrawerButton() {
   const [open, setOpen] = useState(false);
   const path = useRouter().asPath;
 
-  const onCloseDrawer = () => setOpen(!open);
+  const handleCloseDrawer = () => setOpen(!open);
 
   return (
     <>
@@ -24,7 +24,7 @@ export default function NavDrawerButton() {
       >
         <MenuIcon />
       </IconButton>
-      <Drawer anchor="left" open={open} onClose={onCloseDrawer}>
+      <Drawer anchor="left" open={open} onClose={handleCloseDrawer}>
         <Box
           sx={{
             display: 'flex',
@@ -33,7 +33,7 @@ export default function NavDrawerButton() {
             padding: 2,
           }}
           component="nav"
-          onClick={onCloseDrawer}
+          onClick={handleCloseDrawer}
         >
           <Typography variant="h2">메뉴</Typography>
           <WideLinkBlock href="/" selected={path === '/'}>

@@ -14,7 +14,7 @@ export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
     comparisonDevicesState
   );
 
-  const onOpenSearching = () => {
+  const openSearchSection = () => {
     setSearchingMode({
       opened: true,
       mode: `comparison_device${slot}`,
@@ -68,7 +68,7 @@ export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
       ) : (
         <>
           <IconButton
-            onClick={onOpenSearching}
+            onClick={openSearchSection}
             aria-label="search for device to select"
           >
             <AddCircleOutlineIcon fontSize="large" />

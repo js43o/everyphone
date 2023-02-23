@@ -8,7 +8,7 @@ export default function SortingSelector() {
     filterPhoneQueryState
   );
 
-  const onChangeSorting = (e: SelectChangeEvent<string>) => {
+  const handleChangeSorting = (e: SelectChangeEvent<string>) => {
     setFilterPhoneQuery({
       ...filterPhoneQuery,
       sortBy: e.target.value as string,
@@ -18,7 +18,7 @@ export default function SortingSelector() {
   return (
     <Select
       value={filterPhoneQuery.sortBy}
-      onChange={onChangeSorting}
+      onChange={handleChangeSorting}
       size="small"
     >
       <MenuItem value="latest" defaultChecked>

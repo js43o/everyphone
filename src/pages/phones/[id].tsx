@@ -25,7 +25,7 @@ export default function PhonesId(props: { phone: string }) {
     if (isFavorite(phone.name)) setFavorite(true);
   }, [phone.name]);
 
-  const onToggleFavorite = () => {
+  const handleToggleFavorite = () => {
     setFavorite(!favorite);
     toggleFavorite(phone.name);
   };
@@ -88,7 +88,7 @@ export default function PhonesId(props: { phone: string }) {
           >
             <Typography variant="h2">{phone.name}</Typography>
             <IconButton
-              onClick={onToggleFavorite}
+              onClick={handleToggleFavorite}
               aria-label="toggle the favorite device"
               sx={{ width: 48, height: 48 }}
             >

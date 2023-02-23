@@ -4,7 +4,8 @@ import {
   CardActionArea,
   CardContent,
   Divider,
-  Typography,Button
+  Typography,
+  Button,
 } from '@mui/material';
 import { Phone } from 'utils/types';
 import RatioImage from 'components/common/RatioImage';
@@ -12,16 +13,19 @@ import RatioImage from 'components/common/RatioImage';
 export default function PhoneCard(props: {
   data: Phone;
   priority?: boolean;
-  onDelete?: () => void;
+  handleDelete?: () => void;
 }) {
-  const { data, priority, onDelete } = props;
+  const { data, priority, handleDelete } = props;
 
   return (
-    <Card sx={{ 
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      borderRadius: 2 }}>
+    <Card
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        borderRadius: 2,
+      }}
+    >
       <CardActionArea>
         <CardContent
           sx={{
@@ -52,9 +56,16 @@ export default function PhoneCard(props: {
           </Box>
         </CardContent>
       </CardActionArea>
-          {onDelete && <Button onClick={onDelete} sx={{
+      {handleDelete && (
+        <Button
+          onClick={handleDelete}
+          sx={{
             width: '100%',
-          }}>삭제</Button>}
+          }}
+        >
+          삭제
+        </Button>
+      )}
     </Card>
   );
 }

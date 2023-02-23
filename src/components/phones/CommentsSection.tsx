@@ -16,7 +16,6 @@ import {
   Divider,
   TextField,
   Button,
-  FormControl,
 } from '@mui/material';
 import { Comment } from 'utils/types';
 import CommentItem from './CommentItem';
@@ -60,7 +59,7 @@ export default function CommentsSection(props: { phoneUrl: string }) {
   const [openModal, setOpenModal] = useState(false);
   const [selectedComment, setSelectedComment] = useState<Comment | null>(null);
 
-  const onChangeField = (
+  const handleChangeField = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: string
   ) => {
@@ -73,7 +72,7 @@ export default function CommentsSection(props: { phoneUrl: string }) {
     dispatch({ type: field, payload: e.target.value });
   };
 
-  const onSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!inputState.username || !inputState.password || !inputState.contents) {
       return;
@@ -106,16 +105,21 @@ export default function CommentsSection(props: { phoneUrl: string }) {
     [props.phoneUrl]
   );
 
-  const onChangePage = (e: ChangeEvent<unknown>, newPage: number) => {
+  const handleChangePage = (e: ChangeEvent<unknown>, newPage: number) => {
     if (currentPage === newPage) return;
 
     fetchComments(newPage);
     setCurrentPage(newPage);
   };
 
-  const onDelete = (comment: Comment) => {
+  const selectCommentToDelete = (comment: Comment) => {
     setSelectedComment(comment);
     setOpenModal(true);
+  };
+
+  const refreshComments = () => {
+    fetchComments(1);
+    setCurrentPage(1);
   };
 
   useEffect(() => {
@@ -137,17 +141,17 @@ export default function CommentsSection(props: { phoneUrl: string }) {
         open={openModal}
         closeModal={() => setOpenModal(false)}
         comment={selectedComment}
-        fetchComments={() => fetchComments(1)}
+        refreshComments={refreshComments}
       />
       <Typography variant="h2">댓글</Typography>
       <Divider />
-      <FormControl
+      <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
           gap: 1,
         }}
-        onSubmit={(e) => onSubmitComment(e)}
+        onSubmit={(e) => handleSubmitComment(e)}
         component="form"
       >
         <Box
@@ -161,15 +165,15 @@ export default function CommentsSection(props: { phoneUrl: string }) {
             label="닉네임"
             size="small"
             value={inputState.username}
-            onChange={(e) => onChangeField(e, 'USERNAME')}
+            onChange={(e) => handleChangeField(e, 'USERNAME')}
             InputProps={{ required: true }}
           />
           <TextField
-            label="비밀번호"
+            label="패스워드"
             size="small"
             type="password"
             value={inputState.password}
-            onChange={(e) => onChangeField(e, 'PASSWORD')}
+            onChange={(e) => handleChangeField(e, 'PASSWORD')}
             InputProps={{ required: true }}
           />
         </Box>
@@ -187,14 +191,14 @@ export default function CommentsSection(props: { phoneUrl: string }) {
             multiline
             fullWidth
             value={inputState.contents}
-            onChange={(e) => onChangeField(e, 'CONTENTS')}
+            onChange={(e) => handleChangeField(e, 'CONTENTS')}
             InputProps={{ required: true }}
           />
           <Button variant="contained" type="submit">
             작성
           </Button>
         </Box>
-      </FormControl>
+      </Box>
       <List
         sx={{
           display: 'flex',
@@ -207,14 +211,14 @@ export default function CommentsSection(props: { phoneUrl: string }) {
           <CommentItem
             key={`${comment.date}${v1()}`}
             comment={comment}
-            onDelete={() => onDelete(comment)}
+            selectCommentToDelete={() => selectCommentToDelete(comment)}
           />
         ))}
       </List>
       <Pagination
         count={lastPage}
         page={currentPage}
-        onChange={onChangePage}
+        onChange={handleChangePage}
         sx={{
           alignSelf: 'center',
           py: 2,

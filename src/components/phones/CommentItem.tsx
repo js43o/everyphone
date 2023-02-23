@@ -5,9 +5,9 @@ import { Comment } from 'utils/types';
 
 const CommentItem = (props: {
   comment: Comment;
-  onDelete: (comment: Comment) => void;
+  selectCommentToDelete: () => void;
 }) => {
-  const { comment, onDelete } = props;
+  const { comment, selectCommentToDelete } = props;
   const { username, date, contents } = comment;
 
   return (
@@ -45,10 +45,7 @@ const CommentItem = (props: {
         </Box>
         <Typography variant="body1">{contents}</Typography>
       </Box>
-      <IconButton
-        sx={{ alignSelf: 'center' }}
-        onClick={() => onDelete(comment)}
-      >
+      <IconButton sx={{ alignSelf: 'center' }} onClick={selectCommentToDelete}>
         <ClearIcon />
       </IconButton>
     </ListItem>

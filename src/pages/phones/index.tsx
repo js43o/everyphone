@@ -38,7 +38,7 @@ export default function Phones(props: { phones: string; lastPage: number }) {
     [filterPhoneQuery, setPhones]
   );
 
-  const onChangePage = (e: ChangeEvent<unknown>, newPage: number) => {
+  const handleChangePage = (e: ChangeEvent<unknown>, newPage: number) => {
     if (currentPage === newPage) return;
 
     queryChanged.current = true;
@@ -114,7 +114,7 @@ export default function Phones(props: { phones: string; lastPage: number }) {
         <Pagination
           count={lastPage}
           page={currentPage}
-          onChange={onChangePage}
+          onChange={handleChangePage}
           sx={{ py: 2 }}
         />
       </Box>

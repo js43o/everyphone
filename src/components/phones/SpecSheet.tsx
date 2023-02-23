@@ -30,7 +30,7 @@ export default function SpecSheet(props: { phone: Phone }) {
       }}
     >
       <Typography variant="h2">상세 사양</Typography>
-      <Divider variant="bold" />
+      <Divider />
       <List
         sx={{
           '& > li': {

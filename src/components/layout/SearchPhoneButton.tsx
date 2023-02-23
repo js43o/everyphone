@@ -26,24 +26,24 @@ export default function SearchPhoneButton() {
 
   const timer = useRef<NodeJS.Timeout>();
 
-  const onOpenSearching = () =>
+  const openSearchSection = () =>
     setSearchingMode({
       opened: true,
       mode: 'phones',
     });
 
-  const onCloseSearching = () =>
+  const closeSearchSection = () =>
     setSearchingMode({
       ...searchingMode,
       opened: false,
     });
 
-  const resetInput = () => {
+  const resetInputValue = () => {
     setValue(null);
     setInputValue('');
   };
 
-  const onFetchSearching = useCallback(async () => {
+  const fetchSearchResult = useCallback(async () => {
     if (!inputValue) {
       setOptions([]);
       return;
@@ -84,8 +84,8 @@ export default function SearchPhoneButton() {
   );
 
   useEffect(() => {
-    onFetchSearching();
-  }, [onFetchSearching]);
+    fetchSearchResult();
+  }, [fetchSearchResult]);
 
   useEffect(() => {
     if (!value) return;
@@ -102,14 +102,14 @@ export default function SearchPhoneButton() {
       default:
         break;
     }
-    resetInput();
+    resetInputValue();
   }, [value, searchingMode.mode, selectDevice]);
 
   return (
     <>
       <IconButton
         aria-label="open the search"
-        onClick={onOpenSearching}
+        onClick={openSearchSection}
         sx={{ width: 48, height: 48 }}
       >
         <SearchIcon />
@@ -117,7 +117,7 @@ export default function SearchPhoneButton() {
       <Drawer
         anchor="top"
         open={searchingMode.opened}
-        onClose={onCloseSearching}
+        onClose={closeSearchSection}
       >
         <Box
           sx={{
