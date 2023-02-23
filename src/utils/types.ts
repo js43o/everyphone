@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongoose';
+
 export type Phone = {
   name: string;
   url: string;
@@ -76,6 +78,7 @@ export type SearchingMode = {
 };
 
 export type Comment = {
+  _id: string;
   phoneUrl: string;
   username: string;
   hashedPassword: string;

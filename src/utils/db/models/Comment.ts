@@ -1,7 +1,8 @@
-import { Schema, model, models, Model, Document } from 'mongoose';
+import { Schema, model, models, Model, Document, ObjectId } from 'mongoose';
 import { Comment } from 'utils/types';
 
 const CommentSchema = new Schema<Comment>({
+  _id: String,
   phoneUrl: String,
   username: String,
   hashedPassword: String,
