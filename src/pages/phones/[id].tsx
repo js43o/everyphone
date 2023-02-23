@@ -16,7 +16,6 @@ import CommentsSection from 'components/phones/CommentsSection';
 import getPhoneByUrl from 'utils/db/getPhoneByUrl';
 import { Phone } from 'utils/types';
 import { getSpecsOfPhone, isFavorite, toggleFavorite } from 'utils/methods';
-import getAllPhones from 'utils/db/getAllPhones';
 
 export default function PhonesId(props: { phone: string }) {
   const phone: Phone = JSON.parse(props.phone);

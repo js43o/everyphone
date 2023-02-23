@@ -1,5 +1,10 @@
-// import bcrypt from 'bcrypt';
-import { DATA_UNIT, CAMERA_TYPE, UNIT_OF_SPEC } from 'utils/constants';
+import bcrypt from 'bcryptjs';
+import {
+  DATA_UNIT,
+  CAMERA_TYPE,
+  UNIT_OF_SPEC,
+  COMMENT_PALETTE,
+} from 'utils/constants';
 import { Phone } from 'utils/types';
 import { Specs } from './types';
 
@@ -179,27 +184,14 @@ export const isFavorite = (name: string) => {
 };
 
 export const getColorByTimeStr = (str: string) => {
-  const PALETTE = [
-    '#34568B',
-    '#FF6F61',
-    '#6B5B95',
-    '#88B04B',
-    '#955251',
-    '#B565A7',
-    '#DD4124',
-    '#D65076',
-    '#45B8AC',
-    '#EFC050',
-    '#5B5EA6',
-  ];
   const hashedIndex =
     str
       .split(':')
       .map((pair) => pair.split(''))
       .flat()
-      .reduce((acc, cur) => acc + Number(cur), 0) % PALETTE.length;
+      .reduce((acc, cur) => acc + Number(cur), 0) % COMMENT_PALETTE.length;
 
-  return PALETTE[hashedIndex];
+  return COMMENT_PALETTE[hashedIndex];
 };
 
 const fillLeadingZeros = (num: number, digit: number) => {
@@ -220,7 +212,14 @@ export const convertDateToFormattedString = (date: Date) => {
 };
 
 export const hashPassword = async (password: string) => {
-  /* const hash = await bcrypt.hash(password, 5);
-  return hash; */
-  return password;
+  const hash = await bcrypt.hash(password, 5);
+  return hash;
+};
+
+export const checkPassword = async (
+  password: string,
+  hashedPassword: string
+) => {
+  const result = await bcrypt.compare(password, hashedPassword);
+  return result;
 };

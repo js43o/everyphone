@@ -21,3 +21,16 @@ export const CAMERA_TYPE = [
   '쿼드 카메라',
   '펜타 카메라',
 ];
+export const COMMENT_PALETTE = [
+  '#34568B',
+  '#FF6F61',
+  '#6B5B95',
+  '#88B04B',
+  '#955251',
+  '#B565A7',
+  '#DD4124',
+  '#D65076',
+  '#45B8AC',
+  '#EFC050',
+  '#5B5EA6',
+];

@@ -1,5 +1,6 @@
 import {
   ChangeEvent,
+  FormEvent,
   useState,
   useEffect,
   useCallback,
@@ -18,6 +19,7 @@ import {
   IconButton,
   TextField,
   Button,
+  FormControl,
 } from '@mui/material';
 import { Comment } from 'utils/types';
 import { getColorByTimeStr } from 'utils/methods';
@@ -117,6 +119,24 @@ export default function CommentsSection(props: { phoneUrl: string }) {
     dispatch({ type: field, payload: e.target.value });
   };
 
+  const onSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!inputState.username || !inputState.password || !inputState.contents) {
+      return;
+    }
+
+    await axios.post('/api/comment', {
+      phoneUrl: props.phoneUrl,
+      username: inputState.username,
+      password: inputState.password,
+      contents: inputState.contents,
+    });
+
+    setCurrentPage(1);
+    fetchComments(1);
+    dispatch({ type: 'CLEAN_ALL', payload: '' });
+  };
+
   const fetchComments = useCallback(
     async (page: number) => {
       const response = await axios('/api/comments', {
@@ -139,19 +159,6 @@ export default function CommentsSection(props: { phoneUrl: string }) {
     setCurrentPage(newPage);
   };
 
-  const onSubmitComment = async () => {
-    await axios.post('/api/comment', {
-      phoneUrl: props.phoneUrl,
-      username: inputState.username,
-      password: inputState.password,
-      contents: inputState.contents,
-    });
-
-    setCurrentPage(1);
-    fetchComments(1);
-    dispatch({ type: 'CLEAN_ALL', payload: '' });
-  };
-
   useEffect(() => {
     fetchComments(1);
   }, [fetchComments]);
@@ -169,12 +176,14 @@ export default function CommentsSection(props: { phoneUrl: string }) {
     >
       <Typography variant="h2">댓글</Typography>
       <Divider />
-      <Box
+      <FormControl
         sx={{
           display: 'flex',
           flexDirection: 'column',
           gap: 1,
         }}
+        onSubmit={(e) => onSubmitComment(e)}
+        component="form"
       >
         <Box
           sx={{
@@ -188,6 +197,7 @@ export default function CommentsSection(props: { phoneUrl: string }) {
             size="small"
             value={inputState.username}
             onChange={(e) => onChangeField(e, 'USERNAME')}
+            InputProps={{ required: true }}
           />
           <TextField
             label="비밀번호"
@@ -195,6 +205,7 @@ export default function CommentsSection(props: { phoneUrl: string }) {
             type="password"
             value={inputState.password}
             onChange={(e) => onChangeField(e, 'PASSWORD')}
+            InputProps={{ required: true }}
           />
         </Box>
         <Box
@@ -212,12 +223,13 @@ export default function CommentsSection(props: { phoneUrl: string }) {
             fullWidth
             value={inputState.contents}
             onChange={(e) => onChangeField(e, 'CONTENTS')}
+            InputProps={{ required: true }}
           />
-          <Button variant="contained" onClick={onSubmitComment}>
+          <Button variant="contained" type="submit">
             작성
           </Button>
         </Box>
-      </Box>
+      </FormControl>
       <List
         sx={{
           display: 'flex',

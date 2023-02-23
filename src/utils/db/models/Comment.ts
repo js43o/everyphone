@@ -1,7 +1,7 @@
 import { Schema, model, models, Model, Document } from 'mongoose';
 import { Comment } from 'utils/types';
 
-const commentSchema = new Schema<Comment>({
+const CommentSchema = new Schema<Comment>({
   phoneUrl: String,
   username: String,
   hashedPassword: String,
@@ -9,7 +9,6 @@ const commentSchema = new Schema<Comment>({
   date: String,
 });
 
-const CommentModel: Model<Comment, {}, {}, {}, any> =
-  models.Comment || model<Comment>('Comment', commentSchema);
+const CommentModel = models.Comment || model<Comment>('Comment', CommentSchema);
 
 export default CommentModel;
