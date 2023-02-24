@@ -14,7 +14,7 @@ import { Comment } from 'utils/types';
 
 export default function CommentDeleteModal(props: {
   open: boolean;
-  comment: Comment | null;
+  comment: Comment;
   closeModal: () => void;
   refreshComments: () => void;
 }) {
@@ -37,7 +37,6 @@ export default function CommentDeleteModal(props: {
 
   const handleDelete = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!comment) return;
 
     const checked = await checkPassword(inputValue, comment.hashedPassword);
     if (!checked) {

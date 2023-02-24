@@ -1,5 +1,3 @@
-import { ObjectId } from 'mongoose';
-
 export type Phone = {
   name: string;
   url: string;

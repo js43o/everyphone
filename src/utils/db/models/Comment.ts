@@ -1,8 +1,7 @@
-import { Schema, model, models, Model, Document, ObjectId } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 import { Comment } from 'utils/types';
 
 const CommentSchema = new Schema<Comment>({
-  _id: String,
   phoneUrl: String,
   username: String,
   hashedPassword: String,
@@ -10,6 +9,6 @@ const CommentSchema = new Schema<Comment>({
   date: String,
 });
 
-const CommentModel = models.Comment || model<Comment>('Comment', CommentSchema);
+const CommentModel = models.Comment || model('Comment', CommentSchema);
 
 export default CommentModel;

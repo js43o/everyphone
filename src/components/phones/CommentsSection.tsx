@@ -57,7 +57,7 @@ export default function CommentsSection(props: { phoneUrl: string }) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [inputState, dispatch] = useReducer(reducer, initialState);
   const [openModal, setOpenModal] = useState(false);
-  const [selectedComment, setSelectedComment] = useState<Comment | null>(null);
+  const [commentToDelete, setCommentToDelete] = useState<Comment | null>(null);
 
   const handleChangeField = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -113,7 +113,7 @@ export default function CommentsSection(props: { phoneUrl: string }) {
   };
 
   const selectCommentToDelete = (comment: Comment) => {
-    setSelectedComment(comment);
+    setCommentToDelete(comment);
     setOpenModal(true);
   };
 
@@ -137,12 +137,14 @@ export default function CommentsSection(props: { phoneUrl: string }) {
         bgcolor: 'bluegrey.lighter',
       }}
     >
-      <CommentDeleteModal
-        open={openModal}
-        closeModal={() => setOpenModal(false)}
-        comment={selectedComment}
-        refreshComments={refreshComments}
-      />
+      {commentToDelete && (
+        <CommentDeleteModal
+          open={openModal}
+          closeModal={() => setOpenModal(false)}
+          comment={commentToDelete}
+          refreshComments={refreshComments}
+        />
+      )}
       <Typography variant="h2">댓글</Typography>
       <Divider />
       <Box

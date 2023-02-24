@@ -28,10 +28,7 @@ handler.get(async (req, res) => {
     sortBy,
   };
 
-  const response = await getFilteredPhonesByPage({
-    options,
-    page: Number(page),
-  });
+  const response = await getFilteredPhonesByPage(options, Number(page));
   res.json(response);
 });
 

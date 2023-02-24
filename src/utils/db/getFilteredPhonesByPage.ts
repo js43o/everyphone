@@ -3,16 +3,14 @@ import { Phone, FilterPhoneQuery } from 'utils/types';
 import PhoneModel from 'utils/db/models/Phone';
 import { ITEM_PER_PAGE, SORT_BY_QUERY } from '../constants';
 
-export default async function getFilteredPhonesByPage(props: {
-  options: FilterPhoneQuery;
-  page: number;
-}): Promise<{ phones: Phone[]; lastPage: Number }> {
+export default async function getFilteredPhonesByPage(
+  options: FilterPhoneQuery,
+  page: number
+): Promise<{ phones: Phone[]; lastPage: Number }> {
   try {
     await connectMongo();
 
-    const { manufacturer, height, storage, battery, weight, sortBy } =
-      props.options;
-    const page = props.page || 1;
+    const { manufacturer, height, storage, battery, weight, sortBy } = options;
     const sorting = SORT_BY_QUERY.get(sortBy);
 
     const query = PhoneModel.find({
