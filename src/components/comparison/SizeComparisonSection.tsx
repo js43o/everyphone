@@ -8,8 +8,6 @@ import {
   FormControlLabel,
   Switch,
   Divider,
-  useMediaQuery,
-  useTheme,
   IconButton,
 } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -21,15 +19,17 @@ import SizeComparisonText from './SizeComparisonText';
 
 const ImageWrapper = styled(Box)<{
   layered: number;
-  minWidth?: number;
+  width?: number;
+  maxWidth?: number;
 }>`
   display: flex;
-  flex-flow: wrap;
   align-items: flex-end;
   position: relative;
-  min-width: ${({ layered, minWidth }) => layered && minWidth};
+  width: ${({ layered, width }) => (layered && width ? `${width}vw` : 'unset')};
+  max-width: ${({ layered, maxWidth }) =>
+    layered && maxWidth ? `${maxWidth}px` : 'unset'};
   pointer-events: none;
-  img {
+  div {
     position: ${({ layered }) => (layered ? 'absolute' : 'relative')};
     left: 0;
     bottom: 0;
@@ -81,16 +81,12 @@ export default function SizeComparisonSection(props: {
   const [viewState, dispatch] = useReducer(reducer, initialOptions);
   const handSize = useRecoilValue(handSizeState);
 
-  const isSm = useMediaQuery(useTheme().breakpoints.down('sm'));
-  const isMd = useMediaQuery(useTheme().breakpoints.down('md'));
-  const offset = isSm ? 1.5 : isMd ? 2 : 3;
-
-  const [device1Height, device1Width, device1Thickness] = device1
-    ? device1.design.demension.map((value) => value * offset)
-    : [0, 0, 0];
-  const [device2Height, device2Width, device2Thickness] = device2
-    ? device2.design.demension.map((value) => value * offset)
-    : [0, 0, 0];
+  const propotion = 70;
+  const vwOffset =
+    propotion /
+    ((device1?.design.demension[1] || 70) +
+      (device2?.design.demension[1] || 70));
+  const pxOffset = 3;
 
   return (
     <Box
@@ -193,10 +189,22 @@ export default function SizeComparisonSection(props: {
       <Box
         sx={{
           display: 'flex',
-          flexFlow: 'wrap',
           gap: 1,
           position: 'relative',
-          minHeight: Math.max(device1Height, device2Height, handSize * offset),
+          height: `${
+            Math.max(
+              handSize,
+              device1?.design.demension[0] || 1,
+              device2?.design.demension[0] || 1
+            ) * vwOffset
+          }vw`,
+          maxHeight: `${
+            Math.max(
+              handSize,
+              device1?.design.demension[0] || 1,
+              device2?.design.demension[0] || 1
+            ) * pxOffset
+          }px`,
         }}
       >
         {!device1 && !device2 ? (
@@ -212,60 +220,100 @@ export default function SizeComparisonSection(props: {
           </Box>
         ) : (
           <>
+            {viewState.handDummy && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  zIndex: 10,
+                  width: `${handSize * vwOffset * 0.65}vw`,
+                  height: `${handSize * vwOffset}vw`,
+                  maxWidth: `${handSize * pxOffset * 0.65}px`,
+                  maxHeight: `${handSize * pxOffset}px`,
+                  opacity: 0.5,
+                }}
+              >
+                <Image
+                  src="/images/hand-icon.svg"
+                  alt="hand"
+                  fill
+                  sizes={`${handSize * vwOffset * 0.65}vw`}
+                />
+              </Box>
+            )}
             <ImageWrapper
               layered={viewState.layered ? 1 : 0}
-              minWidth={Math.max(device1Width, device2Width)}
+              width={(device1?.design.demension[1] || 0) * vwOffset}
+              maxWidth={(device1?.design.demension[1] || 0) * pxOffset}
             >
-              {viewState.handDummy && (
+              {device1 && viewState.device1 && (
                 <Box
                   sx={{
-                    position: 'absolute',
-                    width: handSize * offset * 0.65,
-                    height: handSize * offset,
-                    bottom: 0,
+                    width: `${device1.design.demension[1] * vwOffset}vw`,
+                    height: `${device1.design.demension[0] * vwOffset}vw`,
+                    maxWidth: `${device1.design.demension[1] * pxOffset}px`,
+                    maxHeight: `${device1.design.demension[0] * pxOffset}px`,
                   }}
                 >
                   <Image
-                    src="/images/hand-icon.svg"
-                    alt="hand"
+                    src={`/images/size/${device1.url}-front.webp`}
+                    alt={device1.url}
                     fill
-                    style={{ border: 'none' }}
+                    sizes={`${device1.design.demension[1] * vwOffset}vw`}
                   />
                 </Box>
               )}
-              {device1 && viewState.device1 && (
-                <Image
-                  src={`/images/size/${device1.url}-front.webp`}
-                  alt={device1.url}
-                  height={device1Height}
-                  width={device1Width}
-                />
-              )}
               {device2 && viewState.device2 && (
-                <Image
-                  src={`/images/size/${device2.url}-front.webp`}
-                  alt={device2.url}
-                  height={device2Height}
-                  width={device2Width}
-                />
+                <Box
+                  sx={{
+                    width: `${device2.design.demension[1] * vwOffset}vw`,
+                    height: `${device2.design.demension[0] * vwOffset}vw`,
+                    maxWidth: `${device2.design.demension[1] * pxOffset}px`,
+                    maxHeight: `${device2.design.demension[0] * pxOffset}px`,
+                  }}
+                >
+                  <Image
+                    src={`/images/size/${device2.url}-front.webp`}
+                    alt={device2.url}
+                    fill
+                    sizes={`${device2.design.demension[1] * vwOffset}vw`}
+                  />
+                </Box>
               )}
             </ImageWrapper>
             <ImageWrapper layered={viewState.layered ? 1 : 0}>
               {device1 && viewState.device1 && (
-                <Image
-                  src={`/images/size/${device1.url}-side.webp`}
-                  alt={device1.url}
-                  height={device1Height}
-                  width={device1Thickness}
-                />
+                <Box
+                  sx={{
+                    width: `${device1.design.demension[2] * vwOffset}vw`,
+                    height: `${device1.design.demension[0] * vwOffset}vw`,
+                    maxWidth: `${device1.design.demension[2] * pxOffset}px`,
+                    maxHeight: `${device1.design.demension[0] * pxOffset}px`,
+                  }}
+                >
+                  <Image
+                    src={`/images/size/${device1.url}-side.webp`}
+                    alt={device1.url}
+                    fill
+                    sizes={`${device1.design.demension[2] * vwOffset}vw`}
+                  />
+                </Box>
               )}
               {device2 && viewState.device2 && (
-                <Image
-                  src={`/images/size/${device2.url}-side.webp`}
-                  alt={device2.url}
-                  height={device2Height}
-                  width={device2Thickness}
-                />
+                <Box
+                  sx={{
+                    width: `${device2.design.demension[2] * vwOffset}vw`,
+                    height: `${device2.design.demension[0] * vwOffset}vw`,
+                    maxWidth: `${device2.design.demension[2] * pxOffset}px`,
+                    maxHeight: `${device2.design.demension[0] * pxOffset}px`,
+                  }}
+                >
+                  <Image
+                    src={`/images/size/${device2.url}-side.webp`}
+                    alt={device2.url}
+                    fill
+                    sizes={`${device2.design.demension[2] * vwOffset}vw`}
+                  />
+                </Box>
               )}
             </ImageWrapper>
           </>
