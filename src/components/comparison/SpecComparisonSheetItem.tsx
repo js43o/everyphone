@@ -80,7 +80,7 @@ const SpecItem = (props: {
   );
 };
 
-export default function ComparisonSheetItem(props: {
+export default function SpecComparisonSheetItem(props: {
   title: string;
   content1?: string | string[];
   content2?: string | string[];

@@ -1,4 +1,4 @@
-import { useReducer, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import Image from 'next/image';
 import {
@@ -16,18 +16,20 @@ import { Phone } from 'utils/types';
 import { handSizeState } from 'utils/atoms';
 import HandSizeModal from './HandSizeModal';
 import SizeComparisonText from './SizeComparisonText';
+import useSizeViewState from 'hooks/useSizeViewState';
+import { calculateDeviceViewSize } from 'utils/methods';
 
 const ImageWrapper = styled(Box)<{
   layered: number;
-  width?: number;
-  maxWidth?: number;
+  width?: string;
+  maxWidth?: string;
 }>`
   display: flex;
   align-items: flex-end;
   position: relative;
-  width: ${({ layered, width }) => (layered && width ? `${width}vw` : 'unset')};
+  width: ${({ layered, width }) => (layered && width ? width : 'unset')};
   max-width: ${({ layered, maxWidth }) =>
-    layered && maxWidth ? `${maxWidth}px` : 'unset'};
+    layered && maxWidth ? maxWidth : 'unset'};
   pointer-events: none;
   div {
     position: ${({ layered }) => (layered ? 'absolute' : 'relative')};
@@ -43,50 +45,24 @@ const ImageWrapper = styled(Box)<{
   }
 `;
 
-type ComparisonViewOptions = {
-  layered: boolean;
-  handDummy: boolean;
-  device1: boolean;
-  device2: boolean;
-};
-
-const initialOptions: ComparisonViewOptions = {
-  layered: false,
-  handDummy: false,
-  device1: true,
-  device2: true,
-};
-
-const reducer = (state: ComparisonViewOptions, action: { type: string }) => {
-  switch (action.type) {
-    case 'LAYERED':
-      return { ...state, layered: !state.layered };
-    case 'DUMMY_HAND':
-      return { ...state, handDummy: !state.handDummy };
-    case 'DEVICE_ONE':
-      return { ...state, device1: !state.device1 };
-    case 'DEVICE_TWO':
-      return { ...state, device2: !state.device2 };
-    default:
-      return state;
-  }
-};
-
 export default function SizeComparisonSection(props: {
   device1?: Phone;
   device2?: Phone;
 }) {
   const { device1, device2 } = props;
   const [modalOpened, setModalOpened] = useState(false);
-  const [viewState, dispatch] = useReducer(reducer, initialOptions);
+  const { viewState, handleChangeView } = useSizeViewState();
   const handSize = useRecoilValue(handSizeState);
 
-  const propotion = 70;
-  const vwOffset =
-    propotion /
-    ((device1?.design.demension[1] || 70) +
-      (device2?.design.demension[1] || 70));
-  const pxOffset = 3;
+  const viewSize = useMemo(
+    () =>
+      calculateDeviceViewSize(
+        handSize,
+        device1?.design.demension,
+        device2?.design.demension
+      ),
+    [handSize, device1, device2]
+  );
 
   return (
     <Box
@@ -124,7 +100,7 @@ export default function SizeComparisonSection(props: {
               <Switch
                 value={viewState.layered}
                 checked={viewState.layered}
-                onChange={() => dispatch({ type: 'LAYERED' })}
+                onChange={() => handleChangeView('LAYERED')}
                 disabled={!device1 || !device2}
               />
             }
@@ -149,7 +125,7 @@ export default function SizeComparisonSection(props: {
               control={
                 <Switch
                   checked={viewState.handDummy}
-                  onChange={() => dispatch({ type: 'DUMMY_HAND' })}
+                  onChange={() => handleChangeView('DUMMY_HAND')}
                   color="secondary"
                   disabled={!device1 && !device2}
                 />
@@ -163,7 +139,7 @@ export default function SizeComparisonSection(props: {
               control={
                 <Switch
                   checked={viewState.device1}
-                  onChange={() => dispatch({ type: 'DEVICE_ONE' })}
+                  onChange={() => handleChangeView('DEVICE_ONE')}
                   color="secondary"
                 />
               }
@@ -176,7 +152,7 @@ export default function SizeComparisonSection(props: {
               control={
                 <Switch
                   checked={viewState.device2}
-                  onChange={() => dispatch({ type: 'DEVICE_TWO' })}
+                  onChange={() => handleChangeView('DEVICE_TWO')}
                   color="secondary"
                 />
               }
@@ -191,20 +167,8 @@ export default function SizeComparisonSection(props: {
           display: 'flex',
           gap: 1,
           position: 'relative',
-          height: `${
-            Math.max(
-              handSize,
-              device1?.design.demension[0] || 1,
-              device2?.design.demension[0] || 1
-            ) * vwOffset
-          }vw`,
-          maxHeight: `${
-            Math.max(
-              handSize,
-              device1?.design.demension[0] || 1,
-              device2?.design.demension[0] || 1
-            ) * pxOffset
-          }px`,
+          height: viewSize.container.height,
+          maxHeight: viewSize.container.maxHeight,
         }}
       >
         {!device1 && !device2 ? (
@@ -225,10 +189,10 @@ export default function SizeComparisonSection(props: {
                 sx={{
                   position: 'absolute',
                   zIndex: 10,
-                  width: `${handSize * vwOffset * 0.65}vw`,
-                  height: `${handSize * vwOffset}vw`,
-                  maxWidth: `${handSize * pxOffset * 0.65}px`,
-                  maxHeight: `${handSize * pxOffset}px`,
+                  width: viewSize.hand.width,
+                  height: viewSize.hand.height,
+                  maxWidth: viewSize.hand.maxWidth,
+                  maxHeight: viewSize.hand.maxHeight,
                   opacity: 0.5,
                 }}
               >
@@ -236,46 +200,46 @@ export default function SizeComparisonSection(props: {
                   src="/images/hand-icon.svg"
                   alt="hand"
                   fill
-                  sizes={`${handSize * vwOffset * 0.65}vw`}
+                  sizes={viewSize.hand.width}
                 />
               </Box>
             )}
             <ImageWrapper
               layered={viewState.layered ? 1 : 0}
-              width={(device1?.design.demension[1] || 0) * vwOffset}
-              maxWidth={(device1?.design.demension[1] || 0) * pxOffset}
+              width={viewSize.device1.width}
+              maxWidth={viewSize.device1.maxWidth}
             >
               {device1 && viewState.device1 && (
                 <Box
                   sx={{
-                    width: `${device1.design.demension[1] * vwOffset}vw`,
-                    height: `${device1.design.demension[0] * vwOffset}vw`,
-                    maxWidth: `${device1.design.demension[1] * pxOffset}px`,
-                    maxHeight: `${device1.design.demension[0] * pxOffset}px`,
+                    width: viewSize.device1.width,
+                    height: viewSize.device1.height,
+                    maxWidth: viewSize.device1.maxWidth,
+                    maxHeight: viewSize.device1.maxHeight,
                   }}
                 >
                   <Image
                     src={`/images/size/${device1.url}-front.webp`}
                     alt={device1.url}
                     fill
-                    sizes={`${device1.design.demension[1] * vwOffset}vw`}
+                    sizes={viewSize.device1.width}
                   />
                 </Box>
               )}
               {device2 && viewState.device2 && (
                 <Box
                   sx={{
-                    width: `${device2.design.demension[1] * vwOffset}vw`,
-                    height: `${device2.design.demension[0] * vwOffset}vw`,
-                    maxWidth: `${device2.design.demension[1] * pxOffset}px`,
-                    maxHeight: `${device2.design.demension[0] * pxOffset}px`,
+                    width: viewSize.device2.width,
+                    height: viewSize.device2.height,
+                    maxWidth: viewSize.device2.maxWidth,
+                    maxHeight: viewSize.device2.maxHeight,
                   }}
                 >
                   <Image
                     src={`/images/size/${device2.url}-front.webp`}
                     alt={device2.url}
                     fill
-                    sizes={`${device2.design.demension[1] * vwOffset}vw`}
+                    sizes={viewSize.device2.width}
                   />
                 </Box>
               )}
@@ -284,34 +248,34 @@ export default function SizeComparisonSection(props: {
               {device1 && viewState.device1 && (
                 <Box
                   sx={{
-                    width: `${device1.design.demension[2] * vwOffset}vw`,
-                    height: `${device1.design.demension[0] * vwOffset}vw`,
-                    maxWidth: `${device1.design.demension[2] * pxOffset}px`,
-                    maxHeight: `${device1.design.demension[0] * pxOffset}px`,
+                    width: viewSize.device1.thickness,
+                    height: viewSize.device1.height,
+                    maxWidth: viewSize.device1.maxThickness,
+                    maxHeight: viewSize.device1.maxHeight,
                   }}
                 >
                   <Image
                     src={`/images/size/${device1.url}-side.webp`}
                     alt={device1.url}
                     fill
-                    sizes={`${device1.design.demension[2] * vwOffset}vw`}
+                    sizes={viewSize.device1.thickness}
                   />
                 </Box>
               )}
               {device2 && viewState.device2 && (
                 <Box
                   sx={{
-                    width: `${device2.design.demension[2] * vwOffset}vw`,
-                    height: `${device2.design.demension[0] * vwOffset}vw`,
-                    maxWidth: `${device2.design.demension[2] * pxOffset}px`,
-                    maxHeight: `${device2.design.demension[0] * pxOffset}px`,
+                    width: viewSize.device2.thickness,
+                    height: viewSize.device2.height,
+                    maxWidth: viewSize.device2.maxThickness,
+                    maxHeight: viewSize.device2.maxHeight,
                   }}
                 >
                   <Image
                     src={`/images/size/${device2.url}-side.webp`}
                     alt={device2.url}
                     fill
-                    sizes={`${device2.design.demension[2] * vwOffset}vw`}
+                    sizes={viewSize.device2.thickness}
                   />
                 </Box>
               )}

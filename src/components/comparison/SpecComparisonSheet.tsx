@@ -3,7 +3,6 @@ import {
   Box,
   Divider,
   Typography,
-  Grid,
   Chip,
   FormControlLabel,
   FormGroup,
@@ -16,9 +15,9 @@ import {
 } from 'utils/methods';
 import { Phone } from 'utils/types';
 import { specHighlightState } from 'utils/atoms';
-import ComparisonSheetItem from './ComparisonSheetItem';
+import SpecComparisonSheetItem from './SpecComparisonSheetItem';
 
-export default function ComparisonSheet(props: {
+export default function SpecComparisonSheet(props: {
   device1?: Phone;
   device2?: Phone;
 }) {
@@ -75,17 +74,17 @@ export default function ComparisonSheet(props: {
           gap: 1,
         }}
       >
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="이름"
           content1={device1 ? `${device1.name} / ${device1.korName}` : ''}
           content2={device2 ? `${device2.name} / ${device2.korName}` : ''}
         />
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="제조사"
           content1={device1?.manufacturer}
           content2={device2?.manufacturer}
         />
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="출시일자"
           content1={device1?.released}
           content2={device2?.released}
@@ -95,7 +94,7 @@ export default function ComparisonSheet(props: {
             device2?.released
           )}
         />
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="가격"
           content1={device1?.price.map(
             (item) => `${item.variant} / ${item.value.toLocaleString()} 원`
@@ -121,7 +120,7 @@ export default function ComparisonSheet(props: {
           alignItems: 'flex-start',
         }}
       >
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="크기"
           content1={device1 ? `${device1?.display.size} 인치` : ''}
           content2={device2 ? `${device2?.display.size} 인치` : ''}
@@ -131,7 +130,7 @@ export default function ComparisonSheet(props: {
             device2?.display.size
           )}
         />
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="해상도"
           content1={
             device1
@@ -149,17 +148,17 @@ export default function ComparisonSheet(props: {
             device2?.display.resolution.ppi
           )}
         />
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="비율"
           content1={device1?.display.resolution.ratio}
           content2={device2?.display.resolution.ratio}
         />
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="종류"
           content1={device1?.display.technology}
           content2={device2?.display.technology}
         />
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="최대 주사율"
           content1={device1 ? `${device1?.display.refreshRate} Hz` : ''}
           content2={device2 ? `${device2?.display.refreshRate} Hz` : ''}
@@ -184,7 +183,7 @@ export default function ComparisonSheet(props: {
               gap: 1,
             }}
           >
-            <ComparisonSheetItem
+            <SpecComparisonSheetItem
               title="화면 크기"
               content1={`${device1?.coverDisplay.size} 인치`}
               content2={`${device2?.coverDisplay.size} 인치`}
@@ -194,7 +193,7 @@ export default function ComparisonSheet(props: {
                 device2?.coverDisplay.size
               )}
             />
-            <ComparisonSheetItem
+            <SpecComparisonSheetItem
               title="해상도"
               content1={`${device1?.coverDisplay.resolution.pixel} 픽셀 (${device1?.coverDisplay.resolution.ppi} ppi)`}
               content2={`${device2?.coverDisplay.resolution.pixel} 픽셀 (${device2?.coverDisplay.resolution.ppi} ppi)`}
@@ -204,17 +203,17 @@ export default function ComparisonSheet(props: {
                 device2?.coverDisplay.resolution.ppi
               )}
             />
-            <ComparisonSheetItem
+            <SpecComparisonSheetItem
               title="비율"
               content1={device1?.coverDisplay.resolution.ratio}
               content2={device2?.coverDisplay.resolution.ratio}
             />
-            <ComparisonSheetItem
+            <SpecComparisonSheetItem
               title="종류"
               content1={device1?.coverDisplay.technology}
               content2={device2?.coverDisplay.technology}
             />
-            <ComparisonSheetItem
+            <SpecComparisonSheetItem
               title="최대 주사율"
               content1={`${device1?.coverDisplay.refreshRate} Hz`}
               content2={`${device2?.coverDisplay.refreshRate} Hz`}
@@ -239,17 +238,17 @@ export default function ComparisonSheet(props: {
           gap: 1,
         }}
       >
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="프로세서"
           content1={device1?.hardware.processor}
           content2={device2?.hardware.processor}
         />
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="GPU"
           content1={device1?.hardware.gpu}
           content2={device2?.hardware.gpu}
         />
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="RAM"
           content1={device1 ? `${device1?.hardware.ram} GB` : ''}
           content2={device2 ? `${device2?.hardware.ram} GB` : ''}
@@ -259,7 +258,7 @@ export default function ComparisonSheet(props: {
             device2?.hardware.ram.slice(-1)[0]
           )}
         />
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="저장용량"
           content1={device1?.hardware.storage
             .map((s) => (s < 1024 ? `${s} GB` : `${s / 1024} TB`))
@@ -273,12 +272,12 @@ export default function ComparisonSheet(props: {
             device2?.hardware.storage.slice(-1)[0]
           )}
         />
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="운영체제"
           content1={device1?.hardware.os}
           content2={device2?.hardware.os}
         />
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="배터리"
           content1={device1 ? `${device1?.hardware.battery} mAh` : ''}
           content2={device2 ? `${device2?.hardware.battery} mAh` : ''}
@@ -301,7 +300,7 @@ export default function ComparisonSheet(props: {
           gap: 1,
         }}
       >
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="카메라 종류"
           content1={device1?.camera.rear}
           content2={device2?.camera.rear}
@@ -311,13 +310,13 @@ export default function ComparisonSheet(props: {
             device2?.camera.rear
           )}
         />
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="후면 카메라"
           content1={getRearCameraString(device1?.camera)}
           content2={getRearCameraString(device2?.camera)}
           superior={getSuperiorNumberOfCamera(device1?.camera, device2?.camera)}
         />
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="전면 카메라"
           content1={
             device1
@@ -350,7 +349,7 @@ export default function ComparisonSheet(props: {
           gap: 1,
         }}
       >
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="크기"
           content1={
             device1
@@ -370,7 +369,7 @@ export default function ComparisonSheet(props: {
         />
         {device1?.design.folded && device2?.design.folded && (
           <>
-            <ComparisonSheetItem
+            <SpecComparisonSheetItem
               title="크기 (접었을 때)"
               content1={`${device1?.design.folded[0]} × ${device1?.design.folded[1]} × ${device1?.design.folded[2]} mm`}
               content2={`${device2?.design.folded[0]} × ${device2?.design.folded[1]} × ${device2?.design.folded[2]} mm`}
@@ -382,7 +381,7 @@ export default function ComparisonSheet(props: {
             />
           </>
         )}
-        <ComparisonSheetItem
+        <SpecComparisonSheetItem
           title="무게"
           content1={device1 ? `${device1?.design.weight} g` : ''}
           content2={device2 ? `${device2?.design.weight} g` : ''}

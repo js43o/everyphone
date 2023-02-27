@@ -223,3 +223,50 @@ export const checkPassword = async (
   const result = await bcrypt.compare(password, hashedPassword);
   return result;
 };
+
+export const calculateDeviceViewSize = (
+  handSize: number,
+  demension1?: number[],
+  demension2?: number[]
+) => {
+  const defaultDemension = [70, 70, 70];
+  const first = demension1 || defaultDemension;
+  const second = demension2 || defaultDemension;
+
+  const propotion = 70;
+  const vwOffset = propotion / (first[1] + second[1]);
+  const pxOffset = 3;
+
+  const viewSize = {
+    container: {
+      height: `${Math.max(handSize, first[0], second[0]) * vwOffset}vw`,
+      maxHeight: `${Math.max(handSize, first[0], second[0]) * pxOffset}px`,
+    },
+    hand: {
+      width: `${handSize * vwOffset * 0.65}vw`,
+      height: `${handSize * vwOffset}vw`,
+      maxWidth: `${handSize * pxOffset * 0.65}px`,
+      maxHeight: `${handSize * pxOffset}px`,
+    },
+    device1: {
+      height: `${first[0] * vwOffset}vw`,
+      width: `${first[1] * vwOffset}vw`,
+      thickness: `${first[2] * vwOffset}vw`,
+      maxHeight: `${first[0] * pxOffset}px`,
+      maxWidth: `${first[1] * pxOffset}px`,
+      maxThickness: `${first[2] * pxOffset}px`,
+    },
+    device2: {
+      height: `${second[0] * vwOffset}vw`,
+      width: `${second[1] * vwOffset}vw`,
+      thickness: `${second[2] * vwOffset}vw`,
+      maxHeight: `${second[0] * pxOffset}px`,
+      maxWidth: `${second[1] * pxOffset}px`,
+      maxThickness: `${second[2] * pxOffset}px`,
+    },
+  };
+
+  console.log('CALCULATED');
+
+  return viewSize;
+};
