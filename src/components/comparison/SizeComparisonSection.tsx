@@ -17,33 +17,8 @@ import { handSizeState } from 'utils/atoms';
 import HandSizeModal from './HandSizeModal';
 import SizeComparisonText from './SizeComparisonText';
 import useSizeViewState from 'hooks/useSizeViewState';
-import { calculateDeviceViewSize } from 'utils/methods';
-
-const ImageWrapper = styled(Box)<{
-  layered: number;
-  width?: string;
-  maxWidth?: string;
-}>`
-  display: flex;
-  align-items: flex-end;
-  position: relative;
-  width: ${({ layered, width }) => (layered && width ? width : 'unset')};
-  max-width: ${({ layered, maxWidth }) =>
-    layered && maxWidth ? maxWidth : 'unset'};
-  pointer-events: none;
-  div {
-    position: ${({ layered }) => (layered ? 'absolute' : 'relative')};
-    left: 0;
-    bottom: 0;
-    opacity: 0.5;
-    :first-of-type {
-      border: 1px solid red;
-    }
-    :last-of-type {
-      border: 1px solid blue;
-    }
-  }
-`;
+import { calculateViewSize } from 'utils/methods';
+import SizeSectionDeviceImage from './SizeSectionDeviceImage';
 
 export default function SizeComparisonSection(props: {
   device1?: Phone;
@@ -56,7 +31,7 @@ export default function SizeComparisonSection(props: {
 
   const viewSize = useMemo(
     () =>
-      calculateDeviceViewSize(
+      calculateViewSize(
         handSize,
         device1?.design.demension,
         device2?.design.demension
@@ -204,82 +179,26 @@ export default function SizeComparisonSection(props: {
                 />
               </Box>
             )}
-            <ImageWrapper
-              layered={viewState.layered ? 1 : 0}
-              width={viewSize.device1.width}
-              maxWidth={viewSize.device1.maxWidth}
-            >
-              {device1 && viewState.device1 && (
-                <Box
-                  sx={{
-                    width: viewSize.device1.width,
-                    height: viewSize.device1.height,
-                    maxWidth: viewSize.device1.maxWidth,
-                    maxHeight: viewSize.device1.maxHeight,
-                  }}
-                >
-                  <Image
-                    src={`/images/size/${device1.url}-front.webp`}
-                    alt={device1.url}
-                    fill
-                    sizes={viewSize.device1.width}
-                  />
-                </Box>
-              )}
-              {device2 && viewState.device2 && (
-                <Box
-                  sx={{
-                    width: viewSize.device2.width,
-                    height: viewSize.device2.height,
-                    maxWidth: viewSize.device2.maxWidth,
-                    maxHeight: viewSize.device2.maxHeight,
-                  }}
-                >
-                  <Image
-                    src={`/images/size/${device2.url}-front.webp`}
-                    alt={device2.url}
-                    fill
-                    sizes={viewSize.device2.width}
-                  />
-                </Box>
-              )}
-            </ImageWrapper>
-            <ImageWrapper layered={viewState.layered ? 1 : 0}>
-              {device1 && viewState.device1 && (
-                <Box
-                  sx={{
-                    width: viewSize.device1.thickness,
-                    height: viewSize.device1.height,
-                    maxWidth: viewSize.device1.maxThickness,
-                    maxHeight: viewSize.device1.maxHeight,
-                  }}
-                >
-                  <Image
-                    src={`/images/size/${device1.url}-side.webp`}
-                    alt={device1.url}
-                    fill
-                    sizes={viewSize.device1.thickness}
-                  />
-                </Box>
-              )}
-              {device2 && viewState.device2 && (
-                <Box
-                  sx={{
-                    width: viewSize.device2.thickness,
-                    height: viewSize.device2.height,
-                    maxWidth: viewSize.device2.maxThickness,
-                    maxHeight: viewSize.device2.maxHeight,
-                  }}
-                >
-                  <Image
-                    src={`/images/size/${device2.url}-side.webp`}
-                    alt={device2.url}
-                    fill
-                    sizes={viewSize.device2.thickness}
-                  />
-                </Box>
-              )}
-            </ImageWrapper>
+            <SizeSectionDeviceImage
+              type="front"
+              layered={viewState.layered}
+              deviceViewSizes={[viewSize.device1, viewSize.device2]}
+              deviceVisible={[
+                !!device1 && viewState.device1,
+                !!device2 && viewState.device2,
+              ]}
+              deviceUrls={[device1?.url, device2?.url]}
+            />
+            <SizeSectionDeviceImage
+              type="side"
+              layered={viewState.layered}
+              deviceViewSizes={[viewSize.device1, viewSize.device2]}
+              deviceVisible={[
+                !!device1 && viewState.device1,
+                !!device2 && viewState.device2,
+              ]}
+              deviceUrls={[device1?.url, device2?.url]}
+            />
           </>
         )}
       </Box>

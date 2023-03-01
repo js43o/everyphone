@@ -225,6 +225,21 @@ export const checkPassword = async (
 };
 
 export const calculateDeviceViewSize = (
+  demension: number[],
+  vwOffset: number,
+  pxOffset: number
+) => {
+  return {
+    height: `${demension[0] * vwOffset}vw`,
+    width: `${demension[1] * vwOffset}vw`,
+    thickness: `${demension[2] * vwOffset}vw`,
+    maxHeight: `${demension[0] * pxOffset}px`,
+    maxWidth: `${demension[1] * pxOffset}px`,
+    maxThickness: `${demension[2] * pxOffset}px`,
+  };
+};
+
+export const calculateViewSize = (
   handSize: number,
   demension1?: number[],
   demension2?: number[]
@@ -248,25 +263,9 @@ export const calculateDeviceViewSize = (
       maxWidth: `${handSize * pxOffset * 0.65}px`,
       maxHeight: `${handSize * pxOffset}px`,
     },
-    device1: {
-      height: `${first[0] * vwOffset}vw`,
-      width: `${first[1] * vwOffset}vw`,
-      thickness: `${first[2] * vwOffset}vw`,
-      maxHeight: `${first[0] * pxOffset}px`,
-      maxWidth: `${first[1] * pxOffset}px`,
-      maxThickness: `${first[2] * pxOffset}px`,
-    },
-    device2: {
-      height: `${second[0] * vwOffset}vw`,
-      width: `${second[1] * vwOffset}vw`,
-      thickness: `${second[2] * vwOffset}vw`,
-      maxHeight: `${second[0] * pxOffset}px`,
-      maxWidth: `${second[1] * pxOffset}px`,
-      maxThickness: `${second[2] * pxOffset}px`,
-    },
+    device1: calculateDeviceViewSize(first, vwOffset, pxOffset),
+    device2: calculateDeviceViewSize(second, vwOffset, pxOffset),
   };
-
-  console.log('CALCULATED');
 
   return viewSize;
 };
