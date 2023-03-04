@@ -31,9 +31,11 @@ export default function Index(props: { phones: string }) {
           {props.phones ? (
             (JSON.parse(props.phones) as Phone[]).map((phone, index) => (
               <Grid item key={phone.url} xs={12} md={6} lg={3}>
-                <Link href={`/phones/${encodeURIComponent(phone.url)}`}>
-                  <PhoneCard data={phone} priority={index < ITEM_PER_PAGE} />
-                </Link>
+                <PhoneCard
+                  data={phone}
+                  href={`/phones/${encodeURIComponent(phone.url)}`}
+                  priority={index < ITEM_PER_PAGE}
+                />
               </Grid>
             ))
           ) : (

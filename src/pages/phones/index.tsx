@@ -101,9 +101,11 @@ export default function Phones(props: { phones: string; lastPage: number }) {
             {phones.length > 0 ? (
               phones.map((phone, index) => (
                 <Grid item xs={12} md={6} xl={4} key={phone.url}>
-                  <Link href={`/phones/${encodeURIComponent(phone.url)}`}>
-                    <PhoneCard data={phone} priority={index < ITEM_PER_PAGE} />
-                  </Link>
+                  <PhoneCard
+                    data={phone}
+                    href={`/phones/${encodeURIComponent(phone.url)}`}
+                    priority={index < ITEM_PER_PAGE}
+                  />
                 </Grid>
               ))
             ) : (

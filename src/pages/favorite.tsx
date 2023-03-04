@@ -56,13 +56,12 @@ export default function Favorite() {
           ) : phones.length > 0 ? (
             phones.map((phone, index) => (
               <Grid item key={phone.url} xs={12} md={6} lg={3}>
-                <Link href={`/phones/${encodeURIComponent(phone.url)}`}>
-                  <PhoneCard
-                    data={phone}
-                    priority={index < ITEM_PER_PAGE}
-                    handleDelete={() => deleteFavorite(phone.name)}
-                  />
-                </Link>
+                <PhoneCard
+                  data={phone}
+                  href={`/phones/${encodeURIComponent(phone.url)}`}
+                  priority={index < ITEM_PER_PAGE}
+                  handleDelete={() => deleteFavorite(phone.name)}
+                />
               </Grid>
             ))
           ) : (

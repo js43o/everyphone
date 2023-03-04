@@ -9,13 +9,15 @@ import {
 } from '@mui/material';
 import { Phone } from 'utils/types';
 import RatioImage from 'components/common/RatioImage';
+import Link from 'next/link';
 
 export default function PhoneCard(props: {
   data: Phone;
+  href: string;
   priority?: boolean;
   handleDelete?: () => void;
 }) {
-  const { data, priority, handleDelete } = props;
+  const { data, href, priority, handleDelete } = props;
 
   return (
     <Card
@@ -27,34 +29,35 @@ export default function PhoneCard(props: {
       }}
     >
       <CardActionArea>
-        <CardContent
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: 1,
-          }}
-        >
-          <RatioImage
-            src={`/images/phones/${data.url}.png`}
-            alt={data.url}
-            height={160}
-            priority={priority}
-            sizes="160px"
-          />
-          <Divider />
-          <Box
+        <Link href={href}>
+          <CardContent
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              textAlign: 'center',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 1,
             }}
           >
-            <Typography variant="subtitle1">{data.name}</Typography>
-            <Typography variant="body2">{data.manufacturer}</Typography>
-          </Box>
-        </CardContent>
+            <RatioImage
+              src={`/images/phones/${data.url}.png`}
+              alt={data.url}
+              height={160}
+              priority={priority}
+              sizes="160px"
+            />
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                textAlign: 'center',
+              }}
+            >
+              <Typography variant="subtitle1">{data.name}</Typography>
+              <Typography variant="body2">{data.manufacturer}</Typography>
+            </Box>
+          </CardContent>
+        </Link>
       </CardActionArea>
       {handleDelete && (
         <Button
