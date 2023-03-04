@@ -11,7 +11,6 @@ import {
   IconButton,
 } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { styled } from '@mui/system';
 import { Phone } from 'utils/types';
 import { handSizeState } from 'utils/atoms';
 import HandSizeModal from './HandSizeModal';

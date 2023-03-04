@@ -89,12 +89,14 @@ export const getSpecsOfPhone = (phone: Phone) => {
       key: '하드웨어',
       value: [
         phone.hardware.processor,
-        `${phone.hardware.ram.join('/')}GB RAM`,
+        `${phone.hardware.ram.join('/')} GB RAM`,
       ],
     },
     {
       key: '저장용량',
-      value: [`${phone.price.map((p) => p.variant).join('/')}`],
+      value: phone.hardware.storage.map((s) =>
+        s >= 1024 ? `${s / 1024} TB` : `${s} GB`
+      ),
     },
     { key: '배터리', value: [`${phone.hardware.battery} mAh`] },
   ];

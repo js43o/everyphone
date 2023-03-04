@@ -71,6 +71,7 @@ export default function FilterController() {
 
   const resetAllQuery = () => {
     setLocalQuery(defaultFilterPhoneQuery);
+    setFilterPhoneQuery(defaultFilterPhoneQuery);
   };
 
   const resetQuery = (field: keyof typeof defaultFilterPhoneQuery) =>

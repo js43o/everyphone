@@ -1,6 +1,11 @@
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 
 export default function Footer() {
+  const scrollToTop = () => {
+    if (window.scrollY === 0) return;
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  };
+
   return (
     <Box
       component="footer"
@@ -12,7 +17,7 @@ export default function Footer() {
         bgcolor: 'bluegrey.lighter',
       }}
     >
-      Footer
+      <Button onClick={scrollToTop}>맨 위로</Button>
     </Box>
   );
 }

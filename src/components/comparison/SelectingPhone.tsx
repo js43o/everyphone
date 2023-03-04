@@ -5,7 +5,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { Phone } from 'utils/types';
 import { comparisonDevicesState, searchingModeState } from 'utils/atoms';
 import RatioImage from 'components/common/RatioImage';
-import Image from 'next/image';
+import Link from 'next/link';
 
 export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
   const { phone, slot } = props;
@@ -57,10 +57,12 @@ export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
               sizes="40vw"
             />
           </Box>
-          <Typography variant="h2" mb={0}>
-            {phone.name}
-          </Typography>
-          <Typography variant="subtitle1">{phone.korName}</Typography>
+          <Link href={`/phones/${phone.url}`}>
+            <Typography variant="h2" sx={{ mb: 0 }}>
+              {phone.name}
+            </Typography>
+            <Typography variant="subtitle1">{phone.korName}</Typography>
+          </Link>
           <IconButton onClick={deselectDevice} aria-label="deselect a device">
             <RemoveCircleOutlineIcon fontSize="large" color="error" />
           </IconButton>
