@@ -1,8 +1,8 @@
-import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
-import Title from 'components/common/Title';
-import Image from 'next/image';
 import { ReactNode } from 'react';
+import Image from 'next/image';
+import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
+import Title from 'components/common/Title';
 
 const BannerItem = (props: {
   contents: string | ReactNode;

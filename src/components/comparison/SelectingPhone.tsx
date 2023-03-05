@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { Box, IconButton, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -5,7 +6,6 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { Phone } from 'utils/types';
 import { comparisonDevicesState, searchingModeState } from 'utils/atoms';
 import RatioImage from 'components/common/RatioImage';
-import Link from 'next/link';
 
 export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
   const { phone, slot } = props;

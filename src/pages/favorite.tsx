@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Head from 'next/head';
-import Link from 'next/link';
 import { Box, Grid, Typography } from '@mui/material';
 import LoadingIndicator from 'components/common/LoadingIndicator';
 import PhoneCard from 'components/common/PhoneCard';

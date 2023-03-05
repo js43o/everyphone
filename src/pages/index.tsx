@@ -1,6 +1,5 @@
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import { Box, Grid, Typography } from '@mui/material';
 import Banner from 'components/home/Banner';
 import PhoneCard from 'components/common/PhoneCard';

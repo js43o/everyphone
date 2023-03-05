@@ -1,4 +1,4 @@
-import { Schema, model, models, Model } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 import { Phone } from 'utils/types';
 
 const PhoneSchema = new Schema<Phone>({

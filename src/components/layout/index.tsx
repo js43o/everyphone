@@ -1,7 +1,7 @@
+import { Container } from '@mui/material';
 import Header from './Header';
 import Contents from './Contents';
 import Footer from './Footer';
-import { Container } from '@mui/material';
 
 export default function Index(props: { children: React.ReactNode }) {
   return (

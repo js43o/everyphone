@@ -3,7 +3,6 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  Divider,
   Typography,
   Button,
 } from '@mui/material';

@@ -13,11 +13,11 @@ import {
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Phone } from 'utils/types';
 import { handSizeState } from 'utils/atoms';
-import HandSizeModal from './HandSizeModal';
-import SizeComparisonText from './SizeComparisonText';
-import useSizeViewState from 'hooks/useSizeViewState';
 import { calculateViewSize } from 'utils/methods';
+import useSizeViewState from 'hooks/useSizeViewState';
+import HandSizeModal from './HandSizeModal';
 import SizeSectionDeviceImage from './SizeSectionDeviceImage';
+import SizeComparisonText from './SizeComparisonText';
 
 export default function SizeComparisonSection(props: {
   device1?: Phone;

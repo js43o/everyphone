@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef, useCallback, ChangeEvent } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import { useRecoilValue } from 'recoil';
 import axios from 'axios';
 import queryString from 'query-string';

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import {
   Box,
   Grid,
