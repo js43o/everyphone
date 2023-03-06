@@ -17,7 +17,7 @@ import { calculateViewSize } from 'utils/methods';
 import useSizeViewState from 'hooks/useSizeViewState';
 import HandSizeModal from './HandSizeModal';
 import SizeSectionDeviceImage from './SizeSectionDeviceImage';
-import SizeComparisonText from './SizeComparisonText';
+import SizeComparisonTable from './SizeComparisonTable';
 
 export default function SizeComparisonSection(props: {
   device1?: Phone;
@@ -203,7 +203,7 @@ export default function SizeComparisonSection(props: {
       </Box>
       <Divider />
       {device1 && device2 && (
-        <SizeComparisonText device1={device1} device2={device2} />
+        <SizeComparisonTable device1={device1} device2={device2} />
       )}
     </Box>
   );

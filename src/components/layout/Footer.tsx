@@ -2,8 +2,7 @@ import { Box, Button } from '@mui/material';
 
 export default function Footer() {
   const scrollToTop = () => {
-    if (window.scrollY === 0) return;
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    document.body.scrollTo({ top: 0, behavior: 'auto' });
   };
 
   return (

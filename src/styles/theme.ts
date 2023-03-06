@@ -25,6 +25,13 @@ const paletteColors = {
 const theme = createTheme({
   palette: paletteColors,
   components: {
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          borderColor: paletteColors.bluegrey.dark,
+        },
+      },
+    },
     MuiChip: {
       styleOverrides: {
         filled: {
