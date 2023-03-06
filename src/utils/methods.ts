@@ -1,4 +1,3 @@
-import bcrypt from 'bcryptjs';
 import {
   DATA_UNIT,
   CAMERA_TYPE,
@@ -213,18 +212,6 @@ export const convertDateToFormattedString = (date: Date) => {
   )}`;
 };
 
-export const hashPassword = async (password: string) => {
-  const hash = await bcrypt.hash(password, 5);
-  return hash;
-};
-
-export const checkPassword = async (
-  password: string,
-  hashedPassword: string
-) => {
-  const result = await bcrypt.compare(password, hashedPassword);
-  return result;
-};
 
 export const calculateDeviceViewSize = (
   demension: number[],

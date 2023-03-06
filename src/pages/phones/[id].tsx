@@ -25,7 +25,7 @@ export default function PhonesId(props: { phone: string }) {
     if (isFavorite(phone.name)) setFavorite(true);
   }, [phone.name]);
 
-  const handleToggleFavorite = () => {
+  const handleToggleFavorite = async () => {
     setFavorite(!favorite);
     toggleFavorite(phone.name);
   };

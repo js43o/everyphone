@@ -1,5 +1,6 @@
+import bcrypt from 'bcrypt';
 import connectMongo from 'utils/db/connectMongo';
-import { convertDateToFormattedString, hashPassword } from 'utils/methods';
+import { convertDateToFormattedString } from 'utils/methods';
 import CommentModel from './models/Comment';
 
 export default async function addComment(
@@ -11,7 +12,7 @@ export default async function addComment(
   try {
     await connectMongo();
 
-    const hashedPassword = await hashPassword(password);
+    const hashedPassword = await bcrypt.hash(password, 10);
     const comment = new CommentModel({
       phoneUrl,
       username,

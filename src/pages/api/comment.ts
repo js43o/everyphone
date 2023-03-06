@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
+import bcrypt from 'bcrypt';
 import addComment from 'utils/db/addComment';
 import deleteComment from 'utils/db/deleteComment';
 
@@ -25,10 +26,12 @@ handler.post(async (req, res) => {
 
 handler.delete(async (req, res) => {
   try {
-    const { commentId } = req.query;
+    const { commentId, inputPassword, hashedPassword } = req.query;
 
+    if (!bcrypt.compare(inputPassword as string, hashedPassword as string)) {
+      res.status(401).end();
+    }
     await deleteComment(commentId as string);
-
     res.status(200).end();
   } catch (e) {
     res.status(500).end();

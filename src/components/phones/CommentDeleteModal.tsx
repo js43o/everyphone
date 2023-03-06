@@ -9,7 +9,6 @@ import {
   TextField,
   Button,
 } from '@mui/material';
-import { checkPassword } from 'utils/methods';
 import { Comment } from 'utils/types';
 
 export default function CommentDeleteModal(props: {
@@ -37,21 +36,21 @@ export default function CommentDeleteModal(props: {
 
   const handleDelete = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!inputValue) return;
 
-    const checked = await checkPassword(inputValue, comment.hashedPassword);
-    if (!checked) {
+    try {
+      await axios.delete('/api/comment', {
+        params: {
+          commentId: comment._id,
+          inputPassword: inputValue,
+          hashedPassword: comment.hashedPassword,
+        },
+      });
+      handleClose();
+      refreshComments();
+    } catch (e) {
       setError(true);
-      return;
     }
-
-    await axios.delete('/api/comment', {
-      params: {
-        commentId: comment._id,
-      },
-    });
-
-    handleClose();
-    refreshComments();
   };
 
   return (
