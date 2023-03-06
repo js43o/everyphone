@@ -28,9 +28,15 @@ handler.delete(async (req, res) => {
   try {
     const { commentId, inputPassword, hashedPassword } = req.query;
 
-    if (!bcrypt.compare(inputPassword as string, hashedPassword as string)) {
+    const checked = await bcrypt.compare(
+      inputPassword as string,
+      hashedPassword as string
+    );
+    if (!checked) {
       res.status(401).end();
+      return;
     }
+
     await deleteComment(commentId as string);
     res.status(200).end();
   } catch (e) {
