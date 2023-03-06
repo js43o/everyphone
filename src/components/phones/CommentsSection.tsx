@@ -20,6 +20,7 @@ import {
 import { Comment } from 'utils/types';
 import CommentItem from './CommentItem';
 import CommentDeleteModal from './CommentDeleteModal';
+import CommentUpdateModal from './CommentUpdateModal';
 
 type InputState = {
   username: string;
@@ -56,8 +57,10 @@ export default function CommentsSection(props: { phoneUrl: string }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [comments, setComments] = useState<Comment[]>([]);
   const [inputState, dispatch] = useReducer(reducer, initialState);
-  const [openModal, setOpenModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState<Comment | null>(null);
+  const [commentToUpdate, setCommentToUpdate] = useState<Comment | null>(null);
 
   const handleChangeField = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -114,7 +117,12 @@ export default function CommentsSection(props: { phoneUrl: string }) {
 
   const selectCommentToDelete = (comment: Comment) => {
     setCommentToDelete(comment);
-    setOpenModal(true);
+    setOpenDeleteModal(true);
+  };
+
+  const selectCommentToUpdate = (comment: Comment) => {
+    setCommentToUpdate(comment);
+    setOpenUpdateModal(true);
   };
 
   const refreshComments = () => {
@@ -139,9 +147,17 @@ export default function CommentsSection(props: { phoneUrl: string }) {
     >
       {commentToDelete && (
         <CommentDeleteModal
-          open={openModal}
-          closeModal={() => setOpenModal(false)}
+          open={openDeleteModal}
+          closeModal={() => setOpenDeleteModal(false)}
           comment={commentToDelete}
+          refreshComments={refreshComments}
+        />
+      )}
+      {commentToUpdate && (
+        <CommentUpdateModal
+          open={openUpdateModal}
+          closeModal={() => setOpenUpdateModal(false)}
+          comment={commentToUpdate}
           refreshComments={refreshComments}
         />
       )}
@@ -214,6 +230,7 @@ export default function CommentsSection(props: { phoneUrl: string }) {
             key={`${comment.date}${v1()}`}
             comment={comment}
             selectCommentToDelete={() => selectCommentToDelete(comment)}
+            selectCommentToUpdate={() => selectCommentToUpdate(comment)}
           />
         ))}
       </List>

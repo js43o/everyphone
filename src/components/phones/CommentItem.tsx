@@ -1,13 +1,15 @@
 import { Box, Typography, IconButton, ListItem, Avatar } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
+import EditIcon from '@mui/icons-material/Edit';
 import { getColorByTimeStr } from 'utils/methods';
 import { Comment } from 'utils/types';
 
 const CommentItem = (props: {
   comment: Comment;
   selectCommentToDelete: () => void;
+  selectCommentToUpdate: () => void;
 }) => {
-  const { comment, selectCommentToDelete } = props;
+  const { comment, selectCommentToDelete, selectCommentToUpdate } = props;
   const { username, date, contents } = comment;
 
   return (
@@ -45,6 +47,9 @@ const CommentItem = (props: {
         </Box>
         <Typography variant="body1">{contents}</Typography>
       </Box>
+      <IconButton sx={{ alignSelf: 'center' }} onClick={selectCommentToUpdate}>
+        <EditIcon />
+      </IconButton>
       <IconButton sx={{ alignSelf: 'center' }} onClick={selectCommentToDelete}>
         <ClearIcon />
       </IconButton>
