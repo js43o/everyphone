@@ -6,10 +6,10 @@ import { Comment } from 'utils/types';
 
 const CommentItem = (props: {
   comment: Comment;
-  selectCommentToDelete: () => void;
-  selectCommentToUpdate: () => void;
+  handleClickEdit: () => void;
+  handleClickDelete: () => void;
 }) => {
-  const { comment, selectCommentToDelete, selectCommentToUpdate } = props;
+  const { comment, handleClickEdit, handleClickDelete } = props;
   const { username, date, contents } = comment;
 
   return (
@@ -47,10 +47,10 @@ const CommentItem = (props: {
         </Box>
         <Typography variant="body1">{contents}</Typography>
       </Box>
-      <IconButton sx={{ alignSelf: 'center' }} onClick={selectCommentToUpdate}>
+      <IconButton sx={{ alignSelf: 'center' }} onClick={handleClickEdit}>
         <EditIcon />
       </IconButton>
-      <IconButton sx={{ alignSelf: 'center' }} onClick={selectCommentToDelete}>
+      <IconButton sx={{ alignSelf: 'center' }} onClick={handleClickDelete}>
         <ClearIcon />
       </IconButton>
     </ListItem>

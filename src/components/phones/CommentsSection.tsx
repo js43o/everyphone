@@ -19,61 +19,19 @@ import {
 } from '@mui/material';
 import { Comment } from 'utils/types';
 import CommentItem from './CommentItem';
-import CommentDeleteModal from './CommentDeleteModal';
-import CommentUpdateModal from './CommentUpdateModal';
-
-type InputState = {
-  username: string;
-  password: string;
-  contents: string;
-};
-
-const initialState: InputState = {
-  username: '',
-  password: '',
-  contents: '',
-};
-
-const reducer = (
-  state: InputState,
-  action: { type: string; payload: string }
-) => {
-  switch (action.type) {
-    case 'USERNAME':
-      return { ...state, username: action.payload };
-    case 'PASSWORD':
-      return { ...state, password: action.payload };
-    case 'CONTENTS':
-      return { ...state, contents: action.payload };
-    case 'CLEAN_ALL':
-      return initialState;
-    default:
-      return state;
-  }
-};
+import CommentControlModal from './CommentControlModal';
+import useCommentInputState from 'hooks/useCommentInputState';
 
 export default function CommentsSection(props: { phoneUrl: string }) {
   const [lastPage, setLastPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [comments, setComments] = useState<Comment[]>([]);
-  const [inputState, dispatch] = useReducer(reducer, initialState);
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [openUpdateModal, setOpenUpdateModal] = useState(false);
-  const [commentToDelete, setCommentToDelete] = useState<Comment | null>(null);
-  const [commentToUpdate, setCommentToUpdate] = useState<Comment | null>(null);
 
-  const handleChangeField = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    field: string
-  ) => {
-    const { value } = e.target;
-    if ((field === 'USERNAME' || field === 'PASSWORD') && value.length > 10) {
-      return;
-    }
-    if (field === 'CONTENTS' && value.length > 100) return;
-
-    dispatch({ type: field, payload: e.target.value });
-  };
+  const [modalOpened, setModalOpened] = useState(false);
+  const [modalMode, setModalMode] = useState<'edit' | 'delete'>('delete');
+  const [selectedComment, setSelectedComment] = useState<Comment | null>(null);
+  const { inputState, handleChangeField, cleanAllFields } =
+    useCommentInputState();
 
   const handleSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -90,7 +48,7 @@ export default function CommentsSection(props: { phoneUrl: string }) {
 
     setCurrentPage(1);
     fetchComments(1);
-    dispatch({ type: 'CLEAN_ALL', payload: '' });
+    cleanAllFields();
   };
 
   const fetchComments = useCallback(
@@ -115,14 +73,10 @@ export default function CommentsSection(props: { phoneUrl: string }) {
     setCurrentPage(newPage);
   };
 
-  const selectCommentToDelete = (comment: Comment) => {
-    setCommentToDelete(comment);
-    setOpenDeleteModal(true);
-  };
-
-  const selectCommentToUpdate = (comment: Comment) => {
-    setCommentToUpdate(comment);
-    setOpenUpdateModal(true);
+  const selectModeAndComment = (comment: Comment, mode: 'edit' | 'delete') => {
+    setSelectedComment(comment);
+    setModalMode(mode);
+    setModalOpened(true);
   };
 
   const refreshComments = () => {
@@ -145,19 +99,12 @@ export default function CommentsSection(props: { phoneUrl: string }) {
         bgcolor: 'bluegrey.lighter',
       }}
     >
-      {commentToDelete && (
-        <CommentDeleteModal
-          open={openDeleteModal}
-          closeModal={() => setOpenDeleteModal(false)}
-          comment={commentToDelete}
-          refreshComments={refreshComments}
-        />
-      )}
-      {commentToUpdate && (
-        <CommentUpdateModal
-          open={openUpdateModal}
-          closeModal={() => setOpenUpdateModal(false)}
-          comment={commentToUpdate}
+      {selectedComment && (
+        <CommentControlModal
+          opened={modalOpened}
+          mode={modalMode}
+          comment={selectedComment}
+          closeModal={() => setModalOpened(false)}
           refreshComments={refreshComments}
         />
       )}
@@ -227,10 +174,10 @@ export default function CommentsSection(props: { phoneUrl: string }) {
       >
         {comments.map((comment) => (
           <CommentItem
-            key={`${comment.date}${v1()}`}
+            key={`${comment.date}-${v1()}`}
             comment={comment}
-            selectCommentToDelete={() => selectCommentToDelete(comment)}
-            selectCommentToUpdate={() => selectCommentToUpdate(comment)}
+            handleClickEdit={() => selectModeAndComment(comment, 'edit')}
+            handleClickDelete={() => selectModeAndComment(comment, 'delete')}
           />
         ))}
       </List>
