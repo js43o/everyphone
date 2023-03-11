@@ -79,7 +79,6 @@ export type Comment = {
   _id: string;
   phoneUrl: string;
   username: string;
-  hashedPassword: string;
   contents: string;
   date: string;
 };

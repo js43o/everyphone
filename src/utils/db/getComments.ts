@@ -15,7 +15,7 @@ export default async function getComments(
 
     const query = CommentModel.find({
       phoneUrl,
-    });
+    }).select({ hashedPassword: false });
 
     const lastPage = Math.ceil(
       (await query.clone().countDocuments().exec()) / ITEM_PER_PAGE

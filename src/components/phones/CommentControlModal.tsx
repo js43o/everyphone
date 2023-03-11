@@ -18,8 +18,8 @@ export default function CommentControlModal(props: {
   refreshComments: () => void;
 }) {
   const { opened, mode, comment, closeModal, refreshComments } = props;
-  const [inputPassword, setInputPassword] = useState('');
-  const [inputContents, setInputContents] = useState(comment.contents);
+  const [password, setPassword] = useState('');
+  const [contents, setContents] = useState(comment.contents);
   const [error, setError] = useState(false);
 
   const handleChangeField = (
@@ -28,16 +28,16 @@ export default function CommentControlModal(props: {
   ) => {
     if (field === 'password') {
       if (e.target.value.length > 10) return;
-      setInputPassword(e.target.value);
+      setPassword(e.target.value);
       return;
     }
 
     if (e.target.value.length > 100) return;
-    setInputContents(e.target.value);
+    setContents(e.target.value);
   };
 
   const handleClose = () => {
-    setInputPassword('');
+    setPassword('');
     setError(false);
     closeModal();
   };
@@ -48,9 +48,8 @@ export default function CommentControlModal(props: {
     try {
       await axios.patch('/api/comment', {
         commentId: comment._id,
-        inputPassword,
-        hashedPassword: comment.hashedPassword,
-        contents: inputContents,
+        password: password,
+        contents: contents,
       });
       handleClose();
       refreshComments();
@@ -66,8 +65,7 @@ export default function CommentControlModal(props: {
       await axios.delete('/api/comment', {
         params: {
           commentId: comment._id,
-          inputPassword,
-          hashedPassword: comment.hashedPassword,
+          password: password,
         },
       });
       handleClose();
@@ -78,7 +76,7 @@ export default function CommentControlModal(props: {
   };
 
   useEffect(() => {
-    setInputContents(comment.contents);
+    setContents(comment.contents);
   }, [opened, comment]);
 
   return (
@@ -99,7 +97,7 @@ export default function CommentControlModal(props: {
         >
           <TextField
             label="패스워드 확인"
-            value={inputPassword}
+            value={password}
             onChange={(e) => handleChangeField(e, 'password')}
             error={error}
             helperText={error && '패스워드가 일치하지 않습니다.'}
@@ -111,7 +109,7 @@ export default function CommentControlModal(props: {
           {mode === 'edit' && (
             <TextField
               label="내용"
-              value={inputContents}
+              value={contents}
               onChange={(e) => handleChangeField(e, 'contents')}
               InputProps={{ required: true }}
               rows={2}

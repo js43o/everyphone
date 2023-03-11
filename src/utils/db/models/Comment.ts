@@ -1,7 +1,7 @@
 import { Schema, model, models } from 'mongoose';
 import { Comment } from 'utils/types';
 
-const CommentSchema = new Schema<Comment>({
+const CommentSchema = new Schema<Comment & { hashedPassword: String }>({
   phoneUrl: String,
   username: String,
   hashedPassword: String,

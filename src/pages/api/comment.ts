@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import addComment from 'utils/db/addComment';
 import deleteComment from 'utils/db/deleteComment';
 import updateComment from 'utils/db/updateComment';
+import CommentModel from 'utils/db/models/Comment';
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>();
 
@@ -18,7 +19,7 @@ handler.post(async (req, res) => {
       contents as string
     );
 
-    res.status(200).end();
+    res.status(201).end();
   } catch (e) {
     console.log(e);
     res.status(500).end();
@@ -27,10 +28,11 @@ handler.post(async (req, res) => {
 
 handler.patch(async (req, res) => {
   try {
-    const { commentId, inputPassword, hashedPassword, contents } = req.body;
+    const { commentId, password, contents } = req.body;
+    const { hashedPassword } = await CommentModel.findById(commentId).exec();
 
     const checked = await bcrypt.compare(
-      inputPassword as string,
+      password as string,
       hashedPassword as string
     );
     if (!checked) {
@@ -48,10 +50,11 @@ handler.patch(async (req, res) => {
 
 handler.delete(async (req, res) => {
   try {
-    const { commentId, inputPassword, hashedPassword } = req.query;
+    const { commentId, password } = req.query;
+    const { hashedPassword } = await CommentModel.findById(commentId).exec();
 
     const checked = await bcrypt.compare(
-      inputPassword as string,
+      password as string,
       hashedPassword as string
     );
     if (!checked) {
@@ -60,7 +63,7 @@ handler.delete(async (req, res) => {
     }
 
     await deleteComment(commentId as string);
-    res.status(200).end();
+    res.status(204).end();
   } catch (e) {
     res.status(500).end();
   }
