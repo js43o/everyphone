@@ -1,9 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import bcrypt from 'bcrypt';
-import addComment from 'utils/db/addComment';
-import deleteComment from 'utils/db/deleteComment';
-import updateComment from 'utils/db/updateComment';
+import {
+  addComment,
+  updateComment,
+  deleteComment,
+} from 'utils/db/functions/comment';
 import CommentModel from 'utils/db/models/Comment';
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>();

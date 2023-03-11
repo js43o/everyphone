@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
-import getPhoneByName from 'utils/db/getPhoneByName';
+import { getPhoneByName } from 'utils/db/functions/phone';
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>();
 

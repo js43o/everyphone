@@ -1,12 +1,10 @@
 import {
-  Box,
   TableContainer,
   Table,
   TableHead,
   TableRow,
   TableBody,
   TableCell,
-  Typography,
 } from '@mui/material';
 import { Phone } from 'utils/types';
 
@@ -26,10 +24,12 @@ export default function SizeComparisonTable(props: {
             bgcolor: 'bluegrey.main',
           }}
         >
-          <TableCell>항목</TableCell>
-          <TableCell align="right">가로 (mm)</TableCell>
-          <TableCell align="right">세로 (mm)</TableCell>
-          <TableCell align="right">두께 (mm)</TableCell>
+          <TableRow>
+            <TableCell>항목</TableCell>
+            <TableCell align="right">가로 (mm)</TableCell>
+            <TableCell align="right">세로 (mm)</TableCell>
+            <TableCell align="right">두께 (mm)</TableCell>
+          </TableRow>
         </TableHead>
         <TableBody>
           {devices.map((device) => (

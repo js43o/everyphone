@@ -1,4 +1,4 @@
-import connectMongo from 'utils/db/connectMongo';
+import connectMongo from 'utils/db/functions/connectMongo';
 import { SearchPhoneResult } from 'utils/types';
 import PhoneModel from 'utils/db/models/Phone';
 

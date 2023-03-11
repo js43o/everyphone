@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
-import getComments from 'utils/db/getComments';
+import { getComments } from 'utils/db/functions/comment';
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>();
 

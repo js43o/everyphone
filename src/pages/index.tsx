@@ -6,7 +6,7 @@ import PhoneCard from 'components/common/PhoneCard';
 import NoResult from 'components/common/NoResult';
 import { Phone } from 'utils/types';
 import { ITEM_PER_PAGE } from 'utils/constants';
-import getAllPhones from 'utils/db/getAllPhones';
+import { getPhonesByLimit } from 'utils/db/functions/phone';
 
 export default function Index(props: { phones: string }) {
   return (
@@ -47,7 +47,7 @@ export default function Index(props: { phones: string }) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { phones } = await getAllPhones(4);
+  const { phones } = await getPhonesByLimit(4);
 
   return {
     props: {

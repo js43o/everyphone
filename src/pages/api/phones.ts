@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
-import getFilteredPhonesByPage from 'utils/db/getFilteredPhonesByPage';
 import { MANUFACTURER } from 'utils/constants';
+import { getFilteredPhonesByPage } from 'utils/db/functions/phone';
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>();
 

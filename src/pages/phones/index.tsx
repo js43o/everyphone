@@ -12,7 +12,7 @@ import SortingSelector from 'components/phones/SortingSelector';
 import { filterPhoneQueryState } from 'utils/atoms';
 import { Phone } from 'utils/types';
 import { ITEM_PER_PAGE } from 'utils/constants';
-import getAllPhones from 'utils/db/getAllPhones';
+import { getPhonesByLimit } from 'utils/db/functions/phone';
 
 export default function Phones(props: { phones: string; lastPage: number }) {
   const [phones, setPhones] = useState<Phone[]>(JSON.parse(props.phones));
@@ -124,7 +124,7 @@ export default function Phones(props: { phones: string; lastPage: number }) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { phones, lastPage } = await getAllPhones(ITEM_PER_PAGE);
+  const { phones, lastPage } = await getPhonesByLimit(ITEM_PER_PAGE);
 
   return {
     props: {

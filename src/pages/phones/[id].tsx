@@ -13,9 +13,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RatioImage from 'components/common/RatioImage';
 import SpecSheet from 'components/phones/SpecSheet';
 import CommentsSection from 'components/phones/CommentsSection';
-import getPhoneByUrl from 'utils/db/getPhoneByUrl';
 import { Phone } from 'utils/types';
 import { getSpecsOfPhone, isFavorite, toggleFavorite } from 'utils/methods';
+import { getPhoneByUrl } from 'utils/db/functions/phone';
 
 export default function PhonesId(props: { phone: string }) {
   const phone: Phone = JSON.parse(props.phone);
