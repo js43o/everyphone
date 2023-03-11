@@ -23,7 +23,6 @@ handler.post(async (req, res) => {
 
     res.status(201).end();
   } catch (e) {
-    console.log(e);
     res.status(500).end();
   }
 });
@@ -45,7 +44,6 @@ handler.patch(async (req, res) => {
     await updateComment(commentId as string, contents as string);
     res.status(200).end();
   } catch (e) {
-    console.log(e);
     res.status(500).end();
   }
 });

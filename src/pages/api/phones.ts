@@ -16,20 +16,24 @@ type QueryType = {
 };
 
 handler.get(async (req, res) => {
-  const { manufacturer, height, storage, battery, weight, sortBy, page } =
-    req.query as QueryType;
+  try {
+    const { manufacturer, height, storage, battery, weight, sortBy, page } =
+      req.query as QueryType;
 
-  const options = {
-    manufacturer: manufacturer || MANUFACTURER,
-    height: height.map((value) => Number(value)),
-    storage: storage.map((value) => 2 ** Number(value) / 1024 ** 3),
-    battery: battery.map((value) => Number(value)),
-    weight: weight.map((value) => Number(value)),
-    sortBy,
-  };
+    const options = {
+      manufacturer: manufacturer || MANUFACTURER,
+      height: height.map((value) => Number(value)),
+      storage: storage.map((value) => 2 ** Number(value) / 1024 ** 3),
+      battery: battery.map((value) => Number(value)),
+      weight: weight.map((value) => Number(value)),
+      sortBy,
+    };
 
-  const response = await getFilteredPhonesByPage(options, Number(page));
-  res.json(response);
+    const response = await getFilteredPhonesByPage(options, Number(page));
+    res.json(response);
+  } catch (e) {
+    res.status(500).end();
+  }
 });
 
 export default handler;

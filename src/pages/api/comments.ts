@@ -5,10 +5,13 @@ import { getComments } from 'utils/db/functions/comment';
 const handler = nextConnect<NextApiRequest, NextApiResponse>();
 
 handler.get(async (req, res) => {
-  const { phoneUrl, page } = req.query;
-
-  const response = await getComments(phoneUrl as string, Number(page));
-  res.json(response);
+  try {
+    const { phoneUrl, page } = req.query;
+    const response = await getComments(phoneUrl as string, Number(page));
+    res.json(response);
+  } catch (e) {
+    res.status(500).end();
+  }
 });
 
 export default handler;
