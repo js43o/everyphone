@@ -4,7 +4,6 @@ import {
   useState,
   useEffect,
   useCallback,
-  useReducer,
 } from 'react';
 import axios from 'axios';
 import { v1 } from 'uuid';
@@ -17,10 +16,17 @@ import {
   TextField,
   Button,
 } from '@mui/material';
-import { Comment } from 'utils/types';
 import CommentItem from './CommentItem';
 import CommentControlModal from './CommentControlModal';
+import AlertModal from 'components/common/AlertModal';
 import useCommentInputState from 'hooks/useCommentInputState';
+import useAlertModal from 'hooks/useAlertModal';
+import {
+  validateUsername,
+  validatePassword,
+  validateCommentContents,
+} from 'utils/validator';
+import { Comment } from 'utils/types';
 
 export default function CommentsSection(props: { phoneUrl: string }) {
   const [lastPage, setLastPage] = useState(1);
@@ -32,10 +38,30 @@ export default function CommentsSection(props: { phoneUrl: string }) {
   const [selectedComment, setSelectedComment] = useState<Comment | null>(null);
   const { inputState, handleChangeField, cleanAllFields } =
     useCommentInputState();
+  const { alertOpened, errorMessage, activateAlert, closeAlert } =
+    useAlertModal();
 
   const handleSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!inputState.username || !inputState.password || !inputState.contents) {
+      return;
+    }
+
+    const usernameError = validateUsername(inputState.username);
+    if (!!usernameError) {
+      activateAlert(usernameError);
+      return;
+    }
+
+    const passwordError = validatePassword(inputState.password);
+    if (!!passwordError) {
+      activateAlert(passwordError);
+      return;
+    }
+
+    const contentsError = validateCommentContents(inputState.contents);
+    if (!!contentsError) {
+      activateAlert(contentsError);
       return;
     }
 
@@ -108,6 +134,12 @@ export default function CommentsSection(props: { phoneUrl: string }) {
           refreshComments={refreshComments}
         />
       )}
+      <AlertModal
+        open={alertOpened}
+        title="입력 에러"
+        description={errorMessage}
+        handleClose={closeAlert}
+      />
       <Typography variant="h2">댓글</Typography>
       <Divider />
       <Box

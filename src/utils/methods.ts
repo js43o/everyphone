@@ -7,10 +7,6 @@ import {
 import { Phone } from 'utils/types';
 import { Specs } from './types';
 
-export const isNumber = (str: string) => {
-  return /^\d*$/.test(str);
-};
-
 export const trimToRange = (
   value: number,
   minValue?: number,
@@ -174,9 +170,14 @@ export const getFavoriteList = (): string[] => {
 
 export const toggleFavorite = (name: string) => {
   let favorite = getFavoriteList();
-  if (isFavorite(name)) favorite = favorite.filter((item) => item !== name);
-  else favorite.push(name);
-  localStorage.setItem('favorite', JSON.stringify(favorite));
+  localStorage.setItem(
+    'favorite',
+    JSON.stringify(
+      isFavorite(name)
+        ? favorite.filter((item) => item !== name)
+        : [...favorite, name]
+    )
+  );
 };
 
 export const isFavorite = (name: string) => {
@@ -211,7 +212,6 @@ export const convertDateToFormattedString = (date: Date) => {
     2
   )}`;
 };
-
 
 export const calculateDeviceViewSize = (
   demension: number[],

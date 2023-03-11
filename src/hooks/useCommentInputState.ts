@@ -35,20 +35,23 @@ const useCommentInputState = () => {
 
   const handleChangeField = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    field: string
+    field: 'USERNAME' | 'PASSWORD' | 'CONTENTS'
   ) => {
     const { value } = e.target;
 
-    if ((field === 'USERNAME' || field === 'PASSWORD') && value.length > 10)
-      return;
+    if (field === 'USERNAME' && value.length > 10) return;
+    if (field === 'PASSWORD' && value.length > 20) return;
     if (field === 'CONTENTS' && value.length > 100) return;
 
     dispatch({ type: field, payload: e.target.value });
   };
-
   const cleanAllFields = () => dispatch({ type: 'CLEAN_ALL', payload: '' });
 
-  return { inputState, handleChangeField, cleanAllFields };
+  return {
+    inputState,
+    handleChangeField,
+    cleanAllFields,
+  };
 };
 
 export default useCommentInputState;

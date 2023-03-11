@@ -1,6 +1,7 @@
 import connectMongo from 'utils/db/functions/connectMongo';
 import { SearchPhoneResult } from 'utils/types';
 import PhoneModel from 'utils/db/models/Phone';
+import { hasKorean } from 'utils/validator';
 
 export default async function searchPhonesByName(
   input: string
@@ -8,7 +9,6 @@ export default async function searchPhonesByName(
   try {
     await connectMongo();
     const flattend = input.toLowerCase().replace(/\s+/g, '');
-    const hasKorean = /[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(input);
     const regExp = new RegExp(
       ['\\s*', flattend.split('').join('\\s*'), '\\s*']
         .join('')
@@ -17,7 +17,7 @@ export default async function searchPhonesByName(
     );
 
     const searchResult = await PhoneModel.find(
-      hasKorean
+      hasKorean(input)
         ? { korName: { $regex: regExp } }
         : { name: { $regex: regExp } },
       { _id: false, name: true, manufacturer: true, url: true }

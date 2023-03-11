@@ -1,5 +1,5 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import {
   Box,
   Dialog,
@@ -21,6 +21,7 @@ export default function CommentControlModal(props: {
   const [password, setPassword] = useState('');
   const [contents, setContents] = useState(comment.contents);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChangeField = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -51,10 +52,16 @@ export default function CommentControlModal(props: {
         password: password,
         contents: contents,
       });
+
       handleClose();
       refreshComments();
     } catch (e) {
       setError(true);
+      if ((e as AxiosError).response?.status === 401) {
+        setErrorMessage('패스워드가 일치하지 않습니다.');
+        return;
+      }
+      setErrorMessage('서버 에러');
     }
   };
 
@@ -72,6 +79,11 @@ export default function CommentControlModal(props: {
       refreshComments();
     } catch (e) {
       setError(true);
+      if ((e as AxiosError).response?.status === 401) {
+        setErrorMessage('패스워드가 일치하지 않습니다.');
+        return;
+      }
+      setErrorMessage('서버 에러');
     }
   };
 
@@ -100,7 +112,7 @@ export default function CommentControlModal(props: {
             value={password}
             onChange={(e) => handleChangeField(e, 'password')}
             error={error}
-            helperText={error && '패스워드가 일치하지 않습니다.'}
+            helperText={error && errorMessage}
             type="password"
             size="small"
             autoFocus

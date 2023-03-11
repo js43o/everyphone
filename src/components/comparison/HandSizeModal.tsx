@@ -9,7 +9,8 @@ import {
   Button,
 } from '@mui/material';
 import { handSizeState } from 'utils/atoms';
-import { isNumber, trimToRange } from 'utils/methods';
+import { trimToRange } from 'utils/methods';
+import { isNumber } from 'utils/validator';
 
 export default function HandSizeModal(props: {
   opened: boolean;
