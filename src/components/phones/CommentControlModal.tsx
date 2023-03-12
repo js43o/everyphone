@@ -5,6 +5,7 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  DialogContentText,
   TextField,
   Button,
 } from '@mui/material';
@@ -92,8 +93,13 @@ export default function CommentControlModal(props: {
   }, [opened, comment]);
 
   return (
-    <Dialog open={opened} onClose={handleClose} keepMounted>
-      <DialogTitle variant="h3">
+    <Dialog
+      open={opened}
+      onClose={handleClose}
+      aria-labelledby="comment-control-dialog-title"
+      aria-describedby="comment-control-dialog-description"
+    >
+      <DialogTitle id="comment-control-dialog-title" variant="h3">
         {mode === 'edit' ? '댓글 수정' : '댓글 삭제'}
       </DialogTitle>
       <DialogContent>
@@ -101,12 +107,15 @@ export default function CommentControlModal(props: {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            gap: 1,
-            mt: 1,
+            gap: 2,
+            flexGrow: 1,
           }}
           onSubmit={mode === 'edit' ? handleSubmitEdit : handleSubmitDelete}
           component="form"
         >
+          <DialogContentText id="comment-control-dialog-description">
+            댓글 작성 시 패스워드를 입력해 주세요.
+          </DialogContentText>
           <TextField
             label="패스워드 확인"
             value={password}

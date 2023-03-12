@@ -40,11 +40,7 @@ export default function HandSizeModal(props: {
   };
 
   return (
-    <Modal
-      open={opened}
-      onClose={onClose}
-      aria-labelledby="dummy hand sizing modal"
-    >
+    <Modal open={opened} onClose={onClose} aria-labelledby="dummy hand sizing">
       <Box
         sx={{
           display: 'flex',
@@ -75,7 +71,6 @@ export default function HandSizeModal(props: {
           onChange={handleChange}
           helperText="최소 100 mm - 최대 250 mm"
           aria-labelledby="dummy hand sizing"
-          aria-describedby="between 100 and 250 millimeters"
         />
         <Box
           sx={{

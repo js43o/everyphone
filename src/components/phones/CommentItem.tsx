@@ -1,6 +1,6 @@
 import { Box, Typography, IconButton, ListItem, Avatar } from '@mui/material';
-import ClearIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
 import { getColorByTimeStr } from 'utils/methods';
 import { Comment } from 'utils/types';
 
@@ -17,14 +17,18 @@ const CommentItem = (props: {
       sx={{
         display: 'flex',
         alignItems: 'flex-start',
-        px: 1,
-        py: 2,
+        px: 0,
+        py: 1,
       }}
       divider
     >
       <Avatar
         alt={username}
-        sx={{ mr: 2, bgcolor: getColorByTimeStr(date.split(' ')[1]) }}
+        sx={{
+          mt: 1,
+          mr: 2,
+          bgcolor: getColorByTimeStr(date.split(' ')[1]),
+        }}
       >
         {username[0]}
       </Avatar>
@@ -38,21 +42,28 @@ const CommentItem = (props: {
         <Box
           sx={{
             display: 'flex',
+            justifyContent: 'space-between',
             alignItems: 'center',
-            gap: 2,
           }}
         >
           <Typography variant="subtitle1">{username}</Typography>
-          <Typography variant="caption">{date}</Typography>
+          <Box>
+            <IconButton sx={{ alignSelf: 'center' }} onClick={handleClickEdit}>
+              <EditIcon />
+            </IconButton>
+            <IconButton
+              sx={{ alignSelf: 'center' }}
+              onClick={handleClickDelete}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Box>
         </Box>
         <Typography variant="body1">{contents}</Typography>
+        <Typography variant="caption" sx={{ mt: 1 }}>
+          {date}
+        </Typography>
       </Box>
-      <IconButton sx={{ alignSelf: 'center' }} onClick={handleClickEdit}>
-        <EditIcon />
-      </IconButton>
-      <IconButton sx={{ alignSelf: 'center' }} onClick={handleClickDelete}>
-        <ClearIcon />
-      </IconButton>
     </ListItem>
   );
 };
