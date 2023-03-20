@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { SessionProvider } from 'next-auth/react';
 import { RecoilRoot } from 'recoil';
 import { ThemeProvider } from '@mui/material';
 import Layout from 'components/layout';
@@ -7,7 +8,10 @@ import 'styles/normalize.css';
 import GlobalStyles from 'styles/GlobalStyles';
 import theme from 'styles/theme';
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps) {
   return (
     <>
       <Head>
@@ -16,11 +20,13 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <GlobalStyles />
       <ThemeProvider theme={theme}>
-        <RecoilRoot>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </RecoilRoot>
+        <SessionProvider session={session}>
+          <RecoilRoot>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </RecoilRoot>
+        </SessionProvider>
       </ThemeProvider>
     </>
   );

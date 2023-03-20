@@ -1,10 +1,17 @@
 import Link from 'next/link';
-import { Box, IconButton, useMediaQuery, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  IconButton,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Title from 'components/common/Title';
 import NavBar from './NavBar';
 import NavDrawerButton from './NavDrawerButton';
 import SearchPhoneButton from './SearchPhoneButton';
+import { signIn, useSession } from 'next-auth/react';
 
 const FavoriteButton = () => {
   return (
@@ -23,6 +30,7 @@ const FavoriteButton = () => {
 
 export default function Header() {
   const isMobile = useMediaQuery(useTheme().breakpoints.down('lg'));
+  const { data: session, status } = useSession();
 
   return (
     <Box
@@ -66,6 +74,8 @@ export default function Header() {
           >
             <SearchPhoneButton />
             <FavoriteButton />
+            <Button onClick={() => signIn('github')}>Github 로그인</Button>
+            <h6>{session?.user?.name}</h6>
           </Box>
         </>
       )}

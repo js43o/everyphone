@@ -82,3 +82,11 @@ export type Comment = {
   contents: string;
   date: string;
 };
+
+export type User = {
+  _id: string;
+  username: string;
+  provider: string;
+  comments: string[];
+  favorites: string[];
+};
