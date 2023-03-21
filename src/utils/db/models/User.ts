@@ -5,6 +5,7 @@ const UserSchema = new Schema<User & { hashedPassword: String }>({
   username: String,
   provider: String,
   hashedPassword: String,
+  ownedPhone: String,
   comments: [String],
   favorites: [String],
 });

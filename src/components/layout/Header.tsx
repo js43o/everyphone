@@ -1,32 +1,13 @@
 import Link from 'next/link';
-import {
-  Box,
-  Button,
-  IconButton,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { signIn, useSession } from 'next-auth/react';
+import { Box, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import LoginIcon from '@mui/icons-material/Login';import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Title from 'components/common/Title';
 import NavBar from './NavBar';
 import NavDrawerButton from './NavDrawerButton';
 import SearchPhoneButton from './SearchPhoneButton';
-import { signIn, useSession } from 'next-auth/react';
-
-const FavoriteButton = () => {
-  return (
-    <Link href="/favorite">
-      <IconButton
-        sx={{
-          width: 48,
-          height: 48,
-        }}
-      >
-        <FavoriteIcon />
-      </IconButton>
-    </Link>
-  );
-};
+import LinkIconButton from 'components/common/LinkIconButton';
 
 export default function Header() {
   const isMobile = useMediaQuery(useTheme().breakpoints.down('lg'));
@@ -73,9 +54,19 @@ export default function Header() {
             }}
           >
             <SearchPhoneButton />
-            <FavoriteButton />
-            <Button onClick={() => signIn('github')}>Github 로그인</Button>
-            <h6>{session?.user?.name}</h6>
+            <LinkIconButton href="/favorite" iconComponent={<FavoriteIcon />} />
+            {session ? (
+              <LinkIconButton
+                href="/auth/account"
+                iconComponent={<AccountCircleIcon />}
+              />
+            ) : (
+              <>
+                <IconButton onClick={() => signIn()}>
+                  <LoginIcon />
+                </IconButton>
+              </>
+            )}
           </Box>
         </>
       )}

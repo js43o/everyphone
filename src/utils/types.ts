@@ -87,6 +87,7 @@ export type User = {
   _id: string;
   username: string;
   provider: string;
+  ownedPhone: string;
   comments: string[];
   favorites: string[];
 };
