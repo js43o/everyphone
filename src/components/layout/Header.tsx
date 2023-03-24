@@ -2,7 +2,8 @@ import Link from 'next/link';
 import { signIn, useSession } from 'next-auth/react';
 import { Box, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import LoginIcon from '@mui/icons-material/Login';import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LoginIcon from '@mui/icons-material/Login';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Title from 'components/common/Title';
 import NavBar from './NavBar';
 import NavDrawerButton from './NavDrawerButton';
@@ -54,11 +55,11 @@ export default function Header() {
             }}
           >
             <SearchPhoneButton />
-            <LinkIconButton href="/favorite" iconComponent={<FavoriteIcon />} />
+            <LinkIconButton href="/favorite" IconComponent={<FavoriteIcon />} />
             {session ? (
               <LinkIconButton
                 href="/auth/account"
-                iconComponent={<AccountCircleIcon />}
+                IconComponent={<AccountCircleIcon />}
               />
             ) : (
               <>

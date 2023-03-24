@@ -8,10 +8,7 @@ import 'styles/normalize.css';
 import GlobalStyles from 'styles/GlobalStyles';
 import theme from 'styles/theme';
 
-export default function App({
-  Component,
-  pageProps: { session, ...pageProps },
-}: AppProps) {
+export default function App({ Component, pageProps, ...appProps }: AppProps) {
   return (
     <>
       <Head>
@@ -20,11 +17,15 @@ export default function App({
       </Head>
       <GlobalStyles />
       <ThemeProvider theme={theme}>
-        <SessionProvider session={session}>
+        <SessionProvider session={pageProps.session}>
           <RecoilRoot>
-            <Layout>
+            {appProps.router.pathname === '/auth/login' ? (
               <Component {...pageProps} />
-            </Layout>
+            ) : (
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            )}
           </RecoilRoot>
         </SessionProvider>
       </ThemeProvider>

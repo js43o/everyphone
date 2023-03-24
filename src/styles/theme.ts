@@ -3,9 +3,11 @@ import { createTheme } from '@mui/material';
 declare module '@mui/material/styles' {
   interface Palette {
     bluegrey: Palette['primary'];
+    black: PaletteOptions['primary'];
   }
   interface PaletteOptions {
     bluegrey: PaletteOptions['primary'];
+    black: PaletteOptions['primary'];
   }
 }
 
@@ -20,7 +22,17 @@ const paletteColors = {
     contrastText: '#3e5060',
     black: 'black',
   },
+  black: {
+    main: 'black',
+    contrastText: 'white',
+  },
 };
+
+declare module '@mui/material/Button' {
+  interface ButtonPropsColorOverrides {
+    black: true;
+  }
+}
 
 const theme = createTheme({
   palette: paletteColors,
@@ -44,6 +56,9 @@ const theme = createTheme({
           color: paletteColors.bluegrey.darkest,
         },
       },
+    },
+    MuiButton: {
+      styleOverrides: {},
     },
     MuiIconButton: {
       styleOverrides: {

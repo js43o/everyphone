@@ -4,9 +4,9 @@ import { IconButton } from '@mui/material';
 
 export default function LinkIconButton(props: {
   href: string;
-  iconComponent: ReactNode;
+  IconComponent: ReactNode;
 }) {
-  const { href, iconComponent } = props;
+  const { href, IconComponent } = props;
   return (
     <Link href={href}>
       <IconButton
@@ -15,7 +15,7 @@ export default function LinkIconButton(props: {
           height: 48,
         }}
       >
-        {iconComponent}
+        {IconComponent}
       </IconButton>
     </Link>
   );
