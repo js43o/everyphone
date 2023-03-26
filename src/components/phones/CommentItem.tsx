@@ -1,3 +1,4 @@
+import { Session } from 'next-auth';
 import { Box, Typography, IconButton, ListItem, Avatar } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
@@ -6,11 +7,15 @@ import { Comment } from 'utils/types';
 
 const CommentItem = (props: {
   comment: Comment;
+  user: Session['user'] | null;
   handleClickEdit: () => void;
   handleClickDelete: () => void;
 }) => {
-  const { comment, handleClickEdit, handleClickDelete } = props;
+  const { comment, handleClickEdit, handleClickDelete, user } = props;
   const { username, date, contents } = comment;
+  const accessible = user
+    ? comment.hasAccount && user.name === comment.username
+    : !comment.hasAccount;
 
   return (
     <ListItem
@@ -47,17 +52,25 @@ const CommentItem = (props: {
           }}
         >
           <Typography variant="subtitle1">{username}</Typography>
-          <Box>
-            <IconButton sx={{ alignSelf: 'center' }} onClick={handleClickEdit}>
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              sx={{ alignSelf: 'center' }}
-              onClick={handleClickDelete}
-            >
-              <CloseIcon />
-            </IconButton>
-          </Box>
+          <Typography variant="subtitle2">
+            {comment.hasAccount ? 'V' : 'X'}
+          </Typography>
+          {accessible && (
+            <Box>
+              <IconButton
+                sx={{ alignSelf: 'center' }}
+                onClick={handleClickEdit}
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                sx={{ alignSelf: 'center' }}
+                onClick={handleClickDelete}
+              >
+                <CloseIcon />
+              </IconButton>
+            </Box>
+          )}
         </Box>
         <Typography variant="body1">{contents}</Typography>
         <Typography variant="caption" sx={{ mt: 1 }}>

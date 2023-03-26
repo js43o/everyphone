@@ -2,7 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import bcrypt from 'bcrypt';
 import {
-  addComment,
+  addCommentFromAnonymous,
+  addCommentFromMember,
   updateComment,
   deleteComment,
 } from 'utils/db/functions/comment';
@@ -12,9 +13,19 @@ const handler = nextConnect<NextApiRequest, NextApiResponse>();
 
 handler.post(async (req, res) => {
   try {
-    const { phoneUrl, username, password, contents } = req.body;
+    const { phoneUrl, hasAccount, username, password, contents } = req.body;
 
-    await addComment(
+    if (hasAccount) {
+      await addCommentFromMember(
+        phoneUrl as string,
+        username as string,
+        contents as string
+      );
+      res.status(201).end();
+      return;
+    }
+
+    await addCommentFromAnonymous(
       phoneUrl as string,
       username as string,
       password as string,
@@ -29,16 +40,20 @@ handler.post(async (req, res) => {
 
 handler.patch(async (req, res) => {
   try {
-    const { commentId, password, contents } = req.body;
+    const { commentId, hasAccount, password, contents } = req.body;
     const { hashedPassword } = await CommentModel.findById(commentId).exec();
 
-    const checked = await bcrypt.compare(
-      password as string,
-      hashedPassword as string
-    );
-    if (!checked) {
-      res.status(401).end();
-      return;
+    console.log(hasAccount);
+
+    if (!hasAccount) {
+      const checked = await bcrypt.compare(
+        password as string,
+        hashedPassword as string
+      );
+      if (!checked) {
+        res.status(401).end();
+        return;
+      }
     }
 
     await updateComment(commentId as string, contents as string);
@@ -50,16 +65,19 @@ handler.patch(async (req, res) => {
 
 handler.delete(async (req, res) => {
   try {
-    const { commentId, password } = req.query;
-    const { hashedPassword } = await CommentModel.findById(commentId).exec();
+    const { commentId, hasAccount, password } = req.query;
+    const { userId: commentUserId, hashedPassword } =
+      await CommentModel.findById(commentId).exec();
 
-    const checked = await bcrypt.compare(
-      password as string,
-      hashedPassword as string
-    );
-    if (!checked) {
-      res.status(401).end();
-      return;
+    if (!hasAccount) {
+      const checked = await bcrypt.compare(
+        password as string,
+        hashedPassword as string
+      );
+      if (!checked) {
+        res.status(401).end();
+        return;
+      }
     }
 
     await deleteComment(commentId as string);

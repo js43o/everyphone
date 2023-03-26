@@ -52,6 +52,7 @@ export default function CommentControlModal(props: {
         commentId: comment._id,
         password: password,
         contents: contents,
+        hasAccount: comment.hasAccount,
       });
 
       handleClose();
@@ -74,6 +75,7 @@ export default function CommentControlModal(props: {
         params: {
           commentId: comment._id,
           password: password,
+          hasAccount: comment.hasAccount,
         },
       });
       handleClose();

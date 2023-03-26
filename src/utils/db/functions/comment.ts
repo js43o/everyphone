@@ -4,7 +4,7 @@ import { convertDateToFormattedString } from 'utils/methods';
 import { ITEM_PER_PAGE } from 'utils/constants';
 import connectMongo from './connectMongo';
 
-export async function addComment(
+export async function addCommentFromAnonymous(
   phoneUrl: string,
   username: string,
   password: string,
@@ -19,6 +19,28 @@ export async function addComment(
       username,
       hashedPassword,
       contents,
+      hasAccount: false,
+      date: convertDateToFormattedString(new Date()),
+    });
+    await comment.save();
+  } catch (err: any) {
+    throw err;
+  }
+}
+
+export async function addCommentFromMember(
+  phoneUrl: string,
+  username: string,
+  contents: string
+) {
+  try {
+    await connectMongo();
+
+    const comment = new CommentModel({
+      phoneUrl,
+      username,
+      contents,
+      hasAccount: true,
       date: convertDateToFormattedString(new Date()),
     });
     await comment.save();

@@ -27,11 +27,13 @@ import {
   validateCommentContents,
 } from 'utils/validator';
 import { Comment } from 'utils/types';
+import { useSession } from 'next-auth/react';
 
 export default function CommentsSection(props: { phoneUrl: string }) {
   const [lastPage, setLastPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [comments, setComments] = useState<Comment[]>([]);
+  const { data: session, status } = useSession();
 
   const [modalOpened, setModalOpened] = useState(false);
   const [modalMode, setModalMode] = useState<'edit' | 'delete'>('delete');
@@ -43,20 +45,25 @@ export default function CommentsSection(props: { phoneUrl: string }) {
 
   const handleSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!inputState.username || !inputState.password || !inputState.contents) {
-      return;
-    }
 
-    const usernameError = validateUsername(inputState.username);
-    if (!!usernameError) {
-      activateAlert(usernameError);
-      return;
-    }
+    if (!inputState.contents) return;
 
-    const passwordError = validatePassword(inputState.password);
-    if (!!passwordError) {
-      activateAlert(passwordError);
-      return;
+    if (status === 'unauthenticated') {
+      if (!inputState.username || !inputState.password) {
+        return;
+      }
+
+      const usernameError = validateUsername(inputState.username);
+      if (!!usernameError) {
+        activateAlert(usernameError);
+        return;
+      }
+
+      const passwordError = validatePassword(inputState.password);
+      if (!!passwordError) {
+        activateAlert(passwordError);
+        return;
+      }
     }
 
     const contentsError = validateCommentContents(inputState.contents);
@@ -67,8 +74,9 @@ export default function CommentsSection(props: { phoneUrl: string }) {
 
     await axios.post('/api/comment', {
       phoneUrl: props.phoneUrl,
-      username: inputState.username,
-      password: inputState.password,
+      hasAccount: status === 'authenticated',
+      username: session ? session.user?.name : inputState.username,
+      password: !session && inputState.password,
       contents: inputState.contents,
     });
 
@@ -158,21 +166,27 @@ export default function CommentsSection(props: { phoneUrl: string }) {
             gap: 1,
           }}
         >
-          <TextField
-            label="닉네임"
-            size="small"
-            value={inputState.username}
-            onChange={(e) => handleChangeField(e, 'USERNAME')}
-            InputProps={{ required: true }}
-          />
-          <TextField
-            label="패스워드"
-            size="small"
-            type="password"
-            value={inputState.password}
-            onChange={(e) => handleChangeField(e, 'PASSWORD')}
-            InputProps={{ required: true }}
-          />
+          {status === 'authenticated' ? (
+            <Typography variant="subtitle1">{session.user?.name}</Typography>
+          ) : (
+            <>
+              <TextField
+                label="닉네임"
+                size="small"
+                value={inputState.username}
+                onChange={(e) => handleChangeField(e, 'USERNAME')}
+                InputProps={{ required: true }}
+              />
+              <TextField
+                label="패스워드"
+                size="small"
+                type="password"
+                value={inputState.password}
+                onChange={(e) => handleChangeField(e, 'PASSWORD')}
+                InputProps={{ required: true }}
+              />
+            </>
+          )}
         </Box>
         <Box
           sx={{
@@ -208,6 +222,7 @@ export default function CommentsSection(props: { phoneUrl: string }) {
           <CommentItem
             key={`${comment.date}-${v1()}`}
             comment={comment}
+            user={status === 'authenticated' ? session.user : null}
             handleClickEdit={() => selectModeAndComment(comment, 'edit')}
             handleClickDelete={() => selectModeAndComment(comment, 'delete')}
           />

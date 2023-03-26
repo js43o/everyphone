@@ -1,5 +1,1 @@
-export {};
-
-declare global {
-  var mongoClientPromise: Promise<MongoClient>;
-}
+var mongoClientPromise: Promise<MongoClient>;
