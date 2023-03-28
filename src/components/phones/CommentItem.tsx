@@ -1,21 +1,18 @@
-import { Session } from 'next-auth';
+import { memo, useEffect } from 'react';
 import { Box, Typography, IconButton, ListItem, Avatar } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { getColorByTimeStr } from 'utils/methods';
 import { Comment } from 'utils/types';
 
 const CommentItem = (props: {
   comment: Comment;
-  user: Session['user'] | null;
-  handleClickEdit: () => void;
-  handleClickDelete: () => void;
+  accessible: boolean;
+  handleComment: (comment: Comment, mode: 'edit' | 'delete') => void;
 }) => {
-  const { comment, handleClickEdit, handleClickDelete, user } = props;
+  const { comment, accessible, handleComment } = props;
   const { username, date, contents } = comment;
-  const accessible = user
-    ? comment.hasAccount && user.name === comment.username
-    : !comment.hasAccount;
 
   return (
     <ListItem
@@ -34,6 +31,7 @@ const CommentItem = (props: {
           mr: 2,
           bgcolor: getColorByTimeStr(date.split(' ')[1]),
         }}
+        src={comment.imgSrc}
       >
         {username[0]}
       </Avatar>
@@ -51,21 +49,32 @@ const CommentItem = (props: {
             alignItems: 'center',
           }}
         >
-          <Typography variant="subtitle1">{username}</Typography>
-          <Typography variant="subtitle2">
-            {comment.hasAccount ? 'V' : 'X'}
-          </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 0.5,
+              alignItems: 'center',
+            }}
+          >
+            <Typography variant="subtitle1">{username}</Typography>
+            {comment.hasAccount && (
+              <CheckCircleIcon
+                sx={{ fontSize: '1rem', color: 'primary.main' }}
+              />
+            )}
+          </Box>
+          <Typography variant="subtitle2"></Typography>
           {accessible && (
             <Box>
               <IconButton
                 sx={{ alignSelf: 'center' }}
-                onClick={handleClickEdit}
+                onClick={() => handleComment(comment, 'edit')}
               >
                 <EditIcon />
               </IconButton>
               <IconButton
                 sx={{ alignSelf: 'center' }}
-                onClick={handleClickDelete}
+                onClick={() => handleComment(comment, 'delete')}
               >
                 <CloseIcon />
               </IconButton>
@@ -81,4 +90,4 @@ const CommentItem = (props: {
   );
 };
 
-export default CommentItem;
+export default memo(CommentItem);

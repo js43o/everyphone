@@ -18,9 +18,11 @@ export default function AlertModal(props: {
   return (
     <Dialog
       open={open}
+      onClose={handleClose}
+      fullWidth
+      maxWidth="md"
       aria-labelledby={`alert-dialog-${title}`}
       aria-describedby={`alert-dialog-${description}`}
-      onClose={handleClose}
     >
       <DialogTitle id={`alert-dialog-${title}`}>{title}</DialogTitle>
       <DialogContent>

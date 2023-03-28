@@ -31,6 +31,7 @@ export async function addCommentFromAnonymous(
 export async function addCommentFromMember(
   phoneUrl: string,
   username: string,
+  imgSrc: string,
   contents: string
 ) {
   try {
@@ -39,6 +40,7 @@ export async function addCommentFromMember(
     const comment = new CommentModel({
       phoneUrl,
       username,
+      imgSrc,
       contents,
       hasAccount: true,
       date: convertDateToFormattedString(new Date()),

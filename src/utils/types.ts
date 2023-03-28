@@ -80,6 +80,7 @@ export type Comment = {
   phoneUrl: string;
   hasAccount: boolean;
   username: string;
+  imgSrc: string;
   contents: string;
   date: string;
 };

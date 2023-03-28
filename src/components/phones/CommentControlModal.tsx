@@ -54,7 +54,6 @@ export default function CommentControlModal(props: {
         contents: contents,
         hasAccount: comment.hasAccount,
       });
-
       handleClose();
       refreshComments();
     } catch (e) {
@@ -74,7 +73,7 @@ export default function CommentControlModal(props: {
       await axios.delete('/api/comment', {
         params: {
           commentId: comment._id,
-          password: password,
+          password,
           hasAccount: comment.hasAccount,
         },
       });
@@ -98,6 +97,8 @@ export default function CommentControlModal(props: {
     <Dialog
       open={opened}
       onClose={handleClose}
+      fullWidth
+      maxWidth="md"
       aria-labelledby="comment-control-dialog-title"
       aria-describedby="comment-control-dialog-description"
     >
@@ -115,20 +116,31 @@ export default function CommentControlModal(props: {
           onSubmit={mode === 'edit' ? handleSubmitEdit : handleSubmitDelete}
           component="form"
         >
-          <DialogContentText id="comment-control-dialog-description">
-            댓글 작성 시 패스워드를 입력해 주세요.
-          </DialogContentText>
-          <TextField
-            label="패스워드 확인"
-            value={password}
-            onChange={(e) => handleChangeField(e, 'password')}
-            error={error}
-            helperText={error && errorMessage}
-            type="password"
-            size="small"
-            autoFocus
-            fullWidth
-          />
+          {!comment.hasAccount ? (
+            <>
+              <DialogContentText id="comment-control-dialog-description">
+                댓글 작성 시 패스워드를 {mode === 'edit' && '함께 '}입력해
+                주세요.
+              </DialogContentText>
+              <TextField
+                label="패스워드 확인"
+                value={password}
+                onChange={(e) => handleChangeField(e, 'password')}
+                error={error}
+                helperText={error && errorMessage}
+                type="password"
+                size="small"
+                autoFocus
+                fullWidth
+              />
+            </>
+          ) : (
+            <DialogContentText id="comment-control-dialog-description">
+              {mode === 'edit'
+                ? '수정할 내용을 입력하세요.'
+                : '정말 삭제하시겠습니까?'}
+            </DialogContentText>
+          )}
           {mode === 'edit' && (
             <TextField
               label="내용"

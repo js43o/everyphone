@@ -13,12 +13,14 @@ const handler = nextConnect<NextApiRequest, NextApiResponse>();
 
 handler.post(async (req, res) => {
   try {
-    const { phoneUrl, hasAccount, username, password, contents } = req.body;
+    const { phoneUrl, hasAccount, username, imgSrc, password, contents } =
+      req.body;
 
     if (hasAccount) {
       await addCommentFromMember(
         phoneUrl as string,
         username as string,
+        imgSrc as string,
         contents as string
       );
       res.status(201).end();
@@ -43,8 +45,6 @@ handler.patch(async (req, res) => {
     const { commentId, hasAccount, password, contents } = req.body;
     const { hashedPassword } = await CommentModel.findById(commentId).exec();
 
-    console.log(hasAccount);
-
     if (!hasAccount) {
       const checked = await bcrypt.compare(
         password as string,
@@ -66,10 +66,9 @@ handler.patch(async (req, res) => {
 handler.delete(async (req, res) => {
   try {
     const { commentId, hasAccount, password } = req.query;
-    const { userId: commentUserId, hashedPassword } =
-      await CommentModel.findById(commentId).exec();
+    const { hashedPassword } = await CommentModel.findById(commentId).exec();
 
-    if (!hasAccount) {
+    if (hasAccount === 'false') {
       const checked = await bcrypt.compare(
         password as string,
         hashedPassword as string

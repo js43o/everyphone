@@ -6,7 +6,6 @@ import {
   useCallback,
 } from 'react';
 import axios from 'axios';
-import { v1 } from 'uuid';
 import {
   Box,
   Typography,
@@ -76,6 +75,7 @@ export default function CommentsSection(props: { phoneUrl: string }) {
       phoneUrl: props.phoneUrl,
       hasAccount: status === 'authenticated',
       username: session ? session.user?.name : inputState.username,
+      imgSrc: session ? session.user?.image : '',
       password: !session && inputState.password,
       contents: inputState.contents,
     });
@@ -107,16 +107,19 @@ export default function CommentsSection(props: { phoneUrl: string }) {
     setCurrentPage(newPage);
   };
 
-  const selectModeAndComment = (comment: Comment, mode: 'edit' | 'delete') => {
-    setSelectedComment(comment);
-    setModalMode(mode);
-    setModalOpened(true);
-  };
+  const handleComment = useCallback(
+    (comment: Comment, mode: 'edit' | 'delete') => {
+      setSelectedComment(comment);
+      setModalMode(mode);
+      setModalOpened(true);
+    },
+    []
+  );
 
-  const refreshComments = () => {
+  const refreshComments = useCallback(() => {
     fetchComments(1);
     setCurrentPage(1);
-  };
+  }, [fetchComments]);
 
   useEffect(() => {
     fetchComments(1);
@@ -220,11 +223,14 @@ export default function CommentsSection(props: { phoneUrl: string }) {
       >
         {comments.map((comment) => (
           <CommentItem
-            key={`${comment.date}-${v1()}`}
+            key={comment._id}
             comment={comment}
-            user={status === 'authenticated' ? session.user : null}
-            handleClickEdit={() => selectModeAndComment(comment, 'edit')}
-            handleClickDelete={() => selectModeAndComment(comment, 'delete')}
+            accessible={
+              session?.user
+                ? comment.hasAccount && session?.user.name === comment.username
+                : !comment.hasAccount
+            }
+            handleComment={handleComment}
           />
         ))}
       </List>
