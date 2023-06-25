@@ -12,7 +12,7 @@ import LinkIconButton from 'components/common/LinkIconButton';
 
 export default function Header() {
   const isMobile = useMediaQuery(useTheme().breakpoints.down('lg'));
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   return (
     <Box
