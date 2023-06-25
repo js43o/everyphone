@@ -5,6 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { getColorByTimeStr } from 'utils/methods';
 import { Comment } from 'utils/types';
+import RatingStar from './RatingStar';
 
 const CommentItem = (props: {
   comment: Comment;
@@ -12,7 +13,7 @@ const CommentItem = (props: {
   handleComment: (comment: Comment, mode: 'edit' | 'delete') => void;
 }) => {
   const { comment, accessible, handleComment } = props;
-  const { username, date, contents } = comment;
+  const { username, date, rating, contents } = comment;
 
   return (
     <ListItem
@@ -52,16 +53,32 @@ const CommentItem = (props: {
           <Box
             sx={{
               display: 'flex',
+              flexDirection: {
+                xs: 'column',
+                md: 'row',
+              },
+              alignItems: {
+                xs: 'start',
+                md: 'center',
+              },
               gap: 0.5,
-              alignItems: 'center',
             }}
           >
-            <Typography variant="subtitle1">{username}</Typography>
-            {comment.hasAccount && (
-              <CheckCircleIcon
-                sx={{ fontSize: '1rem', color: 'primary.main' }}
-              />
-            )}
+            <Typography
+              variant="subtitle1"
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              {username}
+              {comment.hasAccount && (
+                <CheckCircleIcon
+                  sx={{ fontSize: '1rem', color: 'primary.main', m: 0.5 }}
+                />
+              )}
+            </Typography>
+            <RatingStar rating={rating} />
           </Box>
           <Typography variant="subtitle2"></Typography>
           {accessible && (

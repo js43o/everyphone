@@ -6,84 +6,26 @@ import {
   useCallback,
 } from 'react';
 import axios from 'axios';
-import {
-  Box,
-  Typography,
-  Pagination,
-  List,
-  Divider,
-  TextField,
-  Button,
-} from '@mui/material';
+import { Box, Typography, Pagination, List, Divider } from '@mui/material';
 import CommentItem from './CommentItem';
 import CommentControlModal from './CommentControlModal';
 import AlertModal from 'components/common/AlertModal';
-import useCommentInputState from 'hooks/useCommentInputState';
 import useAlertModal from 'hooks/useAlertModal';
-import {
-  validateUsername,
-  validatePassword,
-  validateCommentContents,
-} from 'utils/validator';
 import { Comment } from 'utils/types';
 import { useSession } from 'next-auth/react';
+import AddCommentSection from './AddCommentSection';
 
 export default function CommentsSection(props: { phoneUrl: string }) {
   const [lastPage, setLastPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [comments, setComments] = useState<Comment[]>([]);
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   const [modalOpened, setModalOpened] = useState(false);
   const [modalMode, setModalMode] = useState<'edit' | 'delete'>('delete');
   const [selectedComment, setSelectedComment] = useState<Comment | null>(null);
-  const { inputState, handleChangeField, cleanAllFields } =
-    useCommentInputState();
   const { alertOpened, errorMessage, activateAlert, closeAlert } =
     useAlertModal();
-
-  const handleSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!inputState.contents) return;
-
-    if (status === 'unauthenticated') {
-      if (!inputState.username || !inputState.password) {
-        return;
-      }
-
-      const usernameError = validateUsername(inputState.username);
-      if (!!usernameError) {
-        activateAlert(usernameError);
-        return;
-      }
-
-      const passwordError = validatePassword(inputState.password);
-      if (!!passwordError) {
-        activateAlert(passwordError);
-        return;
-      }
-    }
-
-    const contentsError = validateCommentContents(inputState.contents);
-    if (!!contentsError) {
-      activateAlert(contentsError);
-      return;
-    }
-
-    await axios.post('/api/comment', {
-      phoneUrl: props.phoneUrl,
-      hasAccount: status === 'authenticated',
-      username: session ? session.user?.name : inputState.username,
-      imgSrc: session ? session.user?.image : '',
-      password: !session && inputState.password,
-      contents: inputState.contents,
-    });
-
-    setCurrentPage(1);
-    fetchComments(1);
-    cleanAllFields();
-  };
 
   const fetchComments = useCallback(
     async (page: number) => {
@@ -117,8 +59,8 @@ export default function CommentsSection(props: { phoneUrl: string }) {
   );
 
   const refreshComments = useCallback(() => {
-    fetchComments(1);
     setCurrentPage(1);
+    fetchComments(1);
   }, [fetchComments]);
 
   useEffect(() => {
@@ -153,66 +95,11 @@ export default function CommentsSection(props: { phoneUrl: string }) {
       />
       <Typography variant="h2">댓글</Typography>
       <Divider />
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 1,
-        }}
-        onSubmit={(e) => handleSubmitComment(e)}
-        component="form"
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: 1,
-          }}
-        >
-          {status === 'authenticated' ? (
-            <Typography variant="subtitle1">{session.user?.name}</Typography>
-          ) : (
-            <>
-              <TextField
-                label="닉네임"
-                size="small"
-                value={inputState.username}
-                onChange={(e) => handleChangeField(e, 'USERNAME')}
-                InputProps={{ required: true }}
-              />
-              <TextField
-                label="패스워드"
-                size="small"
-                type="password"
-                value={inputState.password}
-                onChange={(e) => handleChangeField(e, 'PASSWORD')}
-                InputProps={{ required: true }}
-              />
-            </>
-          )}
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 1,
-            alignItems: 'stretch',
-            flexGrow: 1,
-          }}
-        >
-          <TextField
-            label="내용"
-            rows={2}
-            multiline
-            fullWidth
-            value={inputState.contents}
-            onChange={(e) => handleChangeField(e, 'CONTENTS')}
-            InputProps={{ required: true }}
-          />
-          <Button variant="contained" type="submit">
-            작성
-          </Button>
-        </Box>
-      </Box>
+      <AddCommentSection
+        phoneUrl={props.phoneUrl}
+        activateAlert={activateAlert}
+        refreshComments={refreshComments}
+      />
       <List
         sx={{
           display: 'flex',

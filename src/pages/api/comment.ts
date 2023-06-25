@@ -13,14 +13,22 @@ const handler = nextConnect<NextApiRequest, NextApiResponse>();
 
 handler.post(async (req, res) => {
   try {
-    const { phoneUrl, hasAccount, username, imgSrc, password, contents } =
-      req.body;
+    const {
+      phoneUrl,
+      hasAccount,
+      username,
+      imgSrc,
+      rating,
+      password,
+      contents,
+    } = req.body;
 
     if (hasAccount) {
       await addCommentFromMember(
         phoneUrl as string,
         username as string,
         imgSrc as string,
+        rating as number,
         contents as string
       );
       res.status(201).end();
@@ -31,6 +39,7 @@ handler.post(async (req, res) => {
       phoneUrl as string,
       username as string,
       password as string,
+      rating as number,
       contents as string
     );
 
@@ -42,7 +51,7 @@ handler.post(async (req, res) => {
 
 handler.patch(async (req, res) => {
   try {
-    const { commentId, hasAccount, password, contents } = req.body;
+    const { commentId, hasAccount, password, rating, contents } = req.body;
     const { hashedPassword } = await CommentModel.findById(commentId).exec();
 
     if (!hasAccount) {
@@ -56,7 +65,11 @@ handler.patch(async (req, res) => {
       }
     }
 
-    await updateComment(commentId as string, contents as string);
+    await updateComment(
+      commentId as string,
+      rating as number,
+      contents as string
+    );
     res.status(200).end();
   } catch (e) {
     res.status(500).end();

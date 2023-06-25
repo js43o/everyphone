@@ -6,6 +6,7 @@ const CommentSchema = new Schema<Comment & { hashedPassword: String }>({
   hasAccount: { type: Boolean, required: true },
   username: { type: String, required: true },
   imgSrc: { type: String, required: false },
+  rating: { type: Number, required: false },
   contents: { type: String, required: true },
   date: { type: String, required: true },
   hashedPassword: String,

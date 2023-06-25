@@ -8,6 +8,7 @@ export async function addCommentFromAnonymous(
   phoneUrl: string,
   username: string,
   password: string,
+  rating: number,
   contents: string
 ) {
   try {
@@ -18,6 +19,7 @@ export async function addCommentFromAnonymous(
       phoneUrl,
       username,
       hashedPassword,
+      rating,
       contents,
       hasAccount: false,
       date: convertDateToFormattedString(new Date()),
@@ -32,6 +34,7 @@ export async function addCommentFromMember(
   phoneUrl: string,
   username: string,
   imgSrc: string,
+  rating: number,
   contents: string
 ) {
   try {
@@ -41,6 +44,7 @@ export async function addCommentFromMember(
       phoneUrl,
       username,
       imgSrc,
+      rating,
       contents,
       hasAccount: true,
       date: convertDateToFormattedString(new Date()),
@@ -51,11 +55,16 @@ export async function addCommentFromMember(
   }
 }
 
-export async function updateComment(commentId: string, contents: string) {
+export async function updateComment(
+  commentId: string,
+  rating: number,
+  contents: string
+) {
   try {
     await connectMongo();
     await CommentModel.findByIdAndUpdate(commentId, {
       contents,
+      rating,
       date: convertDateToFormattedString(new Date()),
     });
   } catch (err: any) {

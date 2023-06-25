@@ -81,6 +81,7 @@ export type Comment = {
   hasAccount: boolean;
   username: string;
   imgSrc: string;
+  rating: number;
   contents: string;
   date: string;
 };
