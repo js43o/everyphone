@@ -15,6 +15,7 @@ handler.post(async (req, res) => {
   try {
     const {
       phoneUrl,
+      phoneName,
       hasAccount,
       username,
       imgSrc,
@@ -26,6 +27,7 @@ handler.post(async (req, res) => {
     if (hasAccount) {
       await addCommentFromMember(
         phoneUrl as string,
+        phoneName as string,
         username as string,
         imgSrc as string,
         rating as number,
@@ -37,6 +39,7 @@ handler.post(async (req, res) => {
 
     await addCommentFromAnonymous(
       phoneUrl as string,
+      phoneName as string,
       username as string,
       password as string,
       rating as number,

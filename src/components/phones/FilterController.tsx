@@ -21,6 +21,7 @@ import { convertToDataFormat, convertToRangeFormat } from 'utils/methods';
 import { MANUFACTURER } from 'utils/constants';
 import { filterPhoneQueryState } from 'utils/atoms';
 import ByteRangeSlider from './ByteRangeSlider';
+import useCurrentMedia from 'hooks/useCurrentMedia';
 
 const FilterValueIndicator = (props: {
   minValue: string;
@@ -46,7 +47,7 @@ export default function FilterController() {
   );
   const [localQuery, setLocalQuery] =
     useState<Omit<FilterPhoneQuery, 'sortBy'>>(filterPhoneQuery);
-  const isMobile = useMediaQuery(useTheme().breakpoints.down('lg'));
+  const { isTablet } = useCurrentMedia();
 
   const handleChangeMultiSelectorQuery = (
     e: SelectChangeEvent<string[]>,
@@ -85,8 +86,8 @@ export default function FilterController() {
   };
 
   useEffect(() => {
-    if (!isMobile) setOpenController(true);
-  }, [isMobile]);
+    if (!isTablet) setOpenController(true);
+  }, [isTablet]);
 
   return (
     <>
@@ -150,7 +151,7 @@ export default function FilterController() {
           })}
         </Box>
       </Box>
-      <Collapse in={!isMobile || openController} timeout="auto" unmountOnExit>
+      <Collapse in={!isTablet || openController} timeout="auto" unmountOnExit>
         <Box
           sx={{
             display: 'flex',

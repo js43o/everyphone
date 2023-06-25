@@ -9,9 +9,10 @@ import NavBar from './NavBar';
 import NavDrawerButton from './NavDrawerButton';
 import SearchPhoneButton from './SearchPhoneButton';
 import LinkIconButton from 'components/common/LinkIconButton';
+import useCurrentMedia from 'hooks/useCurrentMedia';
 
 export default function Header() {
-  const isMobile = useMediaQuery(useTheme().breakpoints.down('lg'));
+  const { isTablet } = useCurrentMedia();
   const { data: session } = useSession();
 
   return (
@@ -25,7 +26,7 @@ export default function Header() {
         bgcolor: 'bluegrey.lighter',
       }}
     >
-      {isMobile ? (
+      {isTablet ? (
         <>
           <NavDrawerButton />
           <Link href="/">

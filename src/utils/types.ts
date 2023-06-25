@@ -78,6 +78,7 @@ export type SearchingMode = {
 export type Comment = {
   _id: string;
   phoneUrl: string;
+  phoneName: string;
   hasAccount: boolean;
   username: string;
   imgSrc: string;

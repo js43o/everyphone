@@ -123,7 +123,7 @@ export default function PhonesId(props: { phone: string }) {
         </Grid>
       </Grid>
       <SpecSheet phone={phone} />
-      <CommentsSection phoneUrl={phone.url} />
+      <CommentsSection phoneUrl={phone.url} phoneName={phone.name} />
     </Box>
   );
 }

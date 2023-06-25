@@ -13,13 +13,14 @@ import SetRatingButton from './SetRatingButton';
 
 export default function AddCommentSection(props: {
   phoneUrl: string;
+  phoneName: string;
   activateAlert: (message: string) => void;
   refreshComments: () => void;
 }) {
-  const { phoneUrl, activateAlert, refreshComments } = props;
   const { inputState, handleChangeField, setRating, cleanAllFields } =
     useCommentInputState();
   const { data: session, status } = useSession();
+  const { phoneUrl, phoneName, activateAlert, refreshComments } = props;
 
   const handleSubmitComment = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,6 +55,7 @@ export default function AddCommentSection(props: {
 
     await axios.post('/api/comment', {
       phoneUrl,
+      phoneName,
       hasAccount: status === 'authenticated',
       username: session ? session.user?.name : inputState.username,
       imgSrc: session ? session.user?.image : '',

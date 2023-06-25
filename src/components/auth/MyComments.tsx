@@ -1,41 +1,25 @@
-import {
-  ChangeEvent,
-  FormEvent,
-  useState,
-  useEffect,
-  useCallback,
-} from 'react';
+import { ChangeEvent, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Box, Typography, Pagination, List, Divider } from '@mui/material';
-import CommentItem from './CommentItem';
-import CommentControlModal from './CommentControlModal';
-import AlertModal from 'components/common/AlertModal';
-import useAlertModal from 'hooks/useAlertModal';
+import MyCommentItem from './MyCommentItem';
+import CommentControlModal from '../phones/CommentControlModal';
 import { Comment } from 'utils/types';
-import { useSession } from 'next-auth/react';
-import AddCommentSection from './AddCommentSection';
 
-export default function CommentsSection(props: {
-  phoneUrl: string;
-  phoneName: string;
-}) {
+export default function MyComments(props: { username: string }) {
   const [lastPage, setLastPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [comments, setComments] = useState<Comment[]>([]);
-  const { data: session } = useSession();
 
   const [modalOpened, setModalOpened] = useState(false);
   const [modalMode, setModalMode] = useState<'edit' | 'delete'>('delete');
   const [selectedComment, setSelectedComment] = useState<Comment | null>(null);
-  const { alertOpened, errorMessage, activateAlert, closeAlert } =
-    useAlertModal();
-  const { phoneUrl, phoneName } = props;
+  const { username } = props;
 
   const fetchComments = useCallback(
     async (page: number) => {
       const response = await axios('/api/comments', {
         params: {
-          phoneUrl,
+          username,
           page,
         },
       });
@@ -43,7 +27,7 @@ export default function CommentsSection(props: {
       setComments(response.data.comments);
       setLastPage(response.data.lastPage);
     },
-    [phoneUrl]
+    [username]
   );
 
   const handleChangePage = (e: ChangeEvent<unknown>, newPage: number) => {
@@ -91,20 +75,8 @@ export default function CommentsSection(props: {
           refreshComments={refreshComments}
         />
       )}
-      <AlertModal
-        open={alertOpened}
-        title="입력 에러"
-        description={errorMessage}
-        handleClose={closeAlert}
-      />
-      <Typography variant="h2">평가</Typography>
+      <Typography variant="h2">평가 목록</Typography>
       <Divider />
-      <AddCommentSection
-        phoneUrl={phoneUrl}
-        phoneName={phoneName}
-        activateAlert={activateAlert}
-        refreshComments={refreshComments}
-      />
       <List
         sx={{
           display: 'flex',
@@ -114,14 +86,9 @@ export default function CommentsSection(props: {
         disablePadding
       >
         {comments.map((comment) => (
-          <CommentItem
+          <MyCommentItem
             key={comment._id}
             comment={comment}
-            accessible={
-              session?.user
-                ? comment.hasAccount && session?.user.name === comment.username
-                : !comment.hasAccount
-            }
             handleComment={handleComment}
           />
         ))}

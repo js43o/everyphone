@@ -6,6 +6,7 @@ import connectMongo from './connectMongo';
 
 export async function addCommentFromAnonymous(
   phoneUrl: string,
+  phoneName: string,
   username: string,
   password: string,
   rating: number,
@@ -17,6 +18,7 @@ export async function addCommentFromAnonymous(
     const hashedPassword = await bcrypt.hash(password, 10);
     const comment = new CommentModel({
       phoneUrl,
+      phoneName,
       username,
       hashedPassword,
       rating,
@@ -32,6 +34,7 @@ export async function addCommentFromAnonymous(
 
 export async function addCommentFromMember(
   phoneUrl: string,
+  phoneName: string,
   username: string,
   imgSrc: string,
   rating: number,
@@ -42,6 +45,7 @@ export async function addCommentFromMember(
 
     const comment = new CommentModel({
       phoneUrl,
+      phoneName,
       username,
       imgSrc,
       rating,
@@ -93,6 +97,34 @@ export async function getComments(
 
     const query = CommentModel.find({
       phoneUrl,
+    }).select({ hashedPassword: false });
+
+    const lastPage = Math.ceil(
+      (await query.clone().countDocuments().exec()) / ITEM_PER_PAGE
+    );
+    const comments: Comment[] = await query
+      .sort({ date: -1 })
+      .limit(ITEM_PER_PAGE)
+      .skip((page - 1) * ITEM_PER_PAGE);
+
+    return { comments, lastPage };
+  } catch (err: any) {
+    throw err;
+  }
+}
+
+export async function getCommentsByUsername(
+  username: string,
+  page: number
+): Promise<{
+  comments: Comment[];
+  lastPage: number;
+}> {
+  try {
+    await connectMongo();
+
+    const query = CommentModel.find({
+      username,
     }).select({ hashedPassword: false });
 
     const lastPage = Math.ceil(

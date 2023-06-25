@@ -3,14 +3,15 @@ import Image from 'next/image';
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
 import Title from 'components/common/Title';
+import useCurrentMedia from 'hooks/useCurrentMedia';
 
 const BannerItem = (props: {
   contents: string | ReactNode;
   imageName: string;
-  isMobile: boolean;
+  isTablet: boolean;
   priority?: boolean;
 }) => {
-  const { contents, imageName, isMobile, priority } = props;
+  const { contents, imageName, isTablet, priority } = props;
 
   return (
     <Box
@@ -32,7 +33,7 @@ const BannerItem = (props: {
     >
       {contents}
       <Image
-        src={`/images/banner/${imageName}_${isMobile ? 'small' : 'large'}.webp`}
+        src={`/images/banner/${imageName}_${isTablet ? 'small' : 'large'}.webp`}
         alt={imageName}
         fill
         sizes="(max-width: 768px) 734px, 992px"
@@ -43,14 +44,14 @@ const BannerItem = (props: {
 };
 
 export default function Banner() {
-  const isMobile = useMediaQuery(useTheme().breakpoints.down('lg'));
+  const { isTablet } = useCurrentMedia();
 
   return (
     <Carousel
       animation="slide"
       duration={750}
       interval={6000}
-      height={isMobile ? 430 : 240}
+      height={isTablet ? 430 : 240}
     >
       <BannerItem
         contents={
@@ -69,7 +70,7 @@ export default function Banner() {
           </Box>
         }
         imageName="s23_triple"
-        isMobile={isMobile}
+        isTablet={isTablet}
         priority
       />
       <BannerItem
@@ -89,7 +90,7 @@ export default function Banner() {
           </Box>
         }
         imageName="iphone_14"
-        isMobile={isMobile}
+        isTablet={isTablet}
       />
     </Carousel>
   );
