@@ -77,7 +77,7 @@ const CommentItem = (props: {
                 />
               )}
             </Typography>
-            <RatingStar rating={rating} />
+            {rating > 0 && <RatingStar rating={rating} />}
           </Box>
           <Typography variant="subtitle2"></Typography>
           {accessible && (

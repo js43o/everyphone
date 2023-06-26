@@ -10,6 +10,7 @@ import {
   Button,
 } from '@mui/material';
 import { Comment } from 'utils/types';
+import SetRatingButton from './SetRatingButton';
 
 export default function CommentControlModal(props: {
   opened: boolean;
@@ -20,22 +21,25 @@ export default function CommentControlModal(props: {
 }) {
   const { opened, mode, comment, closeModal, refreshComments } = props;
   const [password, setPassword] = useState('');
+  const [rating, setRating] = useState(comment.rating);
   const [contents, setContents] = useState(comment.contents);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleChangeField = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    field: 'password' | 'contents'
+    field: 'PASSWORD' | 'CONTENTS'
   ) => {
-    if (field === 'password') {
-      if (e.target.value.length > 10) return;
-      setPassword(e.target.value);
-      return;
+    switch (field) {
+      case 'PASSWORD':
+        if (e.target.value.length > 10) break;
+        setPassword(e.target.value);
+        break;
+      case 'CONTENTS':
+        if (e.target.value.length > 100) break;
+        setContents(e.target.value);
+        break;
     }
-
-    if (e.target.value.length > 100) return;
-    setContents(e.target.value);
   };
 
   const handleClose = () => {
@@ -50,8 +54,9 @@ export default function CommentControlModal(props: {
     try {
       await axios.patch('/api/comment', {
         commentId: comment._id,
-        password: password,
-        contents: contents,
+        password,
+        rating,
+        contents,
         hasAccount: comment.hasAccount,
       });
       handleClose();
@@ -91,6 +96,7 @@ export default function CommentControlModal(props: {
 
   useEffect(() => {
     setContents(comment.contents);
+    setRating(comment.rating);
   }, [opened, comment]);
 
   return (
@@ -125,7 +131,7 @@ export default function CommentControlModal(props: {
               <TextField
                 label="패스워드 확인"
                 value={password}
-                onChange={(e) => handleChangeField(e, 'password')}
+                onChange={(e) => handleChangeField(e, 'PASSWORD')}
                 error={error}
                 helperText={error && errorMessage}
                 type="password"
@@ -142,15 +148,20 @@ export default function CommentControlModal(props: {
             </DialogContentText>
           )}
           {mode === 'edit' && (
-            <TextField
-              label="내용"
-              value={contents}
-              onChange={(e) => handleChangeField(e, 'contents')}
-              InputProps={{ required: true }}
-              rows={2}
-              multiline
-              fullWidth
-            />
+            <>
+              {comment.hasAccount && (
+                <SetRatingButton rating={rating} setRating={setRating} />
+              )}
+              <TextField
+                label="내용"
+                value={contents}
+                onChange={(e) => handleChangeField(e, 'CONTENTS')}
+                InputProps={{ required: true }}
+                rows={2}
+                multiline
+                fullWidth
+              />
+            </>
           )}
           <Box
             sx={{

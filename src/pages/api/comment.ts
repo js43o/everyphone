@@ -68,6 +68,8 @@ handler.patch(async (req, res) => {
       }
     }
 
+    console.log(rating);
+
     await updateComment(
       commentId as string,
       rating as number,

@@ -6,6 +6,7 @@ export default function SetRatingButton(props: {
   setRating: (rating: number) => void;
 }) {
   const { rating, setRating } = props;
+
   return (
     <Box>
       {[...Array(5)].map((_, idx) => (
