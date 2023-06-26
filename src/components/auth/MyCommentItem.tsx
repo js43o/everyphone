@@ -6,6 +6,7 @@ import { Comment } from 'utils/types';
 import RatingStar from 'components/phones/RatingStar';
 import RatioImage from 'components/common/RatioImage';
 import useCurrentMedia from 'hooks/useCurrentMedia';
+import Link from 'next/link';
 
 const MyCommentItem = (props: {
   comment: Comment;
@@ -26,11 +27,13 @@ const MyCommentItem = (props: {
       divider
     >
       {!isMobile && (
-        <RatioImage
-          src={`/images/phones/${phoneUrl}.png`}
-          alt={phoneUrl}
-          width={80}
-        />
+        <Link href={`/phones/${phoneUrl}`}>
+          <RatioImage
+            src={`/images/phones/${phoneUrl}.png`}
+            alt={phoneUrl}
+            width={80}
+          />
+        </Link>
       )}
       <Box
         sx={{
@@ -44,26 +47,26 @@ const MyCommentItem = (props: {
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            alignItems: 'center',
           }}
         >
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'start',
               gap: 0.5,
             }}
           >
-            <Typography
-              variant="subtitle1"
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              {phoneName}
-            </Typography>
+            <Link href={`/phones/${phoneUrl}`}>
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                {phoneName}
+              </Typography>
+            </Link>
             <RatingStar rating={rating} />
           </Box>
           <Typography variant="subtitle2"></Typography>

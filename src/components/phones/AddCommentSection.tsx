@@ -73,71 +73,97 @@ export default function AddCommentSection(props: {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 1,
       }}
       onSubmit={(e) => handleSubmitComment(e)}
       component="form"
     >
-      <SetRatingButton rating={inputState.rating} setRating={setRating} />
+      {status === 'authenticated' && (
+        <Typography
+          variant="subtitle1"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          {session.user?.name}
+          <CheckCircleIcon
+            sx={{ fontSize: '1rem', color: 'primary.main', m: 0.5 }}
+          />
+          <SetRatingButton rating={inputState.rating} setRating={setRating} />
+        </Typography>
+      )}
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'row',
           gap: 1,
         }}
       >
-        {status === 'authenticated' ? (
-          <Typography
-            variant="subtitle1"
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            flexGrow: 1,
+          }}
+        >
+          <Box
             sx={{
               display: 'flex',
               flexDirection: 'row',
-              alignItems: 'center',
+              flexGrow: 1,
+              gap: 1,
             }}
           >
-            {session.user?.name}
-            <CheckCircleIcon
-              sx={{ fontSize: '1rem', color: 'primary.main', m: 0.5 }}
-            />
-          </Typography>
-        ) : (
-          <>
-            <TextField
-              label="닉네임"
-              size="small"
-              value={inputState.username}
-              onChange={(e) => handleChangeField(e, 'USERNAME')}
-              InputProps={{ required: true }}
-            />
-            <TextField
-              label="패스워드"
-              size="small"
-              type="password"
-              value={inputState.password}
-              onChange={(e) => handleChangeField(e, 'PASSWORD')}
-              InputProps={{ required: true }}
-            />
-          </>
-        )}
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          gap: 1,
-          alignItems: 'stretch',
-          flexGrow: 1,
-        }}
-      >
-        <TextField
-          label="내용"
-          rows={2}
-          multiline
-          fullWidth
-          value={inputState.contents}
-          onChange={(e) => handleChangeField(e, 'CONTENTS')}
-          InputProps={{ required: true }}
-        />
-        <Button variant="contained" type="submit">
+            {status != 'authenticated' && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: 1,
+                  flexGrow: 1,
+                  mb: 1,
+                }}
+              >
+                <TextField
+                  label="닉네임"
+                  size="small"
+                  value={inputState.username}
+                  onChange={(e) => handleChangeField(e, 'USERNAME')}
+                  InputProps={{ required: true }}
+                  sx={{
+                    flexGrow: 1,
+                  }}
+                />
+                <TextField
+                  label="패스워드"
+                  size="small"
+                  type="password"
+                  value={inputState.password}
+                  onChange={(e) => handleChangeField(e, 'PASSWORD')}
+                  InputProps={{ required: true }}
+                  sx={{
+                    flexGrow: 1,
+                  }}
+                />
+              </Box>
+            )}
+          </Box>
+          <TextField
+            label="내용"
+            rows={2}
+            multiline
+            fullWidth
+            value={inputState.contents}
+            onChange={(e) => handleChangeField(e, 'CONTENTS')}
+            InputProps={{ required: true }}
+          />
+        </Box>
+        <Button
+          variant="contained"
+          type="submit"
+          size="large"
+          sx={{
+            whiteSpace: 'nowrap',
+          }}
+        >
           작성
         </Button>
       </Box>

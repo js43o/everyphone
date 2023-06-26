@@ -12,7 +12,7 @@ export default function SetRatingButton(props: {
         <IconButton
           key={idx}
           onClick={() => setRating(idx + 1 != rating ? idx + 1 : idx)}
-          sx={{ m: -1 }}
+          sx={{ my: 0, mx: -1.25 }}
         >
           <StarIcon
             sx={{
