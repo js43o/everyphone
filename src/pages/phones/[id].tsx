@@ -13,12 +13,14 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RatioImage from 'components/common/RatioImage';
 import SpecSheet from 'components/phones/SpecSheet';
 import CommentsSection from 'components/phones/CommentsSection';
-import { Phone } from 'utils/types';
+import { Phone, PhoneRating } from 'utils/types';
 import { getSpecsOfPhone, isFavorite, toggleFavorite } from 'utils/methods';
-import { getPhoneByUrl } from 'utils/db/functions/phone';
+import { getPhoneByUrl, getRatingOfPhone } from 'utils/db/functions/phone';
+import RatingStar from 'components/phones/RatingStar';
 
-export default function PhonesId(props: { phone: string }) {
+export default function PhonesId(props: { phone: string; rating: string }) {
   const phone: Phone = JSON.parse(props.phone);
+  const rating: PhoneRating = JSON.parse(props.rating);
   const [favorite, setFavorite] = useState(false);
 
   useEffect(() => {
@@ -82,22 +84,32 @@ export default function PhonesId(props: { phone: string }) {
           <Box
             sx={{
               display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              flexDirection: 'column',
             }}
           >
-            <Typography variant="h2">{phone.name}</Typography>
-            <IconButton
-              onClick={handleToggleFavorite}
-              aria-label="toggle the favorite device"
-              sx={{ width: 48, height: 48 }}
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
             >
-              {favorite ? (
-                <FavoriteIcon color="secondary" />
-              ) : (
-                <FavoriteBorderIcon />
-              )}
-            </IconButton>
+              <Typography variant="h2">{phone.name}</Typography>
+              <IconButton
+                onClick={handleToggleFavorite}
+                aria-label="toggle the favorite device"
+                sx={{ width: 48, height: 48 }}
+              >
+                {favorite ? (
+                  <FavoriteIcon color="secondary" />
+                ) : (
+                  <FavoriteBorderIcon />
+                )}
+              </IconButton>
+            </Box>
+            <Box sx={{ display: 'flex', gap: 0.5, color: 'grey' }}>
+              <RatingStar rating={rating.average} />({rating.count}명)
+            </Box>
           </Box>
           <Divider />
           {getSpecsOfPhone(phone).map((spec) => (
@@ -129,11 +141,14 @@ export default function PhonesId(props: { phone: string }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const phone = await getPhoneByUrl(context.params?.id as string);
+  const url = context.params?.id as string;
+  const phone = await getPhoneByUrl(url);
+  const rating = await getRatingOfPhone(url);
 
   return {
     props: {
       phone: JSON.stringify(phone || ''),
+      rating: JSON.stringify(rating || ''),
     },
   };
 };

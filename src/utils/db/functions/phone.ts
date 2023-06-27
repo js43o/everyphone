@@ -1,7 +1,8 @@
 import { ITEM_PER_PAGE, SORT_BY_QUERY } from 'utils/constants';
 import connectMongo from 'utils/db/functions/connectMongo';
 import PhoneModel from 'utils/db/models/Phone';
-import { FilterPhoneQuery, Phone } from 'utils/types';
+import CommentModel from 'utils/db/models/Comment';
+import { FilterPhoneQuery, Phone, PhoneRating } from 'utils/types';
 
 export async function getPhoneByName(name: string): Promise<Phone> {
   try {
@@ -95,6 +96,36 @@ export async function getFilteredPhonesByPage(
 
     return { phones, lastPage };
   } catch (err: any) {
+    throw err;
+  }
+}
+
+export async function getRatingOfPhone(url: string): Promise<PhoneRating> {
+  try {
+    await connectMongo();
+    const rating = await CommentModel.aggregate([
+      { $match: { phoneUrl: url, rating: { $gt: 0 } } },
+      {
+        $group: {
+          _id: null,
+          average: { $avg: '$rating' },
+          count: { $sum: 1 },
+        },
+      },
+    ]).exec();
+
+    if (rating.length === 0) {
+      return {
+        average: 0,
+        count: 0,
+      };
+    }
+
+    return {
+      average: rating[0].average,
+      count: rating[0].count,
+    };
+  } catch (err) {
     throw err;
   }
 }

@@ -95,3 +95,8 @@ export type User = {
   comments: string[];
   favorites: string[];
 };
+
+export type PhoneRating = {
+  average: number;
+  count: number;
+};

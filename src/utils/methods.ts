@@ -47,8 +47,8 @@ export const getRearCameraString = (camera?: Phone['camera']) => {
   if (!camera) return '';
 
   return Object.entries(camera)
-    .filter(([key, value]) => key !== 'rear' && key !== 'front')
-    .map(([key, value]) => `${value} MP`)
+    .filter(([key, _]) => key !== 'rear' && key !== 'front')
+    .map(([_, value]) => `${value} MP`)
     .join('+');
 };
 
@@ -145,11 +145,11 @@ export const getSuperiorNumberOfCamera = (
   if (!content1 || !content2) return 0;
 
   const filtered1 = Object.entries(content1)
-    .filter(([key, value]) => key !== 'rear' && key !== 'front')
-    .map(([key, value]) => Number(value));
+    .filter(([key, _]) => key !== 'rear' && key !== 'front')
+    .map(([_, value]) => Number(value));
   const filtered2 = Object.entries(content2)
-    .filter(([key, value]) => key !== 'rear' && key !== 'front')
-    .map(([key, value]) => Number(value));
+    .filter(([key, _]) => key !== 'rear' && key !== 'front')
+    .map(([_, value]) => Number(value));
 
   if (Math.max(...filtered1) > Math.max(...filtered2)) return 1;
   if (Math.max(...filtered1) < Math.max(...filtered2)) return 2;

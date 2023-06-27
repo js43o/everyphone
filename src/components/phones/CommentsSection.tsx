@@ -1,10 +1,4 @@
-import {
-  ChangeEvent,
-  FormEvent,
-  useState,
-  useEffect,
-  useCallback,
-} from 'react';
+import { ChangeEvent, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Box, Typography, Pagination, List, Divider } from '@mui/material';
 import CommentItem from './CommentItem';
@@ -97,7 +91,12 @@ export default function CommentsSection(props: {
         description={errorMessage}
         handleClose={closeAlert}
       />
-      <Typography variant="h2">평가</Typography>
+      <Typography variant="h2">
+        평가
+        <Typography variant="body2" sx={{ mt: 1 }}>
+          별점은 로그인한 사용자만 등록할 수 있습니다.
+        </Typography>
+      </Typography>
       <Divider />
       <AddCommentSection
         phoneUrl={phoneUrl}

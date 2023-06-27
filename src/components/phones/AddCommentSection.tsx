@@ -73,6 +73,7 @@ export default function AddCommentSection(props: {
       sx={{
         display: 'flex',
         flexDirection: 'column',
+        gap: 0.5,
       }}
       onSubmit={(e) => handleSubmitComment(e)}
       component="form"
