@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { signIn, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { styled } from '@mui/system';
 import { Box, Drawer, IconButton, Typography, Divider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -13,7 +13,6 @@ const WideLinkBlock = styled(LinkBlock)`
 export default function NavDrawerButton() {
   const [open, setOpen] = useState(false);
   const path = useRouter().asPath;
-  const { data: session } = useSession();
 
   const handleCloseDrawer = () => setOpen(!open);
 

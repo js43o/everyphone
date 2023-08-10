@@ -65,6 +65,10 @@ export default function CommentsSection(props: {
     fetchComments(1);
   }, [fetchComments]);
 
+  const currentUserComment = comments.find(
+    (comment) => comment.username === session?.user?.name
+  );
+
   return (
     <Box
       sx={{
@@ -98,12 +102,21 @@ export default function CommentsSection(props: {
         </Typography>
       </Typography>
       <Divider />
-      <AddCommentSection
-        phoneUrl={phoneUrl}
-        phoneName={phoneName}
-        activateAlert={activateAlert}
-        refreshComments={refreshComments}
-      />
+      {session?.user && !!currentUserComment ? (
+        <CommentItem
+          key={currentUserComment._id}
+          comment={currentUserComment}
+          accessible={true}
+          handleComment={handleComment}
+        />
+      ) : (
+        <AddCommentSection
+          phoneUrl={phoneUrl}
+          phoneName={phoneName}
+          activateAlert={activateAlert}
+          refreshComments={refreshComments}
+        />
+      )}
       <List
         sx={{
           display: 'flex',
@@ -112,18 +125,21 @@ export default function CommentsSection(props: {
         }}
         disablePadding
       >
-        {comments.map((comment) => (
-          <CommentItem
-            key={comment._id}
-            comment={comment}
-            accessible={
-              session?.user
-                ? comment.hasAccount && session?.user.name === comment.username
-                : !comment.hasAccount
-            }
-            handleComment={handleComment}
-          />
-        ))}
+        {comments
+          .filter((comment) => currentUserComment?._id !== comment._id)
+          .map((comment) => (
+            <CommentItem
+              key={comment._id}
+              comment={comment}
+              accessible={
+                session?.user
+                  ? comment.hasAccount &&
+                    session?.user.name === comment.username
+                  : !comment.hasAccount
+              }
+              handleComment={handleComment}
+            />
+          ))}
       </List>
       <Pagination
         count={lastPage}
