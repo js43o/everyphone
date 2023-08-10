@@ -171,7 +171,7 @@ export default function SizeComparisonSection(props: {
                 }}
               >
                 <Image
-                  src="/images/hand-icon.svg"
+                  src="hand-icon.svg"
                   alt="hand"
                   fill
                   sizes={viewSize.hand.width}

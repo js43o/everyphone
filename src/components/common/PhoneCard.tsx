@@ -17,6 +17,7 @@ export default function PhoneCard(props: {
   handleDelete?: () => void;
 }) {
   const { data, href, priority, handleDelete } = props;
+  const IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL as string;
 
   return (
     <Card
@@ -39,7 +40,7 @@ export default function PhoneCard(props: {
             }}
           >
             <RatioImage
-              src={`/images/phones/${data.url}.png`}
+              src={`${IMAGE_URL}/phones/${data.url}.png`}
               alt={data.url}
               height={160}
               priority={priority}

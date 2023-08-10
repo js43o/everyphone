@@ -15,6 +15,7 @@ const MyCommentItem = (props: {
   const { comment, handleComment } = props;
   const { phoneUrl, phoneName, date, rating, contents } = comment;
   const { isMobile } = useCurrentMedia();
+  const IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL as string;
 
   return (
     <ListItem
@@ -29,7 +30,7 @@ const MyCommentItem = (props: {
       {!isMobile && (
         <Link href={`/phones/${phoneUrl}`}>
           <RatioImage
-            src={`/images/phones/${phoneUrl}.png`}
+            src={`${IMAGE_URL}/phones/${phoneUrl}.png`}
             alt={phoneUrl}
             width={80}
           />

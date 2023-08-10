@@ -12,6 +12,7 @@ const BannerItem = (props: {
   priority?: boolean;
 }) => {
   const { contents, imageName, isTablet, priority } = props;
+  const IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL as string;
 
   return (
     <Box
@@ -33,7 +34,9 @@ const BannerItem = (props: {
     >
       {contents}
       <Image
-        src={`/images/banner/${imageName}_${isTablet ? 'small' : 'large'}.webp`}
+        src={`${IMAGE_URL}/banner/${imageName}_${
+          isTablet ? 'small' : 'large'
+        }.webp`}
         alt={imageName}
         fill
         sizes="(max-width: 768px) 734px, 992px"

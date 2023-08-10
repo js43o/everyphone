@@ -13,6 +13,7 @@ export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
   const [comparisonDevice, setComparisonDevice] = useRecoilState(
     comparisonDevicesState
   );
+  const IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL as string;
 
   const openSearchSection = () => {
     setSearchingMode({
@@ -49,7 +50,7 @@ export default function SelectingPhone(props: { phone?: Phone; slot: 1 | 2 }) {
             }}
           >
             <RatioImage
-              src={`/images/phones/${phone.url}.png`}
+              src={`${IMAGE_URL}/phones/${phone.url}.png`}
               alt={phone.url}
               fill
               priority

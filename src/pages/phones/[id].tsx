@@ -22,6 +22,7 @@ export default function PhonesId(props: { phone: string; rating: string }) {
   const phone: Phone = JSON.parse(props.phone);
   const rating: PhoneRating = JSON.parse(props.rating);
   const [favorite, setFavorite] = useState(false);
+  const IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL as string;
 
   useEffect(() => {
     if (isFavorite(phone.name)) setFavorite(true);
@@ -60,7 +61,7 @@ export default function PhonesId(props: { phone: string; rating: string }) {
           }}
         >
           <RatioImage
-            src={`/images/phones/${phone.url}.png`}
+            src={`${IMAGE_URL}/phones/${phone.url}.png`}
             alt={phone.url}
             height={320}
             priority
